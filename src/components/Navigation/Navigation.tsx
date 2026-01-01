@@ -147,13 +147,18 @@ export default function Navigation() {
                   <motion.a
                     key={link.href}
                     href={link.href}
-                    className="mobile-link"
                     onClick={(e) => handleNavClick(link.href, e)}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 + 0.1 }}
+                    className="group flex items-center gap-4 text-3xl sm:text-5xl font-[var(--font-heading)] font-extrabold uppercase tracking-tight text-[var(--text-primary)] p-4 rounded-xl transition-all relative overflow-hidden"
                   >
-                    {link.label}
+                    {/* Hover Indicator Line */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-[var(--accent)] rounded-full transition-all duration-300 group-hover:h-6" />
+
+                    <span className="relative z-10 group-hover:translate-x-4 transition-transform duration-300 group-hover:text-[var(--accent)]">
+                      {link.label}
+                    </span>
                   </motion.a>
                 ))}
               </div>
@@ -340,46 +345,6 @@ export default function Navigation() {
             gap: 8px;
         }
         
-        .mobile-link {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-family: var(--font-heading);
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-            color: var(--text-primary);
-            padding: 16px;
-            border-radius: 12px;
-            transition: all 0.25s var(--ease-out-expo);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .mobile-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 0;
-            background: var(--accent);
-            border-radius: 2px;
-            transition: height 0.25s ease;
-        }
-        
-        .mobile-link:hover {
-            color: var(--accent);
-            background: rgba(232, 197, 71, 0.08);
-            padding-left: 24px;
-        }
-        
-        .mobile-link:hover::before {
-            height: 24px;
-        }
-
         @media (max-width: 768px) {
           .navigation {
             padding: var(--space-md);
