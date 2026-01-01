@@ -75,7 +75,7 @@
   --bg-primary: #F2F2F4;
   --bg-secondary: #FFFFFF;
   --bg-tertiary: #E5E5E7;
-  --bg-glass: rgba(0, 0, 0, 0.03);
+  --bg-glass: rgba(255, 255, 255, 0.8);
 
   --text-primary: #121212;
   --text-secondary: rgba(0, 0, 0, 0.7);
