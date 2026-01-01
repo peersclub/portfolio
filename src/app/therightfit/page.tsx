@@ -42,7 +42,7 @@ export default function TheRightFitPage() {
         <>
             <div ref={containerRef} className="min-h-screen bg-[var(--bg-primary)]">
                 {/* Hero System Status */}
-                <section className="relative flex min-h-[50vh] sm:min-h-[60vh] flex-col justify-center px-4 sm:px-6 overflow-hidden">
+                <section className="relative flex min-h-[50vh] sm:min-h-[60vh] flex-col justify-center pt-28 px-4 sm:px-6 overflow-hidden">
                     <div className="blueprint-grid opacity-30" />
                     <div className="container mx-auto relative z-10">
                         <motion.div
