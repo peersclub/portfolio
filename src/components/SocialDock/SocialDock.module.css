@@ -1,0 +1,85 @@
+.dockContainer {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 999px;
+    /* Pill shape */
+    backdrop-filter: blur(10px);
+    margin-top: 2rem;
+}
+
+/* Floating Vertical Variant */
+.dockContainer.floating {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    margin-top: 0;
+    padding: 0;
+    z-index: 100;
+    width: auto;
+    height: auto;
+    gap: 1.5rem;
+
+    /* Remove Dock Look */
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    border-radius: 0;
+}
+
+
+.iconWrapper {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-secondary);
+}
+
+.iconInner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.iconSvg {
+    position: relative;
+    z-index: 10;
+    transition: color 0.3s ease;
+}
+
+.iconWrapper:hover .iconSvg {
+    color: var(--hover-color);
+}
+
+.glow {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    filter: blur(15px);
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .dockContainer {
+        gap: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+}

@@ -1,0 +1,418 @@
+.container {
+    width: 100%;
+    padding: 2rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    padding: 0 4rem;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 1rem;
+}
+
+.title {
+    font-family: var(--font-mono);
+    /* Assuming generic mono font variable or fallback */
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    opacity: 0.7;
+}
+
+/* --- CHART GRID --- */
+.chartWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    overflow-x: auto;
+    /* Allow scroll on small screens */
+}
+
+.timeScale {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    position: relative;
+    height: 30px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.yearMarker {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    position: absolute;
+    transform: translateX(-50%);
+    top: 0;
+}
+
+.gridContainer {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    /* Grid background lines */
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 4% 100%;
+    /* Approx size, JS will handle precise ticks if needed */
+}
+
+/* The Cursor Scanner */
+.scanner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--accent);
+    /* Cyan/Neon */
+    box-shadow: 0 0 10px var(--accent);
+    pointer-events: none;
+    z-index: 100;
+    display: none;
+    /* JS will toggle */
+}
+
+.scannerLabel {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #000;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+/* --- STREAMS --- */
+.streamRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    height: 40px;
+}
+
+.streamLabel {
+    width: 150px;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    opacity: 0.8;
+    text-align: right;
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--glass-border);
+}
+
+.trackContainer {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.bar {
+    position: absolute;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--bar-color);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    backdrop-filter: blur(4px);
+    overflow: hidden;
+}
+
+/* Interior 'progress' fill or texture */
+.barFill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bar-color);
+    opacity: 0.2;
+    transform: scaleX(0);
+    /* Animate on load */
+    transform-origin: left;
+    transition: transform 1s ease-out;
+}
+
+.bar.inView .barFill {
+    transform: scaleX(1);
+}
+
+.bar:hover {
+    height: 24px;
+    z-index: 10;
+    box-shadow: 0 0 15px var(--bar-color);
+    background: var(--bg-glass);
+}
+
+.barLabel {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    opacity: 1;
+    /* Always visible now */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Bouncy spring transition */
+    pointer-events: none;
+    transform-origin: left center;
+    text-shadow: 0 0 2px var(--bg-primary);
+    /* Better readability against bar */
+}
+
+.bar:hover .barLabel {
+    opacity: 1;
+    color: var(--text-primary);
+    transform: translateY(-50%) scale(1.3);
+    /* Smooth zoom */
+    text-shadow: none;
+    padding-left: 4px;
+    /* Slight movement */
+}
+
+/* Textured overlay for bars */
+.barTexture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: repeating-linear-gradient(90deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.3) 2px,
+            rgba(0, 0, 0, 0.3) 4px);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* --- DETAIL POPUP REFINED --- */
+.detailPopup {
+    position: fixed;
+    pointer-events: none;
+    z-index: 200;
+    background: var(--bg-glass);
+    border: 1px solid var(--accent, var(--glass-border));
+    padding: 0;
+    border-radius: 6px;
+    backdrop-filter: blur(16px);
+    font-family: var(--font-mono);
+    min-width: 240px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.popupHeader {
+    background: var(--bg-secondary);
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.popupId {
+    color: #888;
+}
+
+.popupStatus {
+    color: #0f0;
+}
+
+.popupTitle {
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.75rem 0.75rem 0.25rem 0.75rem;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.popupGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.popupMeta {
+    display: flex;
+    flex-direction: column;
+}
+
+.metaLabel {
+    font-size: 0.55rem;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.metaValue {
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.impactContainer {
+    padding: 0.5rem 0.75rem;
+}
+
+.impactTrack {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.impactFill {
+    height: 100%;
+    /* width animated inline */
+}
+
+.tagContainer {
+    padding: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.tag {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 2rem 1rem;
+    }
+
+    .header {
+        padding: 0;
+    }
+
+    .chartWrapper {
+        padding: 0;
+        overflow-x: scroll;
+    }
+
+    .gridContainer {
+        width: 200%;
+    }
+
+    /* Force scroll width */
+    .streamLabel {
+        position: sticky;
+        left: 0;
+        background: var(--bg-primary);
+        z-index: 20;
+    }
+}
+
+/* === LIGHT MODE === */
+:global([data-theme='light']) .header {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:global([data-theme='light']) .title {
+    color: var(--text-primary);
+}
+
+:global([data-theme='light']) .timeScale {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:global([data-theme='light']) .gridContainer {
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+
+:global([data-theme='light']) .streamLabel {
+    color: var(--text-primary);
+    border-right-color: rgba(0, 0, 0, 0.1);
+}
+
+:global([data-theme='light']) .bar {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+:global([data-theme='light']) .bar:hover {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+:global([data-theme='light']) .barLabel {
+    color: rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+:global([data-theme='light']) .bar:hover .barLabel {
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+:global([data-theme='light']) .detailPopup {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+:global([data-theme='light']) .popupHeader {
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme='light']) .popupId {
+    color: #666;
+}
+
+:global([data-theme='light']) .metaValue {
+    color: var(--text-primary);
+}
+
+:global([data-theme='light']) .impactTrack {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme='light']) .tagContainer {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:global([data-theme='light']) .tag {
+    color: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 768px) {
+    :global([data-theme='light']) .streamLabel {
+        background: var(--bg-primary);
+    }
+}

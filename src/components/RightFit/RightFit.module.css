@@ -1,0 +1,280 @@
+/* System Compatibility Dashboard Styles */
+
+.dashboardGrid {
+    display: grid;
+    gap: 2rem;
+    width: 100%;
+}
+
+.kernelGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Kernel Module (Values) */
+.kernelCard {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-left: 2px solid var(--glass-border);
+    padding: 1.5rem;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.kernelCard:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-left-color: var(--accent);
+    transform: translateX(4px);
+}
+
+.kernelLabel {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.kernelTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.kernelDescription {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Compatibility Flags */
+.flagContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .flagContainer {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.flagCard {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+}
+
+.flagCard.success {
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.flagCard.success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #10B981, transparent);
+    opacity: 0.5;
+}
+
+.flagCard.danger {
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.flagCard.danger::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #EF4444, transparent);
+    opacity: 0.5;
+}
+
+.flagHeader {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.flagIcon {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.success .flagIcon {
+    color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.danger .flagIcon {
+    color: #EF4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.flagTitle {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.success .flagTitle {
+    color: #10B981;
+}
+
+.danger .flagTitle {
+    color: #EF4444;
+}
+
+.flagContent {
+    padding: 1.5rem;
+}
+
+.flagItem {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+}
+
+.flagItem:last-child {
+    margin-bottom: 0;
+}
+
+.checkIcon,
+.crossIcon {
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+}
+
+.success .checkIcon {
+    color: #10B981;
+}
+
+.danger .crossIcon {
+    color: #EF4444;
+}
+
+.itemText {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* System Status Bar */
+.systemStatus {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 99px;
+    width: fit-content;
+    margin-bottom: 2rem;
+}
+
+.blink {
+    width: 8px;
+    height: 8px;
+    background: #10B981;
+    border-radius: 50%;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.statusText {
+    font-family: var(--font-mono);
+    color: #10B981;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .kernelGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .kernelCard {
+        padding: 1.25rem;
+    }
+
+    .kernelTitle {
+        font-size: 1.1rem;
+    }
+
+    .kernelDescription {
+        font-size: 0.9rem;
+    }
+
+    .flagHeader {
+        padding: 1.25rem;
+    }
+
+    .flagContent {
+        padding: 1.25rem;
+    }
+
+    .flagTitle {
+        font-size: 1rem;
+    }
+
+    .itemText {
+        font-size: 0.9rem;
+    }
+
+    .systemStatus {
+        padding: 0.5rem 1rem;
+        gap: 0.75rem;
+    }
+
+    .statusText {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .kernelCard {
+        padding: 1rem;
+    }
+
+    .flagItem {
+        gap: 0.75rem;
+    }
+}
