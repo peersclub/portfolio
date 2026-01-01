@@ -344,13 +344,15 @@ export default function Navigation() {
             display: flex;
             align-items: center;
             gap: 16px;
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
             color: var(--text-primary);
-            padding: 20px 16px;
-            border-radius: 16px;
-            transition: all 0.25s ease;
+            padding: 16px;
+            border-radius: 12px;
+            transition: all 0.25s var(--ease-out-expo);
             position: relative;
             overflow: hidden;
         }
