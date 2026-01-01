@@ -21,11 +21,11 @@ interface SocialLink {
 }
 
 const socialLinks: SocialLink[] = [
-    { id: 'tw', icon: Twitter, label: 'Twitter', url: '#', color: '#1DA1F2' },
-    { id: 'li', icon: Linkedin, label: 'LinkedIn', url: '#', color: '#0077B5' },
-    { id: 'ig', icon: Instagram, label: 'Instagram', url: '#', color: '#E1306C' },
-    { id: 'md', icon: BookOpen, label: 'Medium', url: '#', color: '#00ab6c' },
-    { id: 'tm', icon: Video, label: 'Topmate', url: '#', color: '#FF5722' },
+    { id: 'tw', icon: Twitter, label: 'Twitter', url: 'https://x.com/suresh_089', color: '#1DA1F2' },
+    { id: 'li', icon: Linkedin, label: 'LinkedIn', url: 'https://www.linkedin.com/in/sureshvictor/', color: '#0077B5' },
+    { id: 'ig', icon: Instagram, label: 'Instagram', url: 'https://www.instagram.com/sureshvictor089/', color: '#E1306C' },
+    { id: 'md', icon: BookOpen, label: 'Medium', url: 'https://sureshvictor.medium.com/', color: '#00ab6c' },
+    { id: 'tm', icon: Video, label: 'Topmate', url: 'https://topmate.io/victor/', color: '#FF5722' },
 ];
 
 export default function SocialDock({ floating = false }: { floating?: boolean }) {
