@@ -3,19 +3,22 @@
 import { Project } from '@/data/projects';
 import StoryLayout from '../components/CaptainFreshStory/StoryLayout';
 
-// Mock project data if needed, or reuse existing
+// Mock project data matching the Project interface
 const projectData: Project = {
-    id: 'captain-fresh-2',
     slug: 'captain-fresh-2',
+    year: '2023',
+    company: 'Captain Fresh',
     title: 'Captain Fresh: The Human Story',
-    description: 'Empowering the coast, one fisherman at a time.',
-    thumbnail: '/images/projects/captain-fresh-thumb.jpg',
+    tagline: 'Empowering the coast, one fisherman at a time',
+    description: 'A digital platform empowering 16M fishermen across India\'s 7,517km coastline with real-time border alerts, weather forecasts, and market access.',
+    metrics: [
+        { label: 'Fishermen', value: '16M' },
+        { label: 'Villages', value: '30+' },
+        { label: 'Income Increase', value: '40%' }
+    ],
     role: 'Product Architect',
-    timeline: '2023 - Present',
-    tech: ['Next.js', 'React', 'Tailwind', 'Framer Motion'],
-    liveUrl: 'https://captainfresh.in',
-    featured: false,
-    content: ''
+    tech: ['Next.js', 'React', 'Recharts', 'Framer Motion'],
+    color: '#3b82f6'
 };
 
 export default function CaptainFreshStoryPage() {
