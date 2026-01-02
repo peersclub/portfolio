@@ -152,6 +152,7 @@ function ParticleSystem({ scanned }: { scanned: boolean }) {
                 <bufferAttribute
                     attach="attributes-position"
                     count={count}
+                    args={[bufferRef.current, 3]}
                     array={bufferRef.current}
                     itemSize={3}
                 />
