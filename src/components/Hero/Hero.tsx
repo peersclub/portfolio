@@ -1,17 +1,46 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import StatusBar from '@/components/StatusBar/StatusBar';
 import { motion } from 'framer-motion';
 import { Typewriter } from '@/components/Typewriter/Typewriter';
 import { QUOTES } from '@/lib/quotes';
 
+// Register GSAP plugin
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Parallax effect on background grid
+  useEffect(() => {
+    if (!mounted || !gridRef.current || !sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(gridRef.current, {
+        yPercent: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [mounted]);
 
   // Random quote
   const [quote, setQuote] = useState(QUOTES[0]);
@@ -58,9 +87,9 @@ export default function Hero() {
   };
 
   return (
-    <section className="hero" id="hero">
+    <section className="hero" id="hero" ref={sectionRef}>
       {/* Blueprint Grid */}
-      <div className="blueprint-grid" />
+      <div className="blueprint-grid" ref={gridRef} />
 
       {/* Gradient Overlay for Depth */}
       <div className="hero-gradient-overlay" />
@@ -85,7 +114,7 @@ export default function Hero() {
             variants={container}
             initial="hidden"
             animate="visible"
-            custom={2} // Delay sequence for last name
+            custom={2}
           >
             {lastName.map((letter, index) => (
               <motion.span variants={child} key={index} className="last-name-char">
@@ -183,6 +212,44 @@ export default function Hero() {
           z-index: 2;
         }
 
+        .hero-avatar {
+          position: absolute;
+          top: 120px;
+          right: 5%;
+          z-index: 20;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .avatar-hint {
+          font-family: var(--font-mono);
+          font-size: 0.7rem;
+          color: var(--text-secondary);
+          opacity: 0.7;
+          animation: float-hint 2s ease-in-out infinite;
+        }
+
+        @keyframes float-hint {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 768px) {
+          .hero-avatar {
+            top: 80px;
+            right: 10px;
+          }
+          .hero-avatar :global(.rive-avatar-container) {
+            width: 100px !important;
+            height: 100px !important;
+          }
+          .avatar-hint {
+            display: none;
+          }
+        }
+
         .hero-content {
           position: relative;
           z-index: 10;
@@ -195,6 +262,26 @@ export default function Hero() {
           margin-bottom: var(--space-4xl);
           display: flex;
           flex-direction: column;
+          gap: 0;
+        }
+
+        .name-block :global(.first-name),
+        .name-block :global(.last-name) {
+          font-family: var(--font-heading);
+          font-size: clamp(4rem, 15vw, 10rem);
+          font-weight: 800;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          line-height: 0.9;
+        }
+
+        .name-block :global(.first-name) {
+          color: var(--text-primary);
+        }
+
+        .name-block :global(.last-name) {
+          color: var(--accent);
+          text-shadow: 0 0 80px var(--glow-color);
         }
 
         .tagline {

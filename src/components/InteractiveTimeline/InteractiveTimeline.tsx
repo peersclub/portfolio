@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Pencil,
@@ -15,7 +15,9 @@ import {
   Briefcase,
   Trophy,
   Sparkles,
-  Zap,
+  ZoomIn,
+  ZoomOut,
+  Move,
   type LucideIcon
 } from 'lucide-react';
 import styles from './InteractiveTimeline.module.css';
@@ -167,18 +169,41 @@ const timelineData: TimelineEvent[] = [
   }
 ];
 
-// ... imports
-
 export default function InteractiveTimeline() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number | null>(null);
+  const [zoom, setZoom] = useState(1);
+  const constraintsRef = useRef(null);
 
-  // Default to showing everything in "sleep" mode if nothing is hovered?
-  // User wants it "visual even on just view".
+  const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.25, 2));
+  const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.25, 0.5));
+  const handleResetZoom = () => setZoom(1);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.timelineWrapper}>
+    <div className={styles.container} ref={constraintsRef}>
+      {/* Zoom Controls */}
+      <div className={styles.zoomControls}>
+        <button onClick={handleZoomIn} title="Zoom In" className={styles.zoomBtn}>
+          <ZoomIn size={18} />
+        </button>
+        <button onClick={handleZoomOut} title="Zoom Out" className={styles.zoomBtn}>
+          <ZoomOut size={18} />
+        </button>
+        <button onClick={handleResetZoom} title="Reset" className={styles.zoomBtn}>
+          <Move size={18} />
+        </button>
+        <span className={styles.zoomLevel}>{Math.round(zoom * 100)}%</span>
+      </div>
+
+      {/* Draggable container */}
+      <motion.div
+        className={styles.timelineWrapper}
+        drag
+        dragConstraints={constraintsRef}
+        dragElastic={0.1}
+        style={{ scale: zoom, cursor: 'grab' }}
+        whileDrag={{ cursor: 'grabbing' }}
+      >
         {/* Central Axis - The Data Backbone */}
         <div className={styles.axis}>
           <div className={styles.axisLine} />
@@ -311,7 +336,7 @@ export default function InteractiveTimeline() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

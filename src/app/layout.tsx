@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation/Navigation";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
-import CustomCursor from "@/components/CustomCursor/CustomCursor";
+import EnhancedCursor from "@/components/EnhancedCursor/EnhancedCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
+import "./view-transitions.css";
 
 export const metadata: Metadata = {
     title: "Suresh Victor | Product Architect",
@@ -28,7 +29,7 @@ export default function RootLayout({
             <body>
                 <ThemeProvider>
                     <SmoothScroll>
-                        <CustomCursor />
+                        <EnhancedCursor />
                         <div className="noise-overlay" />
                         <div className="blueprint-grid" />
                         <div className="atmospheric-glow" />

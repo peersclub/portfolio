@@ -1,0 +1,78 @@
+/* ===== View Transitions API ===== */
+/* Native browser page transitions for Chrome/Edge */
+
+/* Opt-in to same-origin view transitions */
+@view-transition {
+    navigation: auto;
+}
+
+/* Default cross-fade animation */
+::view-transition-old(root) {
+    animation: fade-out 0.25s ease-out forwards;
+}
+
+::view-transition-new(root) {
+    animation: fade-in 0.35s ease-out forwards;
+}
+
+/* Subtle slide + fade for a premium feel */
+::view-transition-old(root) {
+    animation: slide-out-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+::view-transition-new(root) {
+    animation: slide-in-right 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out-left {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(-3%);
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(3%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
+    }
+}

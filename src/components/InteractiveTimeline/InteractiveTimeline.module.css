@@ -6,7 +6,52 @@
     align-items: center;
     min-height: 60vh;
     background: transparent;
-    /* Assuming parent page has dark bg, otherwise add dark bg here */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Zoom Controls */
+.zoomControls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 100;
+    padding: 0.5rem;
+    background: var(--bg-glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+}
+
+.zoomBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--glass-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.zoomBtn:hover {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border-color: var(--accent);
+}
+
+.zoomLevel {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    min-width: 40px;
+    text-align: center;
 }
 
 .timelineWrapper {

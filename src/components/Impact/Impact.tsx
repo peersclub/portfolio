@@ -62,8 +62,6 @@ const impacts = [
 ];
 
 const MicroChart = ({ type, color }: { type: string; color: string }) => {
-  const isHovered = true;
-
   switch (type) {
     case 'area': // CoinDCX - Hockey Stick Growth
       return (
