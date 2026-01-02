@@ -85,7 +85,7 @@ export default function ParticleHero() {
 }
 
 function ParticleSystem({ scanned }: { scanned: boolean }) {
-    const ref = useRef<any>();
+    const ref = useRef<any>(null);
     const count = 5184; // 72^2
 
     // CHAOS: Sphere
