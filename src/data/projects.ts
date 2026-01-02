@@ -45,7 +45,7 @@ export const projects: Project[] = [
         color: '#4ECDC4',
     },
     {
-        slug: 'captain-fresh',
+        slug: 'captain-fresh-2',
         year: '2021-2024',
         company: 'CaptainFresh',
         title: 'CaptainFresh',
