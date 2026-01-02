@@ -6,7 +6,7 @@ import { Sparkles } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 const navLinks = [
-  { label: 'Work', href: '/#projects' },
+  { label: 'Work', href: '/projects' },
   { label: 'Resume', href: '/resume' },
   { label: 'My Life', href: '/mylife' },
   { label: 'Playbook', href: '/playbook' },
