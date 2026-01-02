@@ -153,7 +153,7 @@ export default function ProblemSection() {
                             <XAxis type="number" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: '#334155' }} tickFormatter={(val) => `${val}%`} />
                             <YAxis type="category" dataKey="name" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} width={70} />
                             <Tooltip
-                                formatter={(value: number) => [`${value}%`, 'Loss']}
+                                formatter={(value: number | undefined) => value !== undefined ? [`${value}%`, 'Loss'] : ['', '']}
                                 contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
                                 labelStyle={{ color: '#f8fafc' }}
                             />
