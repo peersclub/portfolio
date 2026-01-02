@@ -111,7 +111,7 @@ function DataNodes() {
     return (
         <points>
             <bufferGeometry>
-                <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+                <bufferAttribute attach="attributes-position" count={count} args={[positions, 3]} array={positions} itemSize={3} />
             </bufferGeometry>
             <pointsMaterial size={0.15} color="#ff00ff" transparent opacity={0.8} sizeAttenuation />
         </points>
