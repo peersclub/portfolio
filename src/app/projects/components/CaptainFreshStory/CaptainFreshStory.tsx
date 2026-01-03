@@ -704,7 +704,6 @@ export default function CaptainFreshStory() {
             <ProblemSection />
             <JourneySection />
             <InterviewsSection />
-            <GallerySection />
             <SolutionSection />
             <ImpactSection />
         </main>
