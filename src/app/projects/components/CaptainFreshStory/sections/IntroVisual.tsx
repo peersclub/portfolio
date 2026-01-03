@@ -12,7 +12,7 @@ const industryStats = [
         label: 'Fishermen',
         suffix: '',
         description: 'families depend on fishing',
-        color: '#3b82f6'
+        color: 'var(--color-info)'
     },
     {
         icon: Fish,
@@ -20,7 +20,7 @@ const industryStats = [
         label: 'Million Tonnes',
         suffix: '',
         description: 'fish caught annually',
-        color: '#10b981'
+        color: 'var(--color-success)'
     },
     {
         icon: MapPin,
@@ -28,7 +28,7 @@ const industryStats = [
         label: 'km Coastline',
         suffix: '',
         description: 'across 9 states & 4 UTs',
-        color: '#f59e0b'
+        color: 'var(--color-warning)'
     },
 ];
 
@@ -69,7 +69,7 @@ export default function IntroVisual() {
     }, []);
 
     return (
-        <div className="w-full h-full bg-slate-900 relative p-8 flex flex-col items-center justify-center overflow-hidden">
+        <div className="w-full h-full bg-primary relative p-8 flex flex-col items-center justify-center overflow-hidden">
             {/* Animated Background Waves */}
             <div className="absolute inset-0 opacity-10">
                 <svg viewBox="0 0 1200 600" className="w-full h-full" preserveAspectRatio="none">
@@ -88,8 +88,8 @@ export default function IntroVisual() {
                     />
                     <defs>
                         <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
-                            <stop offset="100%" stopColor="#1e40af" stopOpacity="0.1" />
+                            <stop offset="0%" stopColor="var(--color-info)" stopOpacity="0.3" />
+                            <stop offset="100%" stopColor="var(--color-info)" stopOpacity="0.1" />
                         </linearGradient>
                     </defs>
                 </svg>

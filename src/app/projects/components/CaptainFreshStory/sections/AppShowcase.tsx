@@ -13,7 +13,7 @@ const APP_SCREENS = [
         description: 'Real-time alerts when approaching international waters. Works offline with pre-loaded EEZ boundaries.',
         image: '/projects/captain-fresh/app-borders.jpg',
         features: ['Offline-enabled', 'Sri Lanka EEZ alerts', 'GPS tracking'],
-        color: '#ef4444',
+        color: 'var(--color-error)',
         icon: MapPin
     },
     {
@@ -23,7 +23,7 @@ const APP_SCREENS = [
         description: 'Hourly sea & wind forecasts tailored for fishing. Know wave heights, wind direction, and optimal fishing windows.',
         image: '/projects/captain-fresh/app-weather.jpg',
         features: ['Hourly forecasts', 'Wave predictions', '7-day outlook'],
-        color: '#3b82f6',
+        color: 'var(--color-info)',
         icon: Cloud
     },
     {
@@ -33,7 +33,7 @@ const APP_SCREENS = [
         description: 'Validated catch entries mapped with GPS coordinates. Build a digital history for better fishing decisions next season.',
         image: '/projects/captain-fresh/app-catchlog.jpg',
         features: ['GPS-tagged entries', 'Species identification', 'Historical patterns'],
-        color: '#10b981',
+        color: 'var(--color-success)',
         icon: ShoppingCart
     },
     {
@@ -43,7 +43,7 @@ const APP_SCREENS = [
         description: 'INCOIS Potential Fishing Zone data with real-time navigation. Know exactly where the fish are before you leave port.',
         image: '/projects/captain-fresh/app-pfz.jpg',
         features: ['Satellite data', 'Real-time compass', 'Fish migration patterns'],
-        color: '#f59e0b',
+        color: 'var(--color-warning)',
         icon: Bell
     },
 ];
@@ -151,7 +151,7 @@ export default function AppShowcase() {
                             ? 'w-6'
                             : 'w-1.5 hover:bg-slate-500'
                             }`}
-                        style={{ backgroundColor: index === activeScreen ? s.color : '#475569' }}
+                        style={{ backgroundColor: index === activeScreen ? s.color : 'var(--text-muted)' }}
                     />
                 ))}
             </div>

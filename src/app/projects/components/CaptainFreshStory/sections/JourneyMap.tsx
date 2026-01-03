@@ -106,8 +106,8 @@ export default function JourneyMap() {
                                 <Geography
                                     key={geo.rsmKey}
                                     geography={geo}
-                                    fill={isTN ? "#1e3a5f" : "#0f172a"}
-                                    stroke={isTN ? "#38bdf8" : "#1e293b"}
+                                    fill={isTN ? "var(--color-info)" : "var(--bg-secondary)"}
+                                    stroke={isTN ? "var(--color-info)" : "var(--glass-border)"}
                                     strokeWidth={isTN ? 1 : 0.3}
                                     style={{
                                         default: { outline: "none" },
@@ -123,7 +123,7 @@ export default function JourneyMap() {
                 {/* Route Line */}
                 <Line
                     coordinates={LOCATIONS.map(l => l.coordinates) as [number, number][]}
-                    stroke="#f59e0b"
+                    stroke="var(--color-warning)"
                     strokeWidth={2}
                     strokeOpacity={0.6}
                     strokeLinecap="round"
@@ -137,9 +137,9 @@ export default function JourneyMap() {
                         <Marker key={loc.id} coordinates={loc.coordinates as [number, number]}>
                             <circle
                                 r={isActive ? 8 : 4}
-                                fill={isActive ? "#f59e0b" : isPast ? "#f59e0b" : "#475569"}
+                                fill={isActive ? "var(--color-warning)" : isPast ? "var(--color-warning)" : "var(--text-muted)"}
                                 fillOpacity={isActive ? 1 : isPast ? 0.5 : 1}
-                                stroke="#0f172a"
+                                stroke="var(--bg-primary)"
                                 strokeWidth={2}
                             />
                             {isActive && (

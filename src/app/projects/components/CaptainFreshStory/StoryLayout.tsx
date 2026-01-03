@@ -25,8 +25,8 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
     // Forces dark mode and Window-Level Scroll Snap
     useEffect(() => {
         // Theme
-        document.documentElement.style.setProperty('--bg-primary', '#0f172a');
-        document.documentElement.style.setProperty('--text-primary', '#f8fafc');
+        document.documentElement.style.setProperty('--bg-primary', 'var(--bg-primary)');
+        document.documentElement.style.setProperty('--text-primary', 'var(--text-primary)');
 
         // Apply scroll-snap to the html element for window-level snapping
         document.documentElement.style.scrollSnapType = 'y mandatory';
@@ -46,7 +46,7 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
     }, [introInView]);
 
     return (
-        <div className="min-h-screen w-full bg-[#0f172a] text-slate-50 font-sans selection:bg-indigo-500/30">
+        <div className="min-h-screen w-full bg-primary text-slate-50 font-sans selection:bg-indigo-500/30">
 
             {/* Sticky Nav */}
             <nav className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference pointer-events-none">

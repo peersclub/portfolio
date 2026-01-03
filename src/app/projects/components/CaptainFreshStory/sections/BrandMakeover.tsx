@@ -19,7 +19,7 @@ export default function BrandMakeover() {
     }, []);
 
     return (
-        <div className="w-full h-full bg-[#0f172a] relative overflow-hidden flex flex-col items-center justify-center p-8">
+        <div className="w-full h-full bg-primary relative overflow-hidden flex flex-col items-center justify-center p-8">
             <h3 className="absolute top-8 left-8 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase flex items-center gap-2">
                 <Palette className="w-4 h-4" /> Identity System
             </h3>
@@ -99,7 +99,7 @@ export default function BrandMakeover() {
                                     <motion.path
                                         d="M 50,20 C 70,20 85,35 85,50 C 85,65 70,80 50,80 C 30,80 15,65 15,50 C 15,35 30,20 50,20 Z"
                                         fill="transparent"
-                                        stroke="#2dd4bf"
+                                        stroke="var(--color-success)"
                                         strokeWidth="2"
                                         initial={{ pathLength: 0 }}
                                         animate={{ pathLength: 1 }}
@@ -107,7 +107,7 @@ export default function BrandMakeover() {
                                     />
                                     <motion.path
                                         d="M 35,50 L 65,50 M 50,35 L 50,65"
-                                        stroke="#f97316"
+                                        stroke="var(--color-chart-2)"
                                         strokeWidth="4"
                                         strokeLinecap="round"
                                         initial={{ pathLength: 0, opacity: 0 }}
@@ -140,9 +140,9 @@ export default function BrandMakeover() {
 
             {/* Swatches */}
             <div className="flex gap-4 mt-8">
-                <Swatch color="#2dd4bf" label="Ocean Teal" active={view === 'new'} />
-                <Swatch color="#f97316" label="Lifejacket Orange" active={view === 'new'} />
-                <Swatch color="#f8fafc" label="Fresh Silver" active={view === 'new'} />
+                <Swatch color="var(--color-success)" label="Ocean Teal" active={view === 'new'} />
+                <Swatch color="var(--color-chart-2)" label="Lifejacket Orange" active={view === 'new'} />
+                <Swatch color="var(--text-primary)" label="Fresh Silver" active={view === 'new'} />
             </div>
         </div>
     );

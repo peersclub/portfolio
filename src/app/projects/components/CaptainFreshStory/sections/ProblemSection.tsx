@@ -31,11 +31,11 @@ const economicData = [
 
 // Loss breakdown data
 const lossData = [
-    { name: 'Spoilage', value: 30, color: '#ef4444' },
-    { name: 'Middlemen', value: 25, color: '#f97316' },
-    { name: 'Fuel', value: 20, color: '#eab308' },
-    { name: 'Equipment', value: 15, color: '#6366f1' },
-    { name: 'Other', value: 10, color: '#64748b' },
+    { name: 'Spoilage', value: 30, color: 'var(--color-error)' },
+    { name: 'Middlemen', value: 25, color: 'var(--color-chart-2)' },
+    { name: 'Fuel', value: 20, color: 'var(--color-chart-1)' },
+    { name: 'Equipment', value: 15, color: 'var(--color-chart-3)' },
+    { name: 'Other', value: 10, color: 'var(--text-muted)' },
 ];
 
 // Custom Tooltip
@@ -89,22 +89,22 @@ export default function ProblemSection() {
                         <AreaChart data={economicData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                             <defs>
                                 <linearGradient id="colorCost" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4} />
-                                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="var(--color-error)" stopOpacity={0.4} />
+                                    <stop offset="95%" stopColor="var(--color-error)" stopOpacity={0} />
                                 </linearGradient>
                                 <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
-                                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="var(--color-success)" stopOpacity={0.4} />
+                                    <stop offset="95%" stopColor="var(--color-success)" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                            <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: '#334155' }} />
-                            <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: '#334155' }} tickFormatter={(val) => `₹${val / 1000}k`} />
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--glass-border)" />
+                            <XAxis dataKey="year" tick={{ fill: 'var(--text-muted)', fontSize: 10 }} axisLine={{ stroke: 'var(--glass-border)' }} />
+                            <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 10 }} axisLine={{ stroke: 'var(--glass-border)' }} tickFormatter={(val) => `₹${val / 1000}k`} />
                             <Tooltip content={<CustomTooltip />} />
                             <Area
                                 type="monotone"
                                 dataKey="cost"
-                                stroke="#ef4444"
+                                stroke="var(--color-error)"
                                 strokeWidth={2}
                                 fillOpacity={1}
                                 fill="url(#colorCost)"
@@ -113,7 +113,7 @@ export default function ProblemSection() {
                             <Area
                                 type="monotone"
                                 dataKey="income"
-                                stroke="#10b981"
+                                stroke="var(--color-success)"
                                 strokeWidth={2}
                                 fillOpacity={1}
                                 fill="url(#colorIncome)"
@@ -149,13 +149,13 @@ export default function ProblemSection() {
                 {mounted && (
                     <ResponsiveContainer width="100%" height={120}>
                         <BarChart data={lossData} layout="vertical" margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={false} />
-                            <XAxis type="number" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: '#334155' }} tickFormatter={(val) => `${val}%`} />
-                            <YAxis type="category" dataKey="name" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} width={70} />
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--glass-border)" horizontal={false} />
+                            <XAxis type="number" tick={{ fill: 'var(--text-muted)', fontSize: 10 }} axisLine={{ stroke: 'var(--glass-border)' }} tickFormatter={(val) => `${val}%`} />
+                            <YAxis type="category" dataKey="name" tick={{ fill: 'var(--text-muted)', fontSize: 11 }} axisLine={{ stroke: 'var(--glass-border)' }} width={70} />
                             <Tooltip
                                 formatter={(value: number | undefined) => value !== undefined ? [`${value}%`, 'Loss'] : ['', '']}
-                                contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
-                                labelStyle={{ color: '#f8fafc' }}
+                                contentStyle={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', borderRadius: '8px' }}
+                                labelStyle={{ color: 'var(--text-primary)' }}
                             />
                             <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                                 {lossData.map((entry, index) => (
