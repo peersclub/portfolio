@@ -48,3 +48,10 @@ This is the SINGLE source of truth for all design tokens. No other values should
 | `--color-chart-2` | `#F97316` | Chart series 2 (Orange) |
 | `--color-chart-3` | `#6366F1` | Chart series 3 (Indigo) |
 
+### Extended Palette (Cyber/Neural)
+| Token | Value (Dark) | Value (Light) | Description |
+|-------|--------------|---------------|-------------|
+| `--color-cyan` | `#00F3FF` | `#0891B2` | Neon visuals, holographic elements |
+| `--color-magenta` | `#FF00FF` | `#C026D3` | Secondary neon accents |
+
+

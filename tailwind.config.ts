@@ -34,6 +34,14 @@ const config: Config = {
                     info: "var(--color-info)",
                 },
 
+                // Extended
+                cyan: {
+                    DEFAULT: "var(--color-cyan)",
+                },
+                magenta: {
+                    DEFAULT: "var(--color-magenta)",
+                },
+
                 glass: {
                     border: "var(--glass-border)",
                 },

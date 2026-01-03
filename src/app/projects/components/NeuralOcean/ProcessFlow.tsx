@@ -32,7 +32,7 @@ export default function ProcessFlow() {
     const [activeStep, setActiveStep] = useState(0);
 
     return (
-        <section className="w-full bg-[#020c1b] text-slate-300 relative snap-start">
+        <section className="w-full bg-primary text-slate-300 relative snap-start transition-colors duration-500">
             <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row">
                 {/* Left: Scrollable Content */}
                 <div className="w-full md:w-1/2">
@@ -42,8 +42,8 @@ export default function ProcessFlow() {
                 </div>
 
                 {/* Right: Sticky Visuals */}
-                <div className="hidden md:flex w-1/2 h-screen sticky top-0 items-center justify-center bg-[#020c1b]/50 backdrop-blur-sm border-l border-cyan-900/20">
-                    <div className="relative w-full max-w-md aspect-square border border-cyan-500/30 rounded-lg bg-[#051125] overflow-hidden p-6">
+                <div className="hidden md:flex w-1/2 h-screen sticky top-0 items-center justify-center bg-primary/50 backdrop-blur-sm border-l border-cyan-500/20">
+                    <div className="relative w-full max-w-md aspect-square border border-cyan-500/30 rounded-lg bg-secondary overflow-hidden p-6">
                         {/* Tech decoration */}
                         <div className="absolute top-2 left-2 w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
                         <div className="absolute top-2 right-2 font-mono text-[10px] text-cyan-500/50">SYS.VISUALIZER.v.2.0</div>
@@ -74,12 +74,12 @@ function StepItem({ step, index, setActiveStep }: { step: any, index: number, se
             <div className="font-mono text-cyan-400 font-bold text-sm mb-2 tracking-widest uppercase">
                 Step 0{index + 1} // <span className="text-cyan-200">{step.subtitle}</span>
             </div>
-            <h3 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tight relative" style={{ color: '#ffffff' }}>
+            <h3 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-primary to-slate-500 mb-6 uppercase tracking-tight relative transition-colors duration-500" style={{ color: 'var(--text-primary)' }}>
                 {step.title}
                 {/* Decorative underline */}
                 <span className="absolute -bottom-2 left-0 w-20 h-1 bg-cyan-500/50"></span>
             </h3>
-            <p className="text-lg md:text-xl font-light leading-relaxed text-slate-300 max-w-lg" style={{ color: '#cbd5e1' }}>
+            <p className="text-lg md:text-xl font-light leading-relaxed text-slate-300 max-w-lg transition-colors duration-500" style={{ color: 'var(--text-muted)' }}>
                 {step.description}
             </p>
         </motion.div>
@@ -158,7 +158,7 @@ function FracturedSupplyChain() {
     }, []);
 
     return (
-        <div className="w-full h-full relative overflow-hidden bg-[#0a0a0a]" ref={containerRef}>
+        <div className="w-full h-full relative overflow-hidden bg-primary" ref={containerRef}>
             {/* Grid Distortion */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(0,50,50,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,50,50,0.1)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20 animate-pulse"></div>
 
@@ -185,9 +185,9 @@ function FracturedSupplyChain() {
                             top: `${p.y}%`,
                             opacity: 1,
                             scale: 1,
-                            backgroundColor: p.status === 'fresh' ? '#00f3ff' : '#ef4444'
+                            backgroundColor: p.status === 'fresh' ? 'var(--color-cyan)' : 'var(--color-error)'
                         }}
-                        exit={{ opacity: 0, scale: 2, backgroundColor: '#000000' }}
+                        exit={{ opacity: 0, scale: 2, backgroundColor: 'var(--bg-primary)' }}
                         transition={{ duration: 0.05, ease: "linear" }} // Snappy updates
                         className={`absolute w-3 h-3 rounded-sm shadow-[0_0_10px_currentColor] cursor-not-allowed`}
                     >

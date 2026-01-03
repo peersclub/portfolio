@@ -1,3 +1,4 @@
+'use client';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import { useState, useRef, useMemo, useEffect } from 'react';
@@ -6,8 +7,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
+import { useTheme } from 'next-themes';
+
 export default function ParticleHero() {
     const [scanned, setScanned] = useState(false);
+    const { theme } = useTheme();
+    const isDark = theme === 'dark';
+    const cyan = isDark ? '#00f3ff' : '#0891B2';
+    const bg = isDark ? '#020c1b' : '#F2F2F4';
 
     useEffect(() => {
         // Fallback timer
@@ -20,10 +27,10 @@ export default function ParticleHero() {
     };
 
     return (
-        <section className="h-screen w-full relative bg-[#020c1b] overflow-hidden cursor-pointer" onClick={handleScan}>
+        <section className="h-screen w-full relative bg-primary overflow-hidden cursor-pointer" onClick={handleScan}>
             <div className="absolute inset-0 z-0">
                 <Canvas camera={{ position: [0, 2, 4], fov: 60 }}>
-                    <ParticleSystem scanned={scanned} />
+                    <ParticleSystem scanned={scanned} color={cyan} />
                     <ambientLight intensity={0.5} />
                     <EffectComposer>
                         <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.9} height={300} intensity={1} />
@@ -55,10 +62,10 @@ export default function ParticleHero() {
                             System Status: {scanned ? 'Signal Locked' : 'Entropy High'}
                         </span>
                     </div>
-                    <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 tracking-tighter">
+                    <h1 className="text-6xl md:text-8xl font-bold mb-4 tracking-tighter" style={{ color: isDark ? '#fff' : '#121212' }}>
                         NEURAL <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">OCEAN</span>
                     </h1>
-                    <p className="text-blue-200/60 font-mono text-sm tracking-widest uppercase mb-8">
+                    <p className="font-mono text-sm tracking-widest uppercase mb-8" style={{ color: isDark ? 'rgba(191, 219, 254, 0.6)' : 'rgba(82, 82, 91, 0.6)' }}>
                         Transforming Perishable Chaos into Digital Order
                     </p>
 
@@ -84,7 +91,7 @@ export default function ParticleHero() {
     );
 }
 
-function ParticleSystem({ scanned }: { scanned: boolean }) {
+function ParticleSystem({ scanned, color }: { scanned: boolean, color: string }) {
     const ref = useRef<any>(null);
     const count = 5184; // 72^2
 
@@ -159,7 +166,7 @@ function ParticleSystem({ scanned }: { scanned: boolean }) {
             </bufferGeometry>
             <PointMaterial
                 transparent
-                color="#00f3ff"
+                color={color}
                 size={0.015} // Smaller particles
                 sizeAttenuation={true}
                 depthWrite={false}

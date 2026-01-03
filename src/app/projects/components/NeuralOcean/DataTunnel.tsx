@@ -1,17 +1,26 @@
+'use client';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 
+import { useTheme } from 'next-themes';
+
 export default function DataTunnel() {
+    const { theme } = useTheme();
+    const isDark = theme === 'dark';
+
+    const cyan = isDark ? '#00f3ff' : '#0891B2';
+    const bg = isDark ? '#020c1b' : '#F2F2F4';
+
     return (
-        <section className="h-screen w-full relative bg-[#020c1b] overflow-hidden flex flex-col items-center justify-center">
+        <section className="h-screen w-full relative bg-primary overflow-hidden flex flex-col items-center justify-center">
             <div className="absolute inset-0 z-0">
                 <Canvas camera={{ position: [0, 0, 5], fov: 70 }}>
-                    <TunnelMesh />
-                    <SpeedLines />
+                    <TunnelMesh color={cyan} />
+                    <SpeedLines color={isDark ? '#fff' : '#000'} />
                     <ambientLight intensity={0.5} />
-                    <fog attach="fog" args={['#020c1b', 5, 20]} />
+                    <fog attach="fog" args={[bg, 5, 20]} />
                     <EffectComposer>
                         <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} intensity={2} />
                     </EffectComposer>
@@ -21,8 +30,8 @@ export default function DataTunnel() {
             <div className="relative z-10 pointer-events-none text-center p-8">
                 <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-4 opacity-20">LOGISTICS</h2>
 
-                <div className="bg-[#020c1b]/80 backdrop-blur border-l-4 border-cyan-500 p-6 max-w-2xl mx-auto text-left">
-                    <h3 className="text-2xl text-white font-bold mb-2">The Cold Tunnel</h3>
+                <div className="bg-secondary/80 backdrop-blur border-l-4 border-cyan-500 p-6 max-w-2xl mx-auto text-left transition-colors">
+                    <h3 className="text-2xl text-primary font-bold mb-2">The Cold Tunnel</h3>
                     <p className="text-cyan-400 font-mono mb-4 text-sm">LATENCY REDUCTION: 99.8%</p>
                     <p className="text-slate-400 font-light">
                         From harvest to retail in under 24 hours. Our optimized logistics network operates like a high-speed data packet switching system, ensuring physical freshness matches digital speed.
@@ -33,17 +42,17 @@ export default function DataTunnel() {
     );
 }
 
-function TunnelMesh() {
+function TunnelMesh({ color }: { color: string }) {
     const ref = useRef<THREE.Mesh>(null);
     return (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, -10]}>
             <cylinderGeometry args={[4, 4, 40, 32, 1, true]} />
-            <meshBasicMaterial color="#00f3ff" wireframe={true} transparent opacity={0.1} side={THREE.BackSide} />
+            <meshBasicMaterial color={color} wireframe={true} transparent opacity={0.1} side={THREE.BackSide} />
         </mesh>
     );
 }
 
-function SpeedLines() {
+function SpeedLines({ color }: { color: string }) {
     const count = 100;
     const mesh = useRef<THREE.InstancedMesh>(null);
     const tempObj = new THREE.Object3D();
@@ -77,7 +86,7 @@ function SpeedLines() {
     return (
         <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
             <boxGeometry args={[0.05, 0.05, 1]} />
-            <meshBasicMaterial color="#fff" transparent opacity={0.8} />
+            <meshBasicMaterial color={color} transparent opacity={0.8} />
         </instancedMesh>
     );
 }

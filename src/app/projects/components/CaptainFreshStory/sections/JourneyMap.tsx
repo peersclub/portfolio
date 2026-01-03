@@ -53,7 +53,7 @@ export default function JourneyMap() {
     const goPrev = () => { setActiveLoc(prev => (prev - 1 + LOCATIONS.length) % LOCATIONS.length); setIsAuto(false); };
 
     return (
-        <div className="w-full h-full bg-[#051125] relative overflow-hidden">
+        <div className="w-full h-full bg-primary relative overflow-hidden">
 
             {/* TOP: Progress Timeline */}
             <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-slate-900 via-slate-900/90 to-transparent pt-4 pb-8 px-6">

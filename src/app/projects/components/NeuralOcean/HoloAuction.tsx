@@ -1,26 +1,36 @@
+'use client';
+import { useRef, useState } from 'react';
+import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Cylinder, Text, Float, Stars } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
-import { useRef, useState } from 'react';
-import * as THREE from 'three';
+
+import { useTheme } from 'next-themes';
 
 export default function HoloAuction() {
+    const { theme } = useTheme();
+    const isDark = theme === 'dark';
+
+    const cyan = isDark ? '#00f3ff' : '#0891B2';
+    const magenta = isDark ? '#ff00ff' : '#C026D3';
+    const bg = isDark ? '#020c1b' : '#F2F2F4';
+
     return (
-        <section className="h-screen w-full relative bg-[#020c1b] overflow-hidden flex flex-col items-center justify-center">
+        <section className="h-screen w-full relative bg-primary overflow-hidden flex flex-col items-center justify-center">
             <div className="absolute inset-0 z-0">
                 <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-                    <AuctionCylinder />
-                    <FloatingBids />
+                    <AuctionCylinder color={cyan} magenta={magenta} />
+                    <FloatingBids color={cyan} />
                     <ambientLight intensity={0.5} />
                     <Stars radius={50} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
-                    <pointLight position={[10, 10, 10]} intensity={1} color="#00f3ff" />
+                    <pointLight position={[10, 10, 10]} intensity={1} color={cyan} />
                     <EffectComposer>
                         <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} intensity={2} radius={0.8} />
                     </EffectComposer>
                 </Canvas>
             </div>
 
-            <div className="relative z-10 pointer-events-none text-center p-8 bg-[#020c1b]/60 backdrop-blur border border-cyan-500/20 rounded-xl">
+            <div className="relative z-10 pointer-events-none text-center p-8 bg-black/60 backdrop-blur border border-cyan-500/20 rounded-xl transition-colors">
                 <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 bg-green-900/30 border border-green-500/30 rounded-full">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                     <span className="text-green-400 font-mono text-xs tracking-widest uppercase">Market Live</span>
@@ -36,7 +46,7 @@ export default function HoloAuction() {
     );
 }
 
-function AuctionCylinder() {
+function AuctionCylinder({ color, magenta }: { color: string, magenta: string }) {
     const mesh = useRef<THREE.Mesh>(null);
 
     useFrame((state, delta) => {
@@ -50,7 +60,7 @@ function AuctionCylinder() {
             {/* Main holographic glass cylinder */}
             <Cylinder ref={mesh} args={[3, 3, 6, 64, 1, true]}>
                 <meshStandardMaterial
-                    color="#00f3ff"
+                    color={color}
                     transparent
                     opacity={0.15}
                     side={THREE.DoubleSide}
@@ -62,18 +72,18 @@ function AuctionCylinder() {
 
             {/* Wireframe overlay */}
             <Cylinder args={[3.05, 3.05, 6, 32, 5, true]}>
-                <meshBasicMaterial color="#00f3ff" wireframe={true} transparent opacity={0.1} />
+                <meshBasicMaterial color={color} wireframe={true} transparent opacity={0.1} />
             </Cylinder>
 
             {/* Inner rings */}
             <Cylinder args={[2.8, 2.8, 5.8, 64, 1, true]}>
-                <meshBasicMaterial color="#ff00ff" transparent opacity={0.05} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
+                <meshBasicMaterial color={magenta} transparent opacity={0.05} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
             </Cylinder>
         </group>
     );
 }
 
-function FloatingBids() {
+function FloatingBids({ color }: { color: string }) {
     const bids = [
         { price: "₹145.50", qty: "200kg", pos: [-2, 1, 2] },
         { price: "₹146.00", qty: "50kg", pos: [2, 2, 1] },
@@ -88,7 +98,7 @@ function FloatingBids() {
                 <Float key={i} speed={2} rotationIntensity={0.5} floatIntensity={1}>
                     <group position={bid.pos as [number, number, number]}>
                         <Text
-                            color={bid.color || "#00f3ff"}
+                            color={bid.color || color}
                             fontSize={0.25}
                             font="/fonts/Inter-Bold.ttf" // Fallback to default if not found
                             anchorX="center"
