@@ -55,6 +55,28 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return null;
 };
 
+// Custom Tooltip for Bar Chart (Percentages)
+const CustomBarTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="bg-secondary border border-glass rounded-lg p-3 shadow-xl">
+                {payload.map((entry: any, index: number) => (
+                    <div key={index} className="flex flex-col gap-1">
+                        <span className="text-sm font-bold text-primary flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.payload.color }}></span>
+                            {entry.payload.name}
+                        </span>
+                        <span className="text-xs text-muted font-mono ml-4">
+                            {entry.value}% Value Lost
+                        </span>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+    return null;
+};
+
 export default function ProblemSection() {
     const [mounted, setMounted] = useState(false);
 
