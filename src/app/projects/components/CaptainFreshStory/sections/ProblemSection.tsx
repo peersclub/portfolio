@@ -42,8 +42,8 @@ const lossData = [
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 shadow-xl">
-                <p className="font-mono text-xs text-slate-400 mb-1">{label}</p>
+            <div className="bg-secondary border border-glass rounded-lg p-3 shadow-xl">
+                <p className="font-mono text-xs text-muted mb-1">{label}</p>
                 {payload.map((entry: any, index: number) => (
                     <p key={index} className="text-sm" style={{ color: entry.color }}>
                         {entry.name}: ₹{entry.value.toLocaleString()}
@@ -63,19 +63,19 @@ export default function ProblemSection() {
     }, []);
 
     return (
-        <div className="w-full h-full bg-slate-900 relative p-6 flex flex-col items-center justify-center overflow-hidden">
+        <div className="w-full h-full bg-primary relative p-6 flex flex-col items-center justify-center overflow-hidden transition-colors duration-500">
             {/* Background Grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(var(--glass-border)_1px,transparent_1px),linear-gradient(90deg,var(--glass-border)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
             {/* Main Visual: Cost vs Income Chart */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="relative w-full max-w-xl bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 mb-4 backdrop-blur-sm"
+                className="relative w-full max-w-xl bg-secondary/50 rounded-xl border border-glass p-4 mb-4 backdrop-blur-sm"
             >
                 <div className="flex items-center justify-between mb-2">
-                    <div className="font-mono text-xs text-slate-500 uppercase tracking-widest">
+                    <div className="font-mono text-xs text-muted uppercase tracking-widest">
                         Economic Reality (2010 - 2024)
                     </div>
                     <div className="flex items-center gap-4 text-xs">
@@ -140,9 +140,9 @@ export default function ProblemSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="w-full max-w-xl bg-slate-800/30 rounded-xl border border-slate-700/50 p-4 backdrop-blur-sm"
+                className="w-full max-w-xl bg-secondary/30 rounded-xl border border-glass p-4 backdrop-blur-sm"
             >
-                <div className="font-mono text-xs text-slate-500 uppercase tracking-widest mb-2">
+                <div className="font-mono text-xs text-muted uppercase tracking-widest mb-2">
                     Where Profits Disappear (% of Catch Value)
                 </div>
 
@@ -153,9 +153,8 @@ export default function ProblemSection() {
                             <XAxis type="number" tick={{ fill: 'var(--text-muted)', fontSize: 10 }} axisLine={{ stroke: 'var(--glass-border)' }} tickFormatter={(val) => `${val}%`} />
                             <YAxis type="category" dataKey="name" tick={{ fill: 'var(--text-muted)', fontSize: 11 }} axisLine={{ stroke: 'var(--glass-border)' }} width={70} />
                             <Tooltip
-                                formatter={(value: number | undefined) => value !== undefined ? [`${value}%`, 'Loss'] : ['', '']}
-                                contentStyle={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', borderRadius: '8px' }}
-                                labelStyle={{ color: 'var(--text-primary)' }}
+                                content={<CustomBarTooltip />}
+                                cursor={{ fill: 'var(--glass-border)', fillOpacity: 0.3 }}
                             />
                             <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                                 {lossData.map((entry, index) => (
@@ -173,6 +172,6 @@ export default function ProblemSection() {
                     Data: FAO, CMFRI India, Field Research 2023
                 </span>
             </div>
-        </div>
+        </div >
     );
 }

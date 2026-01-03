@@ -186,7 +186,7 @@ export default function JourneyMap() {
                             </span>
                         </div>
 
-                        <blockquote className="text-lg text-slate-200 leading-relaxed italic border-l-2 border-amber-500/50 pl-4">
+                        <blockquote className="text-lg text-secondary-foreground leading-relaxed italic border-l-2 border-amber-500/50 pl-4">
                             "{LOCATIONS[activeLoc].quote}"
                         </blockquote>
                     </div>

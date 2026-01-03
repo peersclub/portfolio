@@ -103,11 +103,11 @@ export default function IntroVisual() {
                 className="text-center mb-8 relative z-10"
             >
                 <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-full px-4 py-1 mb-4">
-                    <Anchor className="w-4 h-4 text-blue-400" />
-                    <span className="text-xs font-mono text-blue-400 uppercase tracking-widest">India's Fishing Industry</span>
+                    <Anchor className="w-4 h-4 text-blue-500 dark:text-blue-400" />
+                    <span className="text-xs font-mono text-blue-600 dark:text-blue-400 uppercase tracking-widest">India's Fishing Industry</span>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-1">The Scale of the Ocean</h3>
-                <p className="text-sm text-slate-500">World's 3rd largest fish producer</p>
+                <h3 className="text-xl font-bold text-primary mb-1">The Scale of the Ocean</h3>
+                <p className="text-sm text-secondary-foreground">World's 3rd largest fish producer</p>
             </motion.div>
 
             {/* Stats Grid */}
@@ -118,7 +118,7 @@ export default function IntroVisual() {
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
-                        className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-5 flex items-center gap-4 group hover:border-slate-600 transition-colors"
+                        className="bg-secondary/50 backdrop-blur-sm border border-glass rounded-xl p-5 flex items-center gap-4 group hover:border-primary/20 transition-colors"
                     >
                         {/* Icon */}
                         <div
@@ -131,12 +131,12 @@ export default function IntroVisual() {
                         {/* Content */}
                         <div className="flex-1">
                             <div className="flex items-baseline gap-2">
-                                <span className="text-3xl font-black text-white tabular-nums">
+                                <span className="text-3xl font-black text-primary tabular-nums">
                                     {isVisible && <AnimatedCounter value={stat.value} duration={2 + index * 0.3} />}
                                 </span>
-                                <span className="text-sm font-medium text-slate-400">{stat.label}</span>
+                                <span className="text-sm font-medium text-muted">{stat.label}</span>
                             </div>
-                            <p className="text-xs text-slate-500 mt-1">{stat.description}</p>
+                            <p className="text-xs text-muted mt-1">{stat.description}</p>
                         </div>
                     </motion.div>
                 ))}
@@ -156,7 +156,7 @@ export default function IntroVisual() {
 
             {/* Data Source */}
             <div className="absolute bottom-4 left-0 right-0 text-center">
-                <span className="text-xs text-slate-700 font-mono">
+                <span className="text-xs text-muted font-mono">
                     Source: Ministry of Fisheries, FAO 2023
                 </span>
             </div>

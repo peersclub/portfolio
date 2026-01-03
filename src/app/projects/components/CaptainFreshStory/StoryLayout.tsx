@@ -46,7 +46,7 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
     }, [introInView]);
 
     return (
-        <div className="min-h-screen w-full bg-primary text-slate-50 font-sans selection:bg-indigo-500/30">
+        <div className="min-h-screen w-full bg-primary text-primary font-sans selection:bg-indigo-500/30transition-colors duration-500">
 
             {/* Mobile Visual Layer (Fixed Background) - Visible only on mobile/tablet */}
             <div className="md:hidden fixed inset-0 z-0">
@@ -58,11 +58,11 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
             {/* Sticky Nav - Repositioned to avoid Global Header overlap */}
             {/* Using top-20 (80px) to sit comfortably below standard headers */}
             <nav className="fixed top-20 left-0 w-full z-40 p-6 flex justify-between items-center pointer-events-none mix-blend-difference">
-                <Link href="/projects" className="pointer-events-auto flex items-center gap-2 text-white/70 hover:text-white transition-colors uppercase font-mono text-sm tracking-widest group bg-black/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                <Link href="/projects" className="pointer-events-auto flex items-center gap-2 text-primary/70 hover:text-primary transition-colors uppercase font-mono text-sm tracking-widest group bg-secondary/20 backdrop-blur-md px-4 py-2 rounded-full border border-primary/10">
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     <span>Back to Projects</span>
                 </Link>
-                <div className="font-mono text-xs text-white/50 hidden md:block bg-black/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                <div className="font-mono text-xs text-primary/50 hidden md:block bg-secondary/20 backdrop-blur-md px-3 py-1 rounded-full border border-primary/10">
                     STORY MODE // {activeSection === -1 ? 'INTRO' : `${activeSection + 1}/4`}
                 </div>
             </nav>
@@ -83,33 +83,33 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
                             <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
                                 THE CATCH
                             </h1>
-                            <p className="text-xl md:text-2xl text-slate-300 leading-relaxed font-light drop-shadow-md">
+                            <p className="text-xl md:text-2xl text-muted leading-relaxed font-light drop-shadow-sm">
                                 Technology often forgets the hands that feed it. <br />
-                                This is the story of how we built for the <strong className="text-white font-medium">1%.</strong>
+                                This is the story of how we built for the <strong className="text-primary font-medium">1%.</strong>
                                 <span className="text-sm uppercase tracking-widest opacity-70 mt-4 block">The 1% who risk their lives at sea every day.</span>
                             </p>
-                            <div className="mt-4 text-xs text-slate-400 font-mono text-center border-t border-slate-700/50 pt-4">
-                                <span className="text-slate-500">Sources: </span>
+                            <div className="mt-4 text-xs text-muted font-mono text-center border-t border-glass pt-4">
+                                <span className="opacity-70">Sources: </span>
                                 FAO Fisheries Report 2023 • CMFRI Annual Census •
-                                <span className="text-indigo-400"> 400+ Field Interviews</span>
+                                <span className="text-indigo-500 dark:text-indigo-400"> 400+ Field Interviews</span>
                             </div>
-                            <div className="mt-8 animate-bounce text-center text-slate-500 text-sm font-mono uppercase tracking-widest">
+                            <div className="mt-8 animate-bounce text-center text-muted text-sm font-mono uppercase tracking-widest">
                                 Scroll to Dive In
                             </div>
                         </motion.div>
                     </header>
 
                     <ScrollSection index={0} setActive={setActiveSection}>
-                        <h2 className="text-4xl font-bold mb-6 text-red-500 drop-shadow-sm">The Fading Coastline</h2>
-                        <div className="bg-black/40 backdrop-blur-md p-6 rounded-xl border border-white/5 md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
-                            <p className="text-lg text-slate-200 mb-8 leading-relaxed">
+                        <h2 className="text-4xl font-bold mb-6 text-red-500 dark:text-red-400 drop-shadow-sm">The Fading Coastline</h2>
+                        <div className="bg-secondary/40 backdrop-blur-md p-6 rounded-xl border border-glass md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
+                            <p className="text-lg text-secondary-foreground mb-8 leading-relaxed">
                                 India's fishing communities are in crisis. With fuel prices rising and fish stocks migrating deeper due to climate change, the small-scale fisherman is being squeezed out.
                             </p>
                             <div className="pl-6 border-l-2 border-red-500/30 mb-8">
-                                <p className="italic text-slate-300">"My father was a fisherman. I am a fisherman. But I don't want my son to touch a net."</p>
-                                <span className="text-sm font-mono text-red-400 mt-2 block">— Fisherman in Nagapattinam</span>
+                                <p className="italic text-muted">"My father was a fisherman. I am a fisherman. But I don't want my son to touch a net."</p>
+                                <span className="text-sm font-mono text-red-500/80 mt-2 block">— Fisherman in Nagapattinam</span>
                             </div>
-                            <p className="text-lg text-slate-200 leading-relaxed">
+                            <p className="text-lg text-secondary-foreground leading-relaxed">
                                 It's not just about hard work anymore. It's a gamble. Every trip costs ₹5,000 in fuel. If they catch nothing, they slide deeper into debt.
                             </p>
                         </div>
@@ -117,14 +117,14 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
 
                     <ScrollSection index={1} setActive={setActiveSection}>
                         <h2 className="text-4xl font-bold mb-6 text-amber-500 drop-shadow-sm">1,000 km of Truth</h2>
-                        <div className="bg-black/40 backdrop-blur-md p-6 rounded-xl border border-white/5 md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
-                            <p className="text-lg text-slate-200 mb-8 leading-relaxed">
+                        <div className="bg-secondary/40 backdrop-blur-md p-6 rounded-xl border border-glass md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
+                            <p className="text-lg text-secondary-foreground mb-8 leading-relaxed">
                                 We didn't build from a glass office. We drove from Pulicut (North TN) to Kanyakumari (The Southern Tip).
                             </p>
-                            <p className="text-lg text-slate-200 mb-8 leading-relaxed">
+                            <p className="text-lg text-secondary-foreground mb-8 leading-relaxed">
                                 We slept in harbors, woke up at 3 AM for auctions, and sat on boats. We learned that trust is the only currency that matters.
                             </p>
-                            <ul className="space-y-4 font-mono text-sm text-amber-200/80">
+                            <ul className="space-y-4 font-mono text-sm text-amber-600 dark:text-amber-200/80">
                                 <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-500"></span> 30 Villages visited</li>
                                 <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-500"></span> 400+ Interviews</li>
                                 <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-amber-500"></span> 0 Assumptions left</li>
@@ -133,40 +133,40 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
                     </ScrollSection>
 
                     <ScrollSection index={2} setActive={setActiveSection}>
-                        <h2 className="text-4xl font-bold mb-6 text-teal-400 drop-shadow-sm">Fishgram Identity</h2>
-                        <div className="bg-black/40 backdrop-blur-md p-6 rounded-xl border border-white/5 md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
-                            <p className="text-lg text-slate-200 mb-8 leading-relaxed">
+                        <h2 className="text-4xl font-bold mb-6 text-teal-500 dark:text-teal-400 drop-shadow-sm">Fishgram Identity</h2>
+                        <div className="bg-secondary/40 backdrop-blur-md p-6 rounded-xl border border-glass md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
+                            <p className="text-lg text-secondary-foreground mb-8 leading-relaxed">
                                 They needed a tool that felt like theirs. Not a corporate logistic tool, but a community platform.
                             </p>
-                            <p className="text-lg text-slate-200 mb-8 leading-relaxed">
+                            <p className="text-lg text-secondary-foreground mb-8 leading-relaxed">
                                 We pivoted the brand from "Supply Chain Efficiency" to "Fisherman Empowerment". The new identity draws from the colors of their world:
-                                The <span className="text-teal-400">Deep Ocean Teal</span>, the <span className="text-orange-400">Safety Orange</span> of life jackets, and the <span className="text-slate-400">Silver</span> of a fresh catch.
+                                The <span className="text-teal-600 dark:text-teal-400">Deep Ocean Teal</span>, the <span className="text-orange-600 dark:text-orange-400">Safety Orange</span> of life jackets, and the <span className="text-slate-600 dark:text-slate-400">Silver</span> of a fresh catch.
                             </p>
                         </div>
                     </ScrollSection>
 
                     <ScrollSection index={3} setActive={setActiveSection}>
-                        <h2 className="text-4xl font-bold mb-6 text-indigo-400 drop-shadow-sm">The Solution</h2>
-                        <div className="bg-black/40 backdrop-blur-md p-6 rounded-xl border border-white/5 md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
-                            <p className="text-lg text-slate-200 mb-8 leading-relaxed">
+                        <h2 className="text-4xl font-bold mb-6 text-indigo-500 dark:text-indigo-400 drop-shadow-sm">The Solution</h2>
+                        <div className="bg-secondary/40 backdrop-blur-md p-6 rounded-xl border border-glass md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
+                            <p className="text-lg text-secondary-foreground mb-8 leading-relaxed">
                                 A SuperApp that handles everything: Weather forecasts, PFZ (Potential Fishing Zone) satellite data, and a marketplace to sell their catch before they even dock.
                             </p>
-                            <p className="text-lg text-slate-200 leading-relaxed">
+                            <p className="text-lg text-secondary-foreground leading-relaxed">
                                 By reducing uncertainty, we increased their average monthly income by 40%.
                             </p>
                         </div>
                     </ScrollSection>
 
                     {/* Footer / Outro */}
-                    <div className="h-screen w-full flex items-center justify-center snap-start snap-always bg-slate-950/80 md:bg-slate-950">
-                        <Link href="/projects" className="text-2xl font-bold text-white hover:text-indigo-400 transition-colors">
+                    <div className="h-screen w-full flex items-center justify-center snap-start snap-always bg-secondary/80 md:bg-secondary">
+                        <Link href="/projects" className="text-2xl font-bold text-primary hover:text-indigo-500 transition-colors">
                             Next Project →
                         </Link>
                     </div>
                 </div>
 
                 {/* RIGHT: Sticky Visuals (Desktop) */}
-                <div className="hidden md:flex w-1/2 h-screen sticky top-0 right-0 bg-slate-900 border-l border-slate-800 items-center justify-center overflow-hidden z-0">
+                <div className="hidden md:flex w-1/2 h-screen sticky top-0 right-0 bg-secondary border-l border-glass items-center justify-center overflow-hidden z-0 transition-colors duration-500">
                     <VisualContainer activeSection={activeSection} />
                 </div>
             </div>

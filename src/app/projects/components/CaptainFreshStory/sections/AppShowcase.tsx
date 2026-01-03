@@ -67,15 +67,15 @@ export default function AppShowcase() {
     const IconComponent = screen.icon;
 
     return (
-        <div className="w-full h-full bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 relative overflow-hidden flex flex-col">
+        <div className="w-full h-full bg-primary relative overflow-hidden flex flex-col transition-colors duration-500">
 
             {/* Header */}
             <div className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <Smartphone className="w-4 h-4 text-indigo-400" />
-                    <span className="text-sm font-bold text-white">The SuperApp</span>
+                    <Smartphone className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                    <span className="text-sm font-bold text-primary">The SuperApp</span>
                 </div>
-                <div className="text-xs text-slate-500 font-mono">
+                <div className="text-xs text-muted font-mono">
                     {activeScreen + 1} / {APP_SCREENS.length}
                 </div>
             </div>
@@ -86,13 +86,13 @@ export default function AppShowcase() {
                 {/* Navigation Arrows */}
                 <button
                     onClick={goPrev}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500 transition-all z-20"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-secondary border border-glass flex items-center justify-center text-muted hover:text-primary hover:border-indigo-500 transition-all z-20 shadow-md"
                 >
                     <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                     onClick={goNext}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500 transition-all z-20"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-secondary border border-glass flex items-center justify-center text-muted hover:text-primary hover:border-indigo-500 transition-all z-20 shadow-md"
                 >
                     <ChevronRight className="w-4 h-4" />
                 </button>
@@ -101,41 +101,52 @@ export default function AppShowcase() {
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeScreen}
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
-                        transition={{ duration: 0.4 }}
-                        className="w-full max-w-sm bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden shadow-2xl"
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative w-full max-w-4xl bg-secondary/80 backdrop-blur-md border border-glass rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl"
                     >
-                        {/* Image Container - reduced height */}
-                        <div className="relative w-full aspect-[3/4] bg-slate-900">
+                        {/* Image Container */}
+                        <div className="w-full md:w-1/2 aspect-square md:aspect-auto bg-black relative">
                             {screen.image && (
                                 <Image
                                     src={screen.image}
                                     alt={screen.title}
                                     fill
-                                    className="object-contain"
+                                    className="object-cover"
                                 />
                             )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent md:bg-gradient-to-r" />
                         </div>
 
                         {/* Info Section */}
-                        <div className="p-4 bg-gradient-to-t from-slate-900 to-transparent">
-                            <div className="flex items-center gap-2 mb-2">
+                        <div className="w-full md:w-1/2 p-6 flex flex-col justify-center">
+                            <div className="flex items-center gap-2 mb-4">
                                 <div
-                                    className="w-8 h-8 rounded-lg flex items-center justify-center"
+                                    className="w-10 h-10 rounded-lg flex items-center justify-center"
                                     style={{ backgroundColor: `${screen.color}20` }}
                                 >
-                                    <IconComponent className="w-4 h-4" style={{ color: screen.color }} />
+                                    <IconComponent className="w-5 h-5" style={{ color: screen.color }} />
                                 </div>
-                                <div>
-                                    <h3 className="text-base font-bold text-white">{screen.title}</h3>
-                                    <p className="text-xs text-slate-500">{screen.subtitle}</p>
-                                </div>
+                                <div className="text-xs font-mono text-muted px-2 py-1 rounded bg-secondary/50 border border-glass">{screen.id.toUpperCase()}</div>
                             </div>
-                            <p className="text-xs text-slate-400 leading-relaxed">
+
+                            <h3 className="text-2xl font-bold text-primary mb-1">{screen.title}</h3>
+                            <p className="text-sm font-mono text-indigo-500 dark:text-indigo-400 mb-4">{screen.subtitle}</p>
+
+                            <p className="text-sm text-secondary-foreground leading-relaxed mb-6">
                                 {screen.description}
                             </p>
+
+                            <ul className="space-y-2 mt-auto">
+                                {screen.features.map((feature, i) => (
+                                    <li key={i} className="flex items-center gap-2 text-xs text-muted font-mono">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </motion.div>
                 </AnimatePresence>
@@ -155,6 +166,6 @@ export default function AppShowcase() {
                     />
                 ))}
             </div>
-        </div>
+        </div >
     );
 }

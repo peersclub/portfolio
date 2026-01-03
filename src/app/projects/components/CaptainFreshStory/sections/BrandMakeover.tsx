@@ -20,12 +20,12 @@ export default function BrandMakeover() {
 
     return (
         <div className="w-full h-full bg-primary relative overflow-hidden flex flex-col items-center justify-center p-8">
-            <h3 className="absolute top-8 left-8 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase flex items-center gap-2">
+            <h3 className="absolute top-8 left-8 text-xs font-mono font-bold tracking-widest text-muted uppercase flex items-center gap-2">
                 <Palette className="w-4 h-4" /> Identity System
             </h3>
 
             {/* Main Stage */}
-            <div className="relative w-full max-w-md aspect-square bg-slate-900/50 rounded-3xl border border-slate-800 flex items-center justify-center p-12 overflow-hidden shadow-2xl">
+            <div className="relative w-full max-w-md aspect-square bg-secondary/50 rounded-3xl border border-glass flex items-center justify-center p-12 overflow-hidden shadow-2xl backdrop-blur-sm transition-all duration-500">
 
                 <AnimatePresence mode="wait">
                     {/* OLD IDENTITY */}
