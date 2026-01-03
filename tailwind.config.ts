@@ -10,41 +10,37 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                background: "var(--bg-primary)", // Mapping default background
+                background: "var(--bg-primary)",
+
+                // Background colors - use as bg-primary, bg-secondary, bg-tertiary
                 primary: "var(--bg-primary)",
                 secondary: "var(--bg-secondary)",
                 tertiary: "var(--bg-tertiary)",
 
-                text: {
-                    primary: "var(--text-primary)",
-                    secondary: "var(--text-secondary)",
-                    muted: "var(--text-muted)",
-                },
+                // Text colors - use as text-foreground, text-muted, text-secondary-foreground
+                foreground: "var(--text-primary)",
+                "secondary-foreground": "var(--text-secondary)",
+                muted: "var(--text-muted)",
 
+                // Accent colors
                 accent: {
                     DEFAULT: "var(--accent)",
                     dim: "var(--accent-dim)",
                     light: "var(--accent-light)",
                 },
 
-                semantic: {
-                    success: "var(--color-success)",
-                    warning: "var(--color-warning)",
-                    error: "var(--color-error)",
-                    info: "var(--color-info)",
-                },
+                // Semantic colors
+                success: "var(--color-success)",
+                warning: "var(--color-warning)",
+                error: "var(--color-error)",
+                info: "var(--color-info)",
 
-                // Extended
-                cyan: {
-                    DEFAULT: "var(--color-cyan)",
-                },
-                magenta: {
-                    DEFAULT: "var(--color-magenta)",
-                },
+                // Extended palette
+                cyan: "var(--color-cyan)",
+                magenta: "var(--color-magenta)",
 
-                glass: {
-                    border: "var(--glass-border)",
-                },
+                // Glass effect
+                glass: "var(--glass-border)",
             },
             fontFamily: {
                 sans: ["var(--font-body)", "sans-serif"],

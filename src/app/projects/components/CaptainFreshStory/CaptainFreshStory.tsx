@@ -183,7 +183,7 @@ function HeroSection() {
                     transition={{ duration: 0.8, delay: 0.6 }}
                     className="text-xl md:text-2xl text-secondary-foreground leading-relaxed max-w-2xl mx-auto mb-4"
                 >
-                    Technology often forgets the hands that feed it. This is the story of how we built for the <strong className="text-primary font-semibold">1%</strong>.
+                    Technology often forgets the hands that feed it. This is the story of how we built for the <strong className="text-foreground font-semibold">1%</strong>.
                 </motion.p>
 
                 <motion.p
@@ -210,7 +210,7 @@ function HeroSection() {
             </motion.div>
 
             {/* Back Link */}
-            <Link href="/projects" className="absolute top-6 left-6 z-30 flex items-center gap-2 text-muted hover:text-primary transition-colors font-mono text-sm group">
+            <Link href="/projects" className="absolute top-6 left-6 z-30 flex items-center gap-2 text-muted hover:text-foreground transition-colors font-mono text-sm group">
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 <span>Back</span>
             </Link>
@@ -232,7 +232,7 @@ function ContextSection() {
                     className="text-center mb-12"
                 >
                     <span className="text-xs font-mono text-accent uppercase tracking-widest mb-2 block">India's Fishing Industry</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">The Scale of the Ocean</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">The Scale of the Ocean</h2>
                     <p className="text-secondary-foreground">World's 3rd largest fish producer</p>
                 </motion.div>
 
@@ -248,7 +248,7 @@ function ContextSection() {
                             <div className="w-14 h-14 rounded-xl mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: `${stat.color}20` }}>
                                 <stat.icon className="w-7 h-7" style={{ color: stat.color }} />
                             </div>
-                            <div className="text-4xl font-black text-primary mb-1">
+                            <div className="text-4xl font-black text-foreground mb-1">
                                 <AnimatedCounter value={stat.value} duration={2 + index * 0.2} />
                             </div>
                             <div className="text-sm font-medium text-muted">{stat.label}</div>
@@ -287,7 +287,7 @@ function ProblemSection() {
                     className="text-center mb-12"
                 >
                     <span className="text-xs font-mono text-red-500 uppercase tracking-widest mb-2 block">The Crisis</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">A Widening Gap</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">A Widening Gap</h2>
                     <p className="text-secondary-foreground">Operating costs rising, income falling</p>
                 </motion.div>
 
@@ -348,7 +348,7 @@ function ProblemSection() {
                                             style={{ backgroundColor: item.color }}
                                         />
                                     </div>
-                                    <div className="w-10 text-sm font-bold text-primary">{item.value}%</div>
+                                    <div className="w-10 text-sm font-bold text-foreground">{item.value}%</div>
                                 </div>
                             ))}
                         </div>
@@ -383,7 +383,7 @@ function JourneySection() {
                     className="text-center mb-12"
                 >
                     <span className="text-xs font-mono text-amber-500 uppercase tracking-widest mb-2 block">1,000 km of Truth</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">Voices from the Coast</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Voices from the Coast</h2>
                     <p className="text-secondary-foreground">Direct quotes from 400+ field interviews</p>
                 </motion.div>
 
@@ -406,7 +406,7 @@ function JourneySection() {
                             transition={{ duration: 0.4 }}
                             className="text-center py-8"
                         >
-                            <blockquote className="text-xl md:text-2xl text-primary font-medium leading-relaxed mb-6">
+                            <blockquote className="text-xl md:text-2xl text-foreground font-medium leading-relaxed mb-6">
                                 "{JOURNEY_QUOTES[activeIndex].quote}"
                             </blockquote>
                             <div className="flex items-center justify-center gap-2 text-sm">
@@ -432,13 +432,13 @@ function JourneySection() {
                     {/* Nav Arrows */}
                     <button
                         onClick={() => setActiveIndex((prev) => (prev - 1 + JOURNEY_QUOTES.length) % JOURNEY_QUOTES.length)}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-secondary/80 border border-glass flex items-center justify-center text-muted hover:text-primary transition-all"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-secondary/80 border border-glass flex items-center justify-center text-muted hover:text-foreground transition-all"
                     >
                         <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                         onClick={() => setActiveIndex((prev) => (prev + 1) % JOURNEY_QUOTES.length)}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-secondary/80 border border-glass flex items-center justify-center text-muted hover:text-primary transition-all"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-secondary/80 border border-glass flex items-center justify-center text-muted hover:text-foreground transition-all"
                     >
                         <ChevronRight className="w-5 h-5" />
                     </button>
@@ -462,7 +462,7 @@ function InterviewsSection() {
                     className="text-center mb-12"
                 >
                     <span className="text-xs font-mono text-purple-500 uppercase tracking-widest mb-2 block">Real Users, Real Stories</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">User Interviews</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">User Interviews</h2>
                     <p className="text-secondary-foreground">Conversations that shaped our product</p>
                 </motion.div>
 
@@ -497,7 +497,7 @@ function InterviewsSection() {
                                     "{interview.quote}"
                                 </p>
                                 <div className="border-t border-glass pt-4">
-                                    <div className="font-semibold text-primary">{interview.name}</div>
+                                    <div className="font-semibold text-foreground">{interview.name}</div>
                                     <div className="text-xs text-muted font-mono">{interview.role}</div>
                                 </div>
                             </div>
@@ -523,7 +523,7 @@ function GallerySection() {
                     className="text-center mb-12"
                 >
                     <span className="text-xs font-mono text-cyan-500 uppercase tracking-widest mb-2 block">On the Ground</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">Field Gallery</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Field Gallery</h2>
                     <p className="text-secondary-foreground">30 villages, 400+ interviews, 1 mission</p>
                 </motion.div>
 
@@ -574,7 +574,7 @@ function SolutionSection() {
                     className="text-center mb-12"
                 >
                     <span className="text-xs font-mono text-teal-500 uppercase tracking-widest mb-2 block">The Solution</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">A SuperApp for the Sea</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">A SuperApp for the Sea</h2>
                     <p className="text-secondary-foreground">One platform for weather, borders, markets, and community</p>
                 </motion.div>
 
@@ -623,7 +623,7 @@ function SolutionSection() {
                                         <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
                                     </div>
                                     <div>
-                                        <h3 className="text-base font-bold text-primary mb-0.5">{feature.title}</h3>
+                                        <h3 className="text-base font-bold text-foreground mb-0.5">{feature.title}</h3>
                                         <p className="text-xs font-mono text-accent mb-1">{feature.subtitle}</p>
                                         <p className="text-xs text-muted leading-relaxed">{feature.description}</p>
                                     </div>
@@ -651,7 +651,7 @@ function ImpactSection() {
                     className="text-center mb-12"
                 >
                     <span className="text-xs font-mono text-accent uppercase tracking-widest mb-2 block">The Impact</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">Results That Matter</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Results That Matter</h2>
                     <p className="text-secondary-foreground">By reducing uncertainty, we increased stability</p>
                 </motion.div>
 
@@ -681,7 +681,7 @@ function ImpactSection() {
                 >
                     <Link
                         href="/projects"
-                        className="inline-flex items-center gap-2 bg-accent text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent/90 transition-all group"
+                        className="inline-flex items-center gap-2 bg-accent text-foreground px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent/90 transition-all group"
                     >
                         <span>Explore More Projects</span>
                         <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform rotate-[-90deg]" />
@@ -698,7 +698,7 @@ function ImpactSection() {
 
 export default function CaptainFreshStory() {
     return (
-        <main className="bg-primary text-primary selection:bg-accent/30">
+        <main className="bg-primary text-foreground selection:bg-accent/30">
             <HeroSection />
             <ContextSection />
             <ProblemSection />
