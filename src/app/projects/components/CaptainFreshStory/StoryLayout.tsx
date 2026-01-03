@@ -46,7 +46,7 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
     }, [introInView]);
 
     return (
-        <div className="min-h-screen w-full bg-primary text-primary font-sans selection:bg-indigo-500/30transition-colors duration-500">
+        <div className="min-h-screen w-full bg-primary text-primary font-sans selection:bg-accent/30 transition-colors duration-500">
 
             {/* Mobile Visual Layer (Fixed Background) - Visible only on mobile/tablet */}
             <div className="md:hidden fixed inset-0 z-0">
@@ -57,8 +57,9 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
 
             {/* Sticky Nav - Repositioned to avoid Global Header overlap */}
             {/* Using top-20 (80px) to sit comfortably below standard headers */}
-            <nav className="fixed top-20 left-0 w-full z-40 p-6 flex justify-between items-center pointer-events-none mix-blend-difference">
-                <Link href="/projects" className="pointer-events-auto flex items-center gap-2 text-primary/70 hover:text-primary transition-colors uppercase font-mono text-sm tracking-widest group bg-secondary/20 backdrop-blur-md px-4 py-2 rounded-full border border-primary/10">
+            {/* Standardizing to match global nav aesthetics - simpler, less "custom" looking */}
+            <nav className="fixed top-24 left-0 w-full z-40 px-6 pointer-events-none mix-blend-difference flex justify-between">
+                <Link href="/projects" className="pointer-events-auto flex items-center gap-2 text-primary hover:text-accent transition-colors uppercase font-mono text-sm tracking-widest group bg-secondary/80 backdrop-blur-md px-4 py-2 rounded-full border border-glass">
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     <span>Back to Projects</span>
                 </Link>

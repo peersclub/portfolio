@@ -56,7 +56,7 @@ export default function JourneyMap() {
         <div className="w-full h-full bg-primary relative overflow-hidden">
 
             {/* TOP: Progress Timeline */}
-            <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-slate-900 via-slate-900/90 to-transparent pt-4 pb-8 px-6">
+            <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-primary via-primary/90 to-transparent pt-4 pb-8 px-6">
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                         <Navigation className="w-4 h-4 text-amber-500" />
@@ -106,8 +106,8 @@ export default function JourneyMap() {
                                 <Geography
                                     key={geo.rsmKey}
                                     geography={geo}
-                                    fill={isTN ? "var(--color-info)" : "var(--bg-secondary)"}
-                                    stroke={isTN ? "var(--color-info)" : "var(--glass-border)"}
+                                    fill={isTN ? "var(--bg-tertiary)" : "var(--bg-secondary)"}
+                                    stroke={isTN ? "var(--glass-border)" : "var(--glass-border)"}
                                     strokeWidth={isTN ? 1 : 0.3}
                                     style={{
                                         default: { outline: "none" },
@@ -153,13 +153,13 @@ export default function JourneyMap() {
             {/* SIDE NAVIGATION ARROWS */}
             <button
                 onClick={goPrev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-slate-900/80 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-amber-500 transition-all"
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-secondary/80 border border-glass flex items-center justify-center text-muted hover:text-primary hover:border-accent transition-all"
             >
                 <ChevronLeft className="w-5 h-5" />
             </button>
             <button
                 onClick={goNext}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-slate-900/80 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-amber-500 transition-all"
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-secondary/80 border border-glass flex items-center justify-center text-muted hover:text-primary hover:border-accent transition-all"
             >
                 <ChevronRight className="w-5 h-5" />
             </button>
