@@ -359,6 +359,384 @@ function ProblemSection() {
     );
 }
 
+// =============================================================================
+// BEFORE/AFTER COMPARISON
+// =============================================================================
+
+const DAILY_COMPARISON = [
+    { time: '3:00 AM', before: 'Wake up, check sky for weather clues', after: 'Check app forecast: "Safe to sail"', icon: Cloud },
+    { time: '5:00 AM', before: 'Set out hoping for the best', after: 'Navigate to satellite-detected fish zones', icon: MapPin },
+    { time: '8:00 AM', before: 'No idea if near international border', after: 'Real-time alert: "12km from border - Safe"', icon: Shield },
+    { time: '2:00 PM', before: 'Sell to first middleman at their price', after: 'Check market prices, negotiate 40% higher', icon: TrendingDown },
+    { time: '6:00 PM', before: 'Return home, guess tomorrow\'s income', after: 'Log catch in app, track monthly earnings', icon: Fish },
+];
+
+function BeforeAfterSection() {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.2 });
+    const [sliderPos, setSliderPos] = useState(50);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+        setSliderPos((x / rect.width) * 100);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = Math.max(0, Math.min(e.touches[0].clientX - rect.left, rect.width));
+        setSliderPos((x / rect.width) * 100);
+    };
+
+    return (
+        <SectionWrapper className="bg-secondary">
+            <div ref={ref} className="max-w-5xl w-full">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-12"
+                >
+                    <span className="text-xs font-mono text-accent uppercase tracking-widest mb-2 block">A Day in the Life</span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Before vs After</h2>
+                    <p className="text-secondary-foreground">Drag to compare a fisherman's daily routine</p>
+                </motion.div>
+
+                <motion.div
+                    ref={containerRef}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="relative rounded-2xl overflow-hidden cursor-ew-resize select-none"
+                    onMouseMove={handleMouseMove}
+                    onTouchMove={handleTouchMove}
+                >
+                    {/* Background grid */}
+                    <div className="grid gap-3">
+                        {DAILY_COMPARISON.map((item, index) => (
+                            <div key={index} className="relative h-24 md:h-20 rounded-xl overflow-hidden">
+                                {/* BEFORE - Left side (red tint) */}
+                                <div
+                                    className="absolute inset-0 bg-gradient-to-r from-error/20 to-error/10 flex items-center px-4 md:px-6"
+                                    style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
+                                >
+                                    <div className="flex items-center gap-3 md:gap-4 w-full">
+                                        <div className="w-10 h-10 rounded-lg bg-error/20 flex items-center justify-center shrink-0">
+                                            <item.icon className="w-5 h-5 text-error" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="text-xs font-mono text-error mb-1">{item.time}</div>
+                                            <div className="text-sm text-foreground font-medium truncate">{item.before}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* AFTER - Right side (green tint) */}
+                                <div
+                                    className="absolute inset-0 bg-gradient-to-r from-success/10 to-success/20 flex items-center px-4 md:px-6"
+                                    style={{ clipPath: `inset(0 0 0 ${sliderPos}%)` }}
+                                >
+                                    <div className="flex items-center gap-3 md:gap-4 w-full">
+                                        <div className="w-10 h-10 rounded-lg bg-success/20 flex items-center justify-center shrink-0">
+                                            <item.icon className="w-5 h-5 text-success" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="text-xs font-mono text-success mb-1">{item.time}</div>
+                                            <div className="text-sm text-foreground font-medium truncate">{item.after}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Slider line */}
+                    <div
+                        className="absolute inset-y-0 w-1 bg-accent z-10 pointer-events-none"
+                        style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
+                    >
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-accent rounded-full flex items-center justify-center shadow-lg">
+                            <ChevronLeft className="w-4 h-4 text-primary -mr-1" />
+                            <ChevronRight className="w-4 h-4 text-primary -ml-1" />
+                        </div>
+                    </div>
+
+                    {/* Labels */}
+                    <div className="absolute top-2 left-4 text-xs font-mono text-error uppercase tracking-wider">Before</div>
+                    <div className="absolute top-2 right-4 text-xs font-mono text-success uppercase tracking-wider">After</div>
+                </motion.div>
+            </div>
+        </SectionWrapper>
+    );
+}
+
+// =============================================================================
+// LIVE ACTIVITY VISUALIZATION
+// =============================================================================
+
+function LiveActivitySection() {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.3 });
+    const [pings, setPings] = useState<Array<{ id: number; x: number; y: number; type: 'fish' | 'weather' | 'border' }>>([]);
+
+    useEffect(() => {
+        if (!isInView) return;
+
+        const addPing = () => {
+            const types: Array<'fish' | 'weather' | 'border'> = ['fish', 'fish', 'fish', 'weather', 'border'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            const newPing = {
+                id: Date.now(),
+                x: 20 + Math.random() * 60,
+                y: 20 + Math.random() * 60,
+                type,
+            };
+            setPings(prev => [...prev.slice(-12), newPing]);
+        };
+
+        const interval = setInterval(addPing, 800);
+        addPing(); // Initial ping
+        return () => clearInterval(interval);
+    }, [isInView]);
+
+    const getPingColor = (type: string) => {
+        switch (type) {
+            case 'fish': return 'bg-info';
+            case 'weather': return 'bg-warning';
+            case 'border': return 'bg-error';
+            default: return 'bg-accent';
+        }
+    };
+
+    return (
+        <SectionWrapper>
+            <div ref={ref} className="max-w-4xl w-full">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-8"
+                >
+                    <span className="text-xs font-mono text-cyan-500 uppercase tracking-widest mb-2 block">Live Feed</span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Real-Time Activity</h2>
+                    <p className="text-secondary-foreground">Watch the ocean come alive with data</p>
+                </motion.div>
+
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="relative aspect-[16/10] bg-gradient-to-b from-info/5 to-info/20 rounded-2xl overflow-hidden border border-glass"
+                >
+                    {/* Ocean waves animation */}
+                    <div className="absolute inset-0 opacity-30">
+                        {[...Array(5)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                className="absolute h-px bg-info/50 w-full"
+                                style={{ top: `${20 + i * 15}%` }}
+                                animate={{ x: ['-100%', '100%'] }}
+                                transition={{ duration: 8 + i * 2, repeat: Infinity, ease: 'linear' }}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Coastline indicator */}
+                    <div className="absolute left-0 inset-y-0 w-16 bg-gradient-to-r from-secondary to-transparent" />
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-mono text-muted rotate-[-90deg] origin-center whitespace-nowrap">
+                        Tamil Nadu Coast
+                    </div>
+
+                    {/* Border line */}
+                    <div className="absolute right-12 inset-y-4 w-px border-r-2 border-dashed border-error/50" />
+                    <div className="absolute right-4 top-4 text-xs font-mono text-error">Border</div>
+
+                    {/* Pings */}
+                    <AnimatePresence>
+                        {pings.map((ping) => (
+                            <motion.div
+                                key={ping.id}
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 2, opacity: 0 }}
+                                transition={{ duration: 0.5 }}
+                                className={`absolute w-3 h-3 rounded-full ${getPingColor(ping.type)}`}
+                                style={{ left: `${ping.x}%`, top: `${ping.y}%` }}
+                            >
+                                <motion.div
+                                    className={`absolute inset-0 rounded-full ${getPingColor(ping.type)}`}
+                                    animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                />
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+
+                    {/* Legend */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-6 bg-primary/80 backdrop-blur-sm px-4 py-2 rounded-full">
+                        <div className="flex items-center gap-2 text-xs">
+                            <div className="w-2 h-2 rounded-full bg-info" />
+                            <span className="text-muted">Fish Catch</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs">
+                            <div className="w-2 h-2 rounded-full bg-warning" />
+                            <span className="text-muted">Weather</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs">
+                            <div className="w-2 h-2 rounded-full bg-error" />
+                            <span className="text-muted">Border Alert</span>
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+        </SectionWrapper>
+    );
+}
+
+// =============================================================================
+// INTERACTIVE BORDER DEMO
+// =============================================================================
+
+function BorderDemoSection() {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.3 });
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [boatPos, setBoatPos] = useState({ x: 30, y: 50 });
+    const [isDragging, setIsDragging] = useState(false);
+    const [alertTriggered, setAlertTriggered] = useState(false);
+
+    const borderX = 80; // Border line position (percentage)
+    const distanceFromBorder = Math.max(0, borderX - boatPos.x);
+
+    const getStatus = () => {
+        if (distanceFromBorder > 30) return { label: 'Safe Zone', color: 'text-success', bg: 'bg-success' };
+        if (distanceFromBorder > 15) return { label: 'Caution', color: 'text-warning', bg: 'bg-warning' };
+        if (distanceFromBorder > 0) return { label: 'Danger!', color: 'text-error', bg: 'bg-error' };
+        return { label: 'ALERT!', color: 'text-error', bg: 'bg-error' };
+    };
+
+    const status = getStatus();
+
+    const handleMove = (clientX: number, clientY: number) => {
+        if (!containerRef.current || !isDragging) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = Math.max(5, Math.min(((clientX - rect.left) / rect.width) * 100, 95));
+        const y = Math.max(10, Math.min(((clientY - rect.top) / rect.height) * 100, 90));
+        setBoatPos({ x, y });
+
+        if (x >= borderX && !alertTriggered) {
+            setAlertTriggered(true);
+            setTimeout(() => setAlertTriggered(false), 2000);
+        }
+    };
+
+    return (
+        <SectionWrapper className="bg-secondary">
+            <div ref={ref} className="max-w-4xl w-full">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-8"
+                >
+                    <span className="text-xs font-mono text-error uppercase tracking-widest mb-2 block">Try It</span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Border Alert Demo</h2>
+                    <p className="text-secondary-foreground">Drag the boat toward the border to trigger the alert</p>
+                </motion.div>
+
+                <motion.div
+                    ref={containerRef}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="relative aspect-[16/9] bg-gradient-to-r from-info/10 via-info/20 to-error/20 rounded-2xl overflow-hidden border border-glass cursor-crosshair"
+                    onMouseMove={(e) => handleMove(e.clientX, e.clientY)}
+                    onTouchMove={(e) => handleMove(e.touches[0].clientX, e.touches[0].clientY)}
+                    onMouseUp={() => setIsDragging(false)}
+                    onMouseLeave={() => setIsDragging(false)}
+                    onTouchEnd={() => setIsDragging(false)}
+                >
+                    {/* India label */}
+                    <div className="absolute left-4 top-4 text-sm font-mono text-info">🇮🇳 India</div>
+
+                    {/* Sri Lanka label */}
+                    <div className="absolute right-4 top-4 text-sm font-mono text-muted">Sri Lanka 🇱🇰</div>
+
+                    {/* Border line */}
+                    <motion.div
+                        className="absolute inset-y-0 w-1"
+                        style={{ left: `${borderX}%` }}
+                        animate={alertTriggered ? { backgroundColor: ['#EF4444', '#FFFFFF', '#EF4444'] } : {}}
+                        transition={{ duration: 0.3, repeat: alertTriggered ? 3 : 0 }}
+                    >
+                        <div className="h-full w-full bg-error" />
+                        <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-error px-2 py-0.5 rounded text-xs font-mono text-white whitespace-nowrap">
+                            Maritime Border
+                        </div>
+                    </motion.div>
+
+                    {/* Distance zones */}
+                    <div className="absolute inset-y-0 bg-warning/10" style={{ left: `${borderX - 30}%`, width: '15%' }} />
+                    <div className="absolute inset-y-0 bg-error/10" style={{ left: `${borderX - 15}%`, width: '15%' }} />
+
+                    {/* Boat */}
+                    <motion.div
+                        className={`absolute w-12 h-12 cursor-grab active:cursor-grabbing ${isDragging ? 'scale-110' : ''} transition-transform`}
+                        style={{ left: `${boatPos.x}%`, top: `${boatPos.y}%`, transform: 'translate(-50%, -50%)' }}
+                        onMouseDown={() => setIsDragging(true)}
+                        onTouchStart={() => setIsDragging(true)}
+                        animate={alertTriggered ? { x: [-5, 5, -5, 5, 0], rotate: [-5, 5, -5, 5, 0] } : {}}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <div className="text-4xl">🚤</div>
+                    </motion.div>
+
+                    {/* Status indicator */}
+                    <motion.div
+                        className={`absolute bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full flex items-center gap-3 ${status.bg}/20 border border-glass backdrop-blur-sm`}
+                        animate={alertTriggered ? { scale: [1, 1.1, 1] } : {}}
+                        transition={{ duration: 0.3, repeat: alertTriggered ? 3 : 0 }}
+                    >
+                        <motion.div
+                            className={`w-3 h-3 rounded-full ${status.bg}`}
+                            animate={{ scale: [1, 1.3, 1] }}
+                            transition={{ duration: 1, repeat: Infinity }}
+                        />
+                        <span className={`font-mono text-sm ${status.color}`}>
+                            {distanceFromBorder > 0 ? `${Math.round(distanceFromBorder * 0.5)}km from border` : 'BORDER CROSSED!'}
+                        </span>
+                        <span className={`font-bold ${status.color}`}>{status.label}</span>
+                    </motion.div>
+
+                    {/* Alert overlay */}
+                    <AnimatePresence>
+                        {alertTriggered && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-error/30 flex items-center justify-center"
+                            >
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: [1, 1.2, 1] }}
+                                    transition={{ duration: 0.5, repeat: 2 }}
+                                    className="bg-error text-white px-8 py-4 rounded-xl font-bold text-2xl shadow-2xl"
+                                >
+                                    ⚠️ BORDER ALERT ⚠️
+                                </motion.div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
+            </div>
+        </SectionWrapper>
+    );
+}
+
 function JourneySection() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
@@ -702,6 +1080,9 @@ export default function CaptainFreshStory() {
             <HeroSection />
             <ContextSection />
             <ProblemSection />
+            <BeforeAfterSection />
+            <LiveActivitySection />
+            <BorderDemoSection />
             <JourneySection />
             <InterviewsSection />
             <SolutionSection />
