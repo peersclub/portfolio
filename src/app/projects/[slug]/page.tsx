@@ -9,6 +9,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects, getProjectBySlug } from '@/data/projects';
 import CaptainFreshLayout from '../components/CaptainFreshLayout';
+import AssetWorksLayout from '../components/AssetWorksAI/AssetWorksLayout';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -83,6 +84,10 @@ export default function ProjectCaseStudy() {
 
     if (slug === 'captain-fresh') {
         return <CaptainFreshLayout project={project} />;
+    }
+
+    if (slug === 'assetworks-ai') {
+        return <AssetWorksLayout project={project} />;
     }
 
     return (
