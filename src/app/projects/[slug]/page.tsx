@@ -81,7 +81,7 @@ export default function ProjectCaseStudy() {
         notFound();
     }
 
-    if (slug === 'captain-fresh' || slug === 'captain-fresh-2') {
+    if (slug === 'captain-fresh') {
         return <CaptainFreshLayout project={project} />;
     }
 
