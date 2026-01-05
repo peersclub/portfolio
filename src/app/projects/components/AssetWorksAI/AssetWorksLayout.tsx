@@ -19,7 +19,7 @@ export default function AssetWorksLayout({ project }: AssetWorksLayoutProps) {
     }, []);
 
     return (
-        <div className="assetworks-page bg-[#0a0a0f] h-screen overflow-y-scroll snap-y snap-mandatory text-slate-300 font-sans selection:bg-[#E8C547]/30">
+        <div className="assetworks-page bg-[#0a0a0f] h-[100dvh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory text-slate-300 font-sans selection:bg-[#E8C547]/30">
             {/* Navigation Overlay */}
             <nav className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
                 <Link

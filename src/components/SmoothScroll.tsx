@@ -7,9 +7,9 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     // Cast to any to avoid React 19 vs 18 type mismatch from peer dependency
     const Lenis = ReactLenis as any;
     const pathname = usePathname();
-    const isNeuralOcean = pathname === '/projects/captain-fresh';
+    const isCustomScroll = pathname === '/projects/captain-fresh' || pathname === '/projects/assetworks-ai';
 
-    if (isNeuralOcean) {
+    if (isCustomScroll) {
         return <>{children}</>;
     }
 
