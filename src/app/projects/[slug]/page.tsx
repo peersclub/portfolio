@@ -10,6 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects, getProjectBySlug } from '@/data/projects';
 import CaptainFreshLayout from '../components/CaptainFreshLayout';
 import AssetWorksLayout from '../components/AssetWorksAI/AssetWorksLayout';
+import CoinDCXLayout from '../components/CoinDCX/CoinDCXLayout';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -88,6 +89,10 @@ export default function ProjectCaseStudy() {
 
     if (slug === 'assetworks-ai') {
         return <AssetWorksLayout project={project} />;
+    }
+
+    if (slug === 'coindcx') {
+        return <CoinDCXLayout project={project} />;
     }
 
     return (
