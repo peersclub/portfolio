@@ -11,6 +11,9 @@ import { projects, getProjectBySlug } from '@/data/projects';
 import CaptainFreshLayout from '../components/CaptainFreshLayout';
 import AssetWorksLayout from '../components/AssetWorksAI/AssetWorksLayout';
 import CoinDCXLayout from '../components/CoinDCX/CoinDCXLayout';
+import CoxLayout from '../components/CoxAndKings/CoxLayout';
+import BabychakraLayout from '../components/Babychakra/BabychakraLayout';
+import KleverLayout from '../components/KleverKid/KleverLayout';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -93,6 +96,18 @@ export default function ProjectCaseStudy() {
 
     if (slug === 'coindcx') {
         return <CoinDCXLayout project={project} />;
+    }
+
+    if (slug === 'cox-and-kings') {
+        return <CoxLayout project={project} />;
+    }
+
+    if (slug === 'babychakra') {
+        return <BabychakraLayout project={project} />;
+    }
+
+    if (slug === 'kleverkid') {
+        return <KleverLayout project={project} />;
     }
 
     return (
