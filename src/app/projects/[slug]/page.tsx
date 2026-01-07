@@ -9,6 +9,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects, getProjectBySlug } from '@/data/projects';
 import CaptainFreshLayout from '../components/CaptainFreshLayout';
+import CaptainFreshStory from '../components/CaptainFreshStory/CaptainFreshStory';
 import AssetWorksLayout from '../components/AssetWorksAI/AssetWorksLayout';
 import CoinDCXLayout from '../components/CoinDCX/CoinDCXLayout';
 import CoxLayout from '../components/CoxAndKings/CoxLayout';
@@ -87,6 +88,10 @@ export default function ProjectCaseStudy() {
     }
 
     if (slug === 'captain-fresh') {
+        return <CaptainFreshStory />;
+    }
+
+    if (slug === 'captain-fresh-old') {
         return <CaptainFreshLayout project={project} />;
     }
 

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Camera } from 'lucide-react';
 
 export interface ProjectImage {
@@ -176,9 +177,15 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
 
               <div className="lightbox-links">
                 {project.link && (
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                    View Live
-                  </a>
+                  project.link.startsWith('/') ? (
+                    <Link href={project.link} className="btn btn-primary">
+                      View Case Study
+                    </Link>
+                  ) : (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                      View Live
+                    </a>
+                  )
                 )}
                 {project.github && (
                   <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">

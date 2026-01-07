@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Project {
   number: string;
@@ -9,6 +10,7 @@ interface Project {
   description: string;
   year: string;
   tags: string[];
+  slug: string;
 }
 
 const projects: Project[] = [
@@ -18,7 +20,9 @@ const projects: Project[] = [
     category: 'AI & Fintech',
     description: 'AI-powered financial analytics platform. Natural language queries create sophisticated investment widgets.',
     year: '2025',
+    year: '2025',
     tags: ['Claude AI', 'Rust', 'Flutter'],
+    slug: 'assetworks-ai',
   },
   {
     number: '02',
@@ -26,7 +30,9 @@ const projects: Project[] = [
     category: 'Crypto Exchange',
     description: 'India\'s largest crypto exchange. Led products: DCXInsta, DCXTrade, DCXMargin, DCXFutures.',
     year: '2019-2021',
+    year: '2019-2021',
     tags: ['Product Strategy', 'Mobile', 'Web'],
+    slug: 'coindcx',
   },
   {
     number: '03',
@@ -34,7 +40,9 @@ const projects: Project[] = [
     category: 'Supply Chain',
     description: 'First-in-industry products for century-old seafood industry. Built product and team from scratch.',
     year: '2021-2024',
+    year: '2021-2024',
     tags: ['B2B', 'Operations', 'Mobile'],
+    slug: 'captain-fresh',
   },
   {
     number: '04',
@@ -42,7 +50,9 @@ const projects: Project[] = [
     category: 'Travel Tech',
     description: 'Building first personalized experience in travel tech as SVP Product and Tech.',
     year: '2024',
+    year: '2024',
     tags: ['Personalization', 'Strategy'],
+    slug: 'cox-and-kings',
   },
   {
     number: '05',
@@ -50,7 +60,9 @@ const projects: Project[] = [
     category: 'Consumer',
     description: '42% retention increase. Built product marketplace. Complete web platform overhaul.',
     year: '2017-2018',
+    year: '2017-2018',
     tags: ['Growth', 'Marketplace', 'UX'],
+    slug: 'babychakra',
   },
   {
     number: '06',
@@ -58,7 +70,9 @@ const projects: Project[] = [
     category: 'EdTech',
     description: 'Managed product requirements and development for afterschool activities marketplace. Android/iOS apps.',
     year: '2015-2016',
+    year: '2015-2016',
     tags: ['EdTech', 'Marketplace', 'Product Mgmt'],
+    slug: 'kleverkid',
   },
 ];
 
@@ -142,22 +156,24 @@ export default function HorizontalProjects() {
               ref={(el) => { cardsRef.current[index] = el; }}
               className={`project-card ${activeIndex === index ? 'active' : ''}`}
             >
-              <div className="card-header">
-                <span className="project-number">{project.number}</span>
-                <span className="project-year">{project.year}</span>
-              </div>
+              <Link href={`/projects/${project.slug}`} className="project-link">
+                <div className="card-header">
+                  <span className="project-number">{project.number}</span>
+                  <span className="project-year">{project.year}</span>
+                </div>
 
-              <div className="card-body">
-                <span className="project-category">{project.category}</span>
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-              </div>
+                <div className="card-body">
+                  <span className="project-category">{project.category}</span>
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-description">{project.description}</p>
+                </div>
 
-              <div className="card-footer">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="tag">{tag}</span>
-                ))}
-              </div>
+                <div className="card-footer">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="tag">{tag}</span>
+                  ))}
+                </div>
+              </Link>
             </div>
           ))}
           <div className="scroll-padding" />
@@ -342,6 +358,15 @@ export default function HorizontalProjects() {
           .projects-track {
             padding-left: var(--space-md);
           }
+        }
+        
+        .project-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: none; /* For EnhancedCursor */
         }
       `}</style>
     </section>

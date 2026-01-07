@@ -60,6 +60,21 @@ export const projects: Project[] = [
         color: '#FF6B6B',
     },
     {
+        slug: 'captain-fresh-old',
+        year: '2021-2024',
+        company: 'CaptainFresh',
+        title: 'CaptainFresh (Legacy)',
+        tagline: 'Neural Ocean - Tech Vision',
+        description: 'The futuristic tech vision for revolutionizing seafood supply chain with sensor networks and automated logistics.',
+        metrics: [
+            { label: 'Impact', value: 'Industry First' },
+            { label: 'Scale', value: 'Global' },
+        ],
+        role: 'Product Lead',
+        tech: ['B2B', 'Operations', 'Mobile', 'Supply Chain'],
+        color: '#00D4FF',
+    },
+    {
         slug: 'cox-and-kings',
         year: '2024',
         company: 'Cox & Kings',

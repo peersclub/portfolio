@@ -16,7 +16,7 @@ const sampleProjects: Project[] = [
       { src: '', alt: 'Assetworks AI Dashboard' },
       { src: '', alt: 'Natural Language Query Interface' },
     ],
-    link: '#',
+    link: '/projects/assetworks-ai',
     featured: true,
   },
   {
@@ -29,7 +29,7 @@ const sampleProjects: Project[] = [
     images: [
       { src: '', alt: 'CoinDCX Trading Platform' },
     ],
-    link: 'https://coindcx.com',
+    link: '/projects/coindcx',
   },
   {
     id: '3',
@@ -41,6 +41,7 @@ const sampleProjects: Project[] = [
     images: [
       { src: '', alt: 'CaptainFresh Platform' },
     ],
+    link: '/projects/captain-fresh',
   },
   {
     id: '4',
@@ -51,6 +52,7 @@ const sampleProjects: Project[] = [
     images: [
       { src: '', alt: 'Cox & Kings Experience' },
     ],
+    link: '/projects/cox-and-kings',
   },
   {
     id: '5',
@@ -62,6 +64,7 @@ const sampleProjects: Project[] = [
     images: [
       { src: '', alt: 'Babychakra App' },
     ],
+    link: '/projects/babychakra',
   },
   {
     id: '6',
@@ -73,7 +76,7 @@ const sampleProjects: Project[] = [
     images: [
       { src: '', alt: 'KleverKid Platform' },
     ],
-    link: '#',
+    link: '/projects/kleverkid',
   },
 ];
 

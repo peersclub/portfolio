@@ -30,7 +30,7 @@ export default function CoxLayout({ project }: CoxLayoutProps) {
 
             {/* Hero Section */}
             <section className="h-screen w-full snap-start relative">
-                <TravelHero />
+                <TravelHero project={project} />
             </section>
 
             {/* Smart Itinerary */}

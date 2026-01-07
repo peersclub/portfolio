@@ -6,9 +6,10 @@ import * as random from 'maath/random/dist/maath-random.esm';
 import { motion } from 'framer-motion';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { Project } from '@/data/projects';
 import { Plane, MapPin } from 'lucide-react';
 
-export default function TravelHero() {
+export default function TravelHero({ project }: { project?: Project }) {
     return (
         <section className="h-screen w-full relative bg-[#1e1b4b] overflow-hidden">
             <div className="absolute inset-0 z-0">
@@ -45,8 +46,7 @@ export default function TravelHero() {
                     </h1>
 
                     <p className="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-                        Reinventing the world's oldest travel brand with <br />
-                        <strong className="text-white">AI-Powered Personalization</strong> and <strong className="text-white">Seamless Tech</strong>.
+                        {project?.tagline || "Reinventing the world's oldest travel brand with AI-Powered Personalization and Seamless Tech."}
                     </p>
                 </motion.div>
 
