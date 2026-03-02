@@ -192,7 +192,7 @@ export default function Hero() {
           inset: 0;
           pointer-events: none;
           opacity: 0.25;
-          background-image: 
+          background-image:
             linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
             linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
           background-size: calc(100% / 12) 80px;
@@ -206,7 +206,7 @@ export default function Hero() {
           background: radial-gradient(
             ellipse 80% 50% at 50% 40%,
             transparent 0%,
-            rgba(232, 197, 71, 0.03) 50%,
+            var(--accent-subtle) 50%,
             transparent 100%
           );
           z-index: 2;

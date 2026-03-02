@@ -85,7 +85,7 @@
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.5), transparent);
+    background: linear-gradient(90deg, transparent, var(--accent-subtle), transparent);
     opacity: 0.5;
 }
 
@@ -346,7 +346,7 @@
     display: inline-block;
     width: 6px;
     height: 10px;
-    background: #00F0FF;
+    background: var(--accent-solid);
     margin-left: 4px;
 }
 
@@ -377,7 +377,7 @@
     .axisGlow {
         width: 1px;
         height: 100%;
-        background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.5), transparent);
+        background: linear-gradient(to bottom, transparent, var(--accent-subtle), transparent);
     }
 
     .itemsContainer {

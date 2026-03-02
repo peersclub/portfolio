@@ -75,7 +75,7 @@
 }
 
 .flagCard.success {
-    border-color: rgba(16, 185, 129, 0.3);
+    border-color: var(--severity-success-border);
 }
 
 .flagCard.success::before {
@@ -85,12 +85,12 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #10B981, transparent);
+    background: linear-gradient(90deg, transparent, var(--severity-success), transparent);
     opacity: 0.5;
 }
 
 .flagCard.danger {
-    border-color: rgba(239, 68, 68, 0.3);
+    border-color: var(--severity-critical-border);
 }
 
 .flagCard.danger::before {
@@ -100,7 +100,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #EF4444, transparent);
+    background: linear-gradient(90deg, transparent, var(--severity-critical), transparent);
     opacity: 0.5;
 }
 
@@ -123,13 +123,13 @@
 }
 
 .success .flagIcon {
-    color: #10B981;
-    background: rgba(16, 185, 129, 0.1);
+    color: var(--severity-success);
+    background: var(--severity-success-bg);
 }
 
 .danger .flagIcon {
-    color: #EF4444;
-    background: rgba(239, 68, 68, 0.1);
+    color: var(--severity-critical);
+    background: var(--severity-critical-bg);
 }
 
 .flagTitle {
@@ -141,11 +141,11 @@
 }
 
 .success .flagTitle {
-    color: #10B981;
+    color: var(--severity-success);
 }
 
 .danger .flagTitle {
-    color: #EF4444;
+    color: var(--severity-critical);
 }
 
 .flagContent {
@@ -170,11 +170,11 @@
 }
 
 .success .checkIcon {
-    color: #10B981;
+    color: var(--severity-success);
 }
 
 .danger .crossIcon {
-    color: #EF4444;
+    color: var(--severity-critical);
 }
 
 .itemText {
@@ -189,8 +189,8 @@
     align-items: center;
     gap: 1rem;
     padding: 0.75rem 1.5rem;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    background: var(--severity-success-bg);
+    border: 1px solid var(--severity-success-border);
     border-radius: 99px;
     width: fit-content;
     margin-bottom: 2rem;
@@ -199,7 +199,7 @@
 .blink {
     width: 8px;
     height: 8px;
-    background: #10B981;
+    background: var(--severity-success);
     border-radius: 50%;
     animation: blink 2s infinite;
 }
@@ -218,7 +218,7 @@
 
 .statusText {
     font-family: var(--font-mono);
-    color: #10B981;
+    color: var(--severity-success);
     font-size: 0.85rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;

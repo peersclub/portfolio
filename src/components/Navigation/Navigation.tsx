@@ -218,12 +218,12 @@ export default function Navigation() {
           border-radius: 12px;
           transition: all 0.3s var(--ease-out-expo);
           z-index: 200;
-          box-shadow: 0 2px 8px rgba(232, 197, 71, 0.2);
+          box-shadow: 0 2px 8px var(--accent-subtle);
         }
 
         .nav-logo:hover {
           transform: scale(1.08) rotate(5deg);
-          box-shadow: 0 4px 20px rgba(232, 197, 71, 0.4);
+          box-shadow: 0 4px 20px var(--accent-border);
         }
 
         .logo-icon {
@@ -235,10 +235,10 @@ export default function Navigation() {
           display: flex;
           gap: 4px;
           position: relative;
-          background: rgba(255, 255, 255, 0.03);
+          background: var(--surface-primary);
           padding: 4px;
           border-radius: 100px;
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          border: 1px solid var(--line-subtle);
         }
 
         .nav-link {
@@ -255,19 +255,19 @@ export default function Navigation() {
 
         .nav-link:hover {
           color: var(--text-primary);
-          background: rgba(255, 255, 255, 0.08);
+          background: var(--line-subtle);
         }
-        
+
         .nav-link.active {
           color: var(--accent);
-          background: rgba(232, 197, 71, 0.1);
+          background: var(--accent-subtle);
         }
 
         /* Framer Motion Backgrounds */
         .navigation :global(.hover-bg) {
           position: absolute;
           inset: 0;
-          background: rgba(255, 255, 255, 0.08);
+          background: var(--line-subtle);
           border-radius: 100px;
           z-index: -1;
         }
@@ -289,16 +289,16 @@ export default function Navigation() {
           flex-direction: column;
           gap: 5px;
           padding: 10px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--surface-primary);
+          border: 1px solid var(--line-subtle);
           border-radius: 10px;
           cursor: pointer;
           z-index: 200;
           transition: all 0.2s ease;
         }
-        
+
         .mobile-toggle:hover {
-          background: rgba(255, 255, 255, 0.1);
+          background: var(--line-subtle);
         }
 
         .mobile-toggle span {
@@ -328,10 +328,10 @@ export default function Navigation() {
             bottom: 0;
             width: 85%;
             max-width: 360px;
-            background: rgba(15, 15, 18, 0.95);
+            background: var(--surface-overlay);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 1px solid var(--line-subtle);
             z-index: 150;
             display: flex;
             flex-direction: column;
