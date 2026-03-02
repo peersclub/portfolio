@@ -1,0 +1,319 @@
+/* =====================================================
+   Portfolio Design Tokens
+   Structured CSS variable hierarchy adapted from Clarity AI
+
+   CANONICAL REFERENCE — these tokens are inlined directly
+   into src/app/globals.css (no @import at runtime).
+   When editing token values, update BOTH files.
+   ===================================================== */
+
+/* Default theme: Midnight (also applied via :root for zero-config defaults) */
+:root {
+  /* Surfaces */
+  --surface-root: #0a0a0a;
+  --surface-primary: #111111;
+  --surface-elevated: #1a1a1a;
+  --surface-overlay: #1f1f1f;
+  --surface-spotlight: #242424;
+  --surface-intense: #2a2a2a;
+
+  /* Content */
+  --content-primary: #ffffff;
+  --content-secondary: rgba(255, 255, 255, 0.7);
+  --content-tertiary: rgba(255, 255, 255, 0.5);
+  --content-muted: rgba(255, 255, 255, 0.4);
+  --content-inverse: #0a0a0a;
+
+  /* Lines */
+  --line-subtle: rgba(255, 255, 255, 0.08);
+  --line-default: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.24);
+
+  /* Accent */
+  --accent-solid: #667eea;
+  --accent-hover: #7b91ef;
+  --accent-subtle: rgba(102, 126, 234, 0.2);
+  --accent-text: #667eea;
+  --accent-border: rgba(102, 126, 234, 0.3);
+  --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+
+  /* Severity (fixed across all themes) */
+  --severity-critical: #ef4444;
+  --severity-critical-bg: rgba(239, 68, 68, 0.1);
+  --severity-critical-border: rgba(239, 68, 68, 0.3);
+  --severity-warning: #f59e0b;
+  --severity-warning-bg: rgba(245, 158, 11, 0.1);
+  --severity-warning-border: rgba(245, 158, 11, 0.3);
+  --severity-success: #10b981;
+  --severity-success-bg: rgba(16, 185, 129, 0.1);
+  --severity-success-border: rgba(16, 185, 129, 0.3);
+  --severity-info: #3b82f6;
+  --severity-info-bg: rgba(59, 130, 246, 0.1);
+  --severity-info-border: rgba(59, 130, 246, 0.3);
+}
+
+/* =====================================================
+   Midnight Theme (explicit selector, mirrors :root defaults)
+   ===================================================== */
+[data-theme="midnight"] {
+  --surface-root: #0a0a0a;
+  --surface-primary: #111111;
+  --surface-elevated: #1a1a1a;
+  --surface-overlay: #1f1f1f;
+  --surface-spotlight: #242424;
+  --surface-intense: #2a2a2a;
+
+  --content-primary: #ffffff;
+  --content-secondary: rgba(255, 255, 255, 0.7);
+  --content-tertiary: rgba(255, 255, 255, 0.5);
+  --content-muted: rgba(255, 255, 255, 0.4);
+  --content-inverse: #0a0a0a;
+
+  --line-subtle: rgba(255, 255, 255, 0.08);
+  --line-default: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.24);
+
+  --accent-solid: #667eea;
+  --accent-hover: #7b91ef;
+  --accent-subtle: rgba(102, 126, 234, 0.2);
+  --accent-text: #667eea;
+  --accent-border: rgba(102, 126, 234, 0.3);
+  --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+/* =====================================================
+   Ocean Theme
+   ===================================================== */
+[data-theme="ocean"] {
+  --surface-root: #0c1929;
+  --surface-primary: #132337;
+  --surface-elevated: #1a3048;
+  --surface-overlay: #1e3554;
+  --surface-spotlight: #223a5e;
+  --surface-intense: #284268;
+
+  --content-primary: #ffffff;
+  --content-secondary: rgba(255, 255, 255, 0.7);
+  --content-tertiary: rgba(255, 255, 255, 0.5);
+  --content-muted: rgba(255, 255, 255, 0.4);
+  --content-inverse: #0c1929;
+
+  --line-subtle: rgba(0, 212, 255, 0.15);
+  --line-default: rgba(0, 212, 255, 0.2);
+  --line-strong: rgba(0, 212, 255, 0.4);
+
+  --accent-solid: #00d4ff;
+  --accent-hover: #33ddff;
+  --accent-subtle: rgba(0, 212, 255, 0.2);
+  --accent-text: #00d4ff;
+  --accent-border: rgba(0, 212, 255, 0.3);
+  --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 50%, #006699 100%);
+}
+
+/* =====================================================
+   Sunset Theme
+   ===================================================== */
+[data-theme="sunset"] {
+  --surface-root: #1a1016;
+  --surface-primary: #261820;
+  --surface-elevated: #33202b;
+  --surface-overlay: #3a2532;
+  --surface-spotlight: #412a39;
+  --surface-intense: #4a2f40;
+
+  --content-primary: #ffffff;
+  --content-secondary: rgba(255, 255, 255, 0.7);
+  --content-tertiary: rgba(255, 255, 255, 0.5);
+  --content-muted: rgba(255, 255, 255, 0.4);
+  --content-inverse: #1a1016;
+
+  --line-subtle: rgba(255, 119, 89, 0.15);
+  --line-default: rgba(255, 119, 89, 0.2);
+  --line-strong: rgba(255, 119, 89, 0.4);
+
+  --accent-solid: #ff7759;
+  --accent-hover: #ff8f75;
+  --accent-subtle: rgba(255, 119, 89, 0.2);
+  --accent-text: #ff7759;
+  --accent-border: rgba(255, 119, 89, 0.3);
+  --accent-gradient: linear-gradient(135deg, #ff7759 0%, #ff5f6d 50%, #ffc371 100%);
+}
+
+/* =====================================================
+   Forest Theme
+   ===================================================== */
+[data-theme="forest"] {
+  --surface-root: #0a1a0f;
+  --surface-primary: #0f261a;
+  --surface-elevated: #143324;
+  --surface-overlay: #183b2a;
+  --surface-spotlight: #1c4230;
+  --surface-intense: #204a36;
+
+  --content-primary: #ffffff;
+  --content-secondary: rgba(255, 255, 255, 0.7);
+  --content-tertiary: rgba(255, 255, 255, 0.5);
+  --content-muted: rgba(255, 255, 255, 0.4);
+  --content-inverse: #0a1a0f;
+
+  --line-subtle: rgba(46, 213, 115, 0.15);
+  --line-default: rgba(46, 213, 115, 0.2);
+  --line-strong: rgba(46, 213, 115, 0.4);
+
+  --accent-solid: #2ed573;
+  --accent-hover: #52de8a;
+  --accent-subtle: rgba(46, 213, 115, 0.2);
+  --accent-text: #2ed573;
+  --accent-border: rgba(46, 213, 115, 0.3);
+  --accent-gradient: linear-gradient(135deg, #2ed573 0%, #26de81 50%, #20bf6b 100%);
+}
+
+/* =====================================================
+   Lavender Theme
+   ===================================================== */
+[data-theme="lavender"] {
+  --surface-root: #15121a;
+  --surface-primary: #1e1926;
+  --surface-elevated: #272033;
+  --surface-overlay: #2d263c;
+  --surface-spotlight: #332c45;
+  --surface-intense: #39324e;
+
+  --content-primary: #ffffff;
+  --content-secondary: rgba(255, 255, 255, 0.7);
+  --content-tertiary: rgba(255, 255, 255, 0.5);
+  --content-muted: rgba(255, 255, 255, 0.4);
+  --content-inverse: #15121a;
+
+  --line-subtle: rgba(167, 139, 250, 0.15);
+  --line-default: rgba(167, 139, 250, 0.2);
+  --line-strong: rgba(167, 139, 250, 0.4);
+
+  --accent-solid: #a78bfa;
+  --accent-hover: #b89efb;
+  --accent-subtle: rgba(167, 139, 250, 0.2);
+  --accent-text: #a78bfa;
+  --accent-border: rgba(167, 139, 250, 0.3);
+  --accent-gradient: linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #e879f9 100%);
+}
+
+/* =====================================================
+   Ember Theme
+   ===================================================== */
+[data-theme="ember"] {
+  --surface-root: #1a0f0a;
+  --surface-primary: #261510;
+  --surface-elevated: #331b16;
+  --surface-overlay: #3c201b;
+  --surface-spotlight: #452520;
+  --surface-intense: #4e2a25;
+
+  --content-primary: #ffffff;
+  --content-secondary: rgba(255, 255, 255, 0.7);
+  --content-tertiary: rgba(255, 255, 255, 0.5);
+  --content-muted: rgba(255, 255, 255, 0.4);
+  --content-inverse: #1a0f0a;
+
+  --line-subtle: rgba(251, 146, 60, 0.15);
+  --line-default: rgba(251, 146, 60, 0.2);
+  --line-strong: rgba(251, 146, 60, 0.4);
+
+  --accent-solid: #fb923c;
+  --accent-hover: #fca55e;
+  --accent-subtle: rgba(251, 146, 60, 0.2);
+  --accent-text: #fb923c;
+  --accent-border: rgba(251, 146, 60, 0.3);
+  --accent-gradient: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
+}
+
+/* =====================================================
+   Monochrome Theme
+   ===================================================== */
+[data-theme="monochrome"] {
+  --surface-root: #0f0f0f;
+  --surface-primary: #171717;
+  --surface-elevated: #1f1f1f;
+  --surface-overlay: #262626;
+  --surface-spotlight: #2d2d2d;
+  --surface-intense: #333333;
+
+  --content-primary: #ffffff;
+  --content-secondary: rgba(255, 255, 255, 0.7);
+  --content-tertiary: rgba(255, 255, 255, 0.5);
+  --content-muted: rgba(255, 255, 255, 0.4);
+  --content-inverse: #0f0f0f;
+
+  --line-subtle: rgba(255, 255, 255, 0.08);
+  --line-default: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.24);
+
+  --accent-solid: #ffffff;
+  --accent-hover: rgba(255, 255, 255, 0.9);
+  --accent-subtle: rgba(255, 255, 255, 0.1);
+  --accent-text: #ffffff;
+  --accent-border: rgba(255, 255, 255, 0.3);
+  --accent-gradient: linear-gradient(135deg, #e5e5e5 0%, #a3a3a3 50%, #737373 100%);
+}
+
+/* =====================================================
+   Light Theme
+   ===================================================== */
+[data-theme="light"] {
+  --surface-root: #fafafa;
+  --surface-primary: #f5f5f5;
+  --surface-elevated: #e5e5e5;
+  --surface-overlay: #ffffff;
+  --surface-spotlight: #f0f0f0;
+  --surface-intense: #e8e8e8;
+
+  --content-primary: #171717;
+  --content-secondary: rgba(0, 0, 0, 0.6);
+  --content-tertiary: rgba(0, 0, 0, 0.45);
+  --content-muted: rgba(0, 0, 0, 0.4);
+  --content-inverse: #fafafa;
+
+  --line-subtle: rgba(0, 0, 0, 0.06);
+  --line-default: rgba(0, 0, 0, 0.1);
+  --line-strong: rgba(0, 0, 0, 0.2);
+
+  --accent-solid: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-subtle: rgba(99, 102, 241, 0.1);
+  --accent-text: #6366f1;
+  --accent-border: rgba(99, 102, 241, 0.3);
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+
+  /* Severity adjusted for light mode */
+  --severity-critical: #dc2626;
+  --severity-warning: #d97706;
+  --severity-success: #059669;
+  --severity-info: #2563eb;
+}
+
+/* =====================================================
+   Backwards-compatibility aliases
+   These ensure all existing code using the old variable
+   names continues to work without any changes.
+   ===================================================== */
+:root,
+[data-theme="midnight"],
+[data-theme="ocean"],
+[data-theme="sunset"],
+[data-theme="forest"],
+[data-theme="lavender"],
+[data-theme="ember"],
+[data-theme="monochrome"],
+[data-theme="light"] {
+  --bg-primary: var(--surface-root);
+  --bg-secondary: var(--surface-primary);
+  --bg-tertiary: var(--surface-elevated);
+  --bg-glass: var(--surface-overlay);
+  --text-primary: var(--content-primary);
+  --text-secondary: var(--content-secondary);
+  --text-muted: var(--content-muted);
+  --accent: var(--accent-solid);
+  --accent-dim: var(--accent-border);
+  --accent-light: var(--accent-subtle);
+  --glass-border: var(--line-subtle);
+  --card-bg: var(--surface-elevated);
+}
