@@ -1,288 +1,96 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-import { Sun, Moon } from 'lucide-react';
-
-const THEME_OPTIONS = [
-  {
-    id: 'light',
-    name: 'Light',
-    icon: Sun,
-    colors: {
-      bgPrimary: '#F2F2F4',
-      accent: '#CFA62E',
-      accentGradient: 'linear-gradient(135deg, #CFA62E 0%, #B89222 50%, #A37F1B 100%)'
-    }
-  },
-  {
-    id: 'dark',
-    name: 'Dark',
-    icon: Moon,
-    colors: {
-      bgPrimary: '#0A0A0B',
-      accent: '#E8C547',
-      accentGradient: 'linear-gradient(135deg, #E8C547 0%, #D4A745 50%, #C19A3E 100%)'
-    }
-  }
-];
+import { THEME_PRESETS } from '@/lib/theme/presets';
 
 export default function ThemePicker() {
   const { theme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch
-  useState(() => {
+  useEffect(() => {
     setMounted(true);
-  });
+  }, []);
 
   if (!mounted) return null;
-
-  const currentTheme = THEME_OPTIONS.find(t => t.id === theme) || THEME_OPTIONS[1];
 
   return (
     <>
       <button
-        className="theme-trigger"
+        className="fixed bottom-8 right-8 flex items-center gap-2 px-4 py-2 bg-[var(--bg-glass)] backdrop-blur-xl border border-[var(--glass-border)] rounded-full cursor-pointer z-[200] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-[var(--shadow-glow)]"
         onClick={() => setIsOpen(true)}
         aria-label="Choose theme"
       >
-        <currentTheme.icon className="theme-icon" size={18} />
-        <span className="theme-label">Theme</span>
+        <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+        <span className="text-sm font-medium text-[var(--text-secondary)]">Theme</span>
       </button>
 
       {isOpen && (
-        <div className="theme-modal-overlay" onClick={() => setIsOpen(false)}>
-          <div className="theme-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Choose a Theme</h3>
-              <button className="close-btn" onClick={() => setIsOpen(false)}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-[300] animate-[fadeIn_0.2s_ease-out] p-8"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="bg-[var(--bg-secondary)] border border-[var(--glass-border)] rounded-2xl p-6 max-w-md w-full animate-[slideUp_0.3s_var(--ease-out-expo)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-[var(--text-primary)]">Choose a Theme</h3>
+              <button
+                className="flex items-center justify-center w-8 h-8 bg-[var(--bg-glass)] border border-[var(--glass-border)] rounded-full text-[var(--text-secondary)] cursor-pointer transition-all hover:bg-[var(--accent-light)] hover:border-[var(--accent)] hover:text-[var(--text-primary)]"
+                onClick={() => setIsOpen(false)}
+                aria-label="Close"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <div className="theme-grid">
-              {THEME_OPTIONS.map((t) => (
+            <div className="grid grid-cols-4 gap-3">
+              {THEME_PRESETS.map((preset) => (
                 <button
-                  key={t.id}
-                  className={`theme-option ${currentTheme.id === t.id ? 'active' : ''}`}
+                  key={preset.id}
                   onClick={() => {
-                    setTheme(t.id);
+                    setTheme(preset.id);
                     setIsOpen(false);
                   }}
+                  className={`relative flex flex-col gap-2 p-3 rounded-lg border transition-all ${
+                    theme === preset.id
+                      ? 'border-[var(--accent)] bg-[var(--bg-tertiary)]'
+                      : 'border-[var(--glass-border)] bg-transparent hover:border-[var(--accent)] hover:bg-[var(--bg-tertiary)]'
+                  }`}
+                  title={preset.description}
                 >
+                  {/* Theme preview swatch - inline styles for actual theme colors */}
                   <div
-                    className="theme-preview"
-                    style={{
-                      background: t.colors.bgPrimary,
-                      borderColor: currentTheme.id === t.id ? t.colors.accent : 'transparent',
-                    }}
+                    className="w-full h-10 rounded-md flex items-center gap-2 px-3"
+                    style={{ backgroundColor: preset.bgColor }}
                   >
                     <div
-                      className="preview-accent"
-                      style={{ background: t.colors.accentGradient }}
+                      className="w-4 h-4 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: preset.accentColor }}
                     />
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="h-1 w-full rounded-full opacity-40" style={{ backgroundColor: preset.accentColor }} />
+                      <div className="h-1 w-2/3 rounded-full opacity-20" style={{ backgroundColor: preset.accentColor }} />
+                    </div>
                   </div>
-                  <span className="theme-name">
-                    <t.icon size={14} /> {t.name}
-                  </span>
-                  {currentTheme.id === t.id && (
-                    <span className="active-badge">Active</span>
-                  )}
+
+                  {/* Theme name */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-[var(--text-primary)]">{preset.name}</span>
+                    {theme === preset.id && (
+                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
+                    )}
+                  </div>
                 </button>
               ))}
             </div>
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .theme-trigger {
-          position: fixed;
-          bottom: var(--space-xl);
-          right: var(--space-xl);
-          display: flex;
-          align-items: center;
-          gap: var(--space-sm);
-          padding: var(--space-sm) var(--space-md);
-          background: var(--bg-glass);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid var(--glass-border);
-          border-radius: var(--radius-full);
-          cursor: pointer;
-          z-index: var(--z-fixed);
-          transition: all 0.3s var(--ease-out-expo);
-        }
-
-        .theme-trigger:hover {
-          transform: translateY(-2px);
-          border-color: var(--accent);
-          box-shadow: var(--shadow-glow);
-        }
-
-        .theme-icon {
-          color: var(--accent);
-        }
-
-        .theme-label {
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: var(--text-secondary);
-        }
-
-        .theme-modal-overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.8);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: var(--z-modal);
-          animation: fadeIn 0.2s ease-out;
-          padding: var(--space-xl);
-        }
-
-        .theme-modal {
-          background: var(--bg-secondary);
-          border: 1px solid var(--glass-border);
-          border-radius: var(--radius-xl);
-          padding: var(--space-xl);
-          max-width: 500px;
-          width: 100%;
-          animation: slideUp 0.3s var(--ease-out-expo);
-        }
-
-        .modal-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: var(--space-xl);
-        }
-
-        .modal-header h3 {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: var(--text-primary);
-        }
-
-        .close-btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 32px;
-          height: 32px;
-          background: var(--bg-glass);
-          border: 1px solid var(--glass-border);
-          border-radius: var(--radius-full);
-          color: var(--text-secondary);
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .close-btn:hover {
-          background: var(--accent-light);
-          border-color: var(--accent);
-          color: var(--text-primary);
-        }
-
-        .theme-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: var(--space-md);
-        }
-
-        .theme-option {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: var(--space-sm);
-          padding: var(--space-md);
-          background: var(--bg-glass);
-          border: 1px solid var(--glass-border);
-          border-radius: var(--radius-lg);
-          cursor: pointer;
-          transition: all 0.2s var(--ease-out-expo);
-        }
-
-        .theme-option:hover {
-          background: var(--bg-tertiary);
-          transform: translateY(-2px);
-        }
-
-        .theme-option.active {
-          border-color: var(--accent);
-          background: var(--accent-light);
-        }
-
-        .theme-preview {
-          width: 60px;
-          height: 40px;
-          border-radius: var(--radius-md);
-          border: 2px solid transparent;
-          overflow: hidden;
-          display: flex;
-          align-items: flex-end;
-          padding: var(--space-xs);
-        }
-
-        .preview-accent {
-          width: 100%;
-          height: 8px;
-          border-radius: var(--radius-sm);
-        }
-
-        .theme-name {
-          display: flex;
-          align-items: center;
-          gap: var(--space-xs);
-          font-size: 0.8125rem;
-          font-weight: 500;
-          color: var(--text-primary);
-        }
-
-        .active-badge {
-          font-size: 0.6875rem;
-          padding: 2px 8px;
-          background: var(--accent);
-          border-radius: var(--radius-full);
-          color: white;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 640px) {
-          .theme-trigger {
-            bottom: var(--space-md);
-            right: var(--space-md);
-          }
-
-          .theme-label {
-            display: none;
-          }
-
-          .theme-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </>
   );
 }
