@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Camera } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 export interface ProjectImage {
   src: string;
@@ -91,17 +93,17 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
 
               <div className="project-tags">
                 {project.tags.slice(0, 3).map((tag) => (
-                  <span key={tag} className="tag">{tag}</span>
+                  <Badge key={tag} variant="secondary">{tag}</Badge>
                 ))}
               </div>
 
               <div className="project-actions">
-                <button className="action-btn view-btn">
+                <Button variant="outline" size="sm">
                   View Gallery
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M2 8h12M10 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -153,7 +155,7 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
 
               <div className="lightbox-tags">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="tag">{tag}</span>
+                  <Badge key={tag} variant="secondary">{tag}</Badge>
                 ))}
               </div>
 
@@ -178,19 +180,23 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
               <div className="lightbox-links">
                 {project.link && (
                   project.link.startsWith('/') ? (
-                    <Link href={project.link} className="btn btn-primary">
-                      View Case Study
-                    </Link>
+                    <Button variant="primary" size="sm" asChild>
+                      <Link href={project.link}>View Case Study</Link>
+                    </Button>
                   ) : (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                      View Live
-                    </a>
+                    <Button variant="primary" size="sm" asChild>
+                      <a href={project.link} target="_blank" rel="noopener noreferrer">
+                        View Live
+                      </a>
+                    </Button>
                   )
                 )}
                 {project.github && (
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
-                    GitHub
-                  </a>
+                  <Button variant="ghost" size="sm" asChild>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                      GitHub
+                    </a>
+                  </Button>
                 )}
               </div>
             </div>
@@ -233,7 +239,7 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
           position: relative;
           width: 100%;
           padding-bottom: 75%;
-          background: var(--bg-tertiary);
+          background: var(--surface-elevated);
         }
 
         .size-large .project-image-container {
@@ -257,7 +263,7 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
           align-items: center;
           justify-content: center;
           gap: var(--space-sm);
-          color: var(--text-muted);
+          color: var(--content-muted);
           font-size: 0.875rem;
         }
 
@@ -309,7 +315,7 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
           font-size: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.15em;
-          color: var(--accent);
+          color: var(--accent-solid);
           margin-bottom: var(--space-xs);
           display: block;
         }
@@ -339,37 +345,9 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
           margin-bottom: var(--space-md);
         }
 
-        .tag {
-          padding: var(--space-xs) var(--space-sm);
-          background: rgba(255,255,255,0.1);
-          border-radius: var(--radius-full);
-          font-size: 0.75rem;
-          color: rgba(255,255,255,0.8);
-        }
-
         .project-actions {
           display: flex;
           gap: var(--space-sm);
-        }
-
-        .action-btn {
-          display: flex;
-          align-items: center;
-          gap: var(--space-xs);
-          padding: var(--space-sm) var(--space-md);
-          background: var(--accent);
-          border: none;
-          border-radius: var(--radius-full);
-          font-size: 0.8125rem;
-          font-weight: 500;
-          color: white;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .action-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
         }
 
         /* Lightbox Styles */
@@ -416,7 +394,7 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
           position: relative;
           border-radius: var(--radius-lg);
           overflow: hidden;
-          background: var(--bg-tertiary);
+          background: var(--surface-elevated);
           min-height: 400px;
         }
 
@@ -430,7 +408,7 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--text-muted);
+          color: var(--content-muted);
         }
 
         .lightbox-nav {
@@ -448,7 +426,7 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
         }
 
         .lightbox-nav:hover {
-          background: var(--accent);
+          background: var(--accent-solid);
         }
 
         .lightbox-nav.prev {
@@ -498,12 +476,12 @@ export default function ProjectCard({ project, size = 'medium', index }: Project
           border: 2px solid transparent;
           cursor: pointer;
           flex-shrink: 0;
-          background: var(--bg-tertiary);
+          background: var(--surface-elevated);
           padding: 0;
         }
 
         .thumbnail.active {
-          border-color: var(--accent);
+          border-color: var(--accent-solid);
         }
 
         .thumbnail :global(img) {

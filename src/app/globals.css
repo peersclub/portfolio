@@ -108,6 +108,11 @@
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   --duration-fast: 200ms;
   --duration-normal: 400ms;
+
+  /* Ambient effects */
+  --grid-line: var(--line-subtle);
+  --glow-color: var(--accent-subtle);
+  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
 /* =====================================================
@@ -137,6 +142,11 @@
   --accent-text: #667eea;
   --accent-border: rgba(102, 126, 234, 0.3);
   --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+
+  /* Ambient effects */
+  --grid-line: var(--line-subtle);
+  --glow-color: var(--accent-subtle);
+  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
 /* =====================================================
@@ -166,6 +176,11 @@
   --accent-text: #00d4ff;
   --accent-border: rgba(0, 212, 255, 0.3);
   --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 50%, #006699 100%);
+
+  /* Ambient effects */
+  --grid-line: var(--line-subtle);
+  --glow-color: var(--accent-subtle);
+  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
 /* =====================================================
@@ -195,6 +210,11 @@
   --accent-text: #ff7759;
   --accent-border: rgba(255, 119, 89, 0.3);
   --accent-gradient: linear-gradient(135deg, #ff7759 0%, #ff5f6d 50%, #ffc371 100%);
+
+  /* Ambient effects */
+  --grid-line: var(--line-subtle);
+  --glow-color: var(--accent-subtle);
+  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
 /* =====================================================
@@ -224,6 +244,11 @@
   --accent-text: #2ed573;
   --accent-border: rgba(46, 213, 115, 0.3);
   --accent-gradient: linear-gradient(135deg, #2ed573 0%, #26de81 50%, #20bf6b 100%);
+
+  /* Ambient effects */
+  --grid-line: var(--line-subtle);
+  --glow-color: var(--accent-subtle);
+  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
 /* =====================================================
@@ -253,6 +278,11 @@
   --accent-text: #a78bfa;
   --accent-border: rgba(167, 139, 250, 0.3);
   --accent-gradient: linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #e879f9 100%);
+
+  /* Ambient effects */
+  --grid-line: var(--line-subtle);
+  --glow-color: var(--accent-subtle);
+  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
 /* =====================================================
@@ -282,6 +312,11 @@
   --accent-text: #fb923c;
   --accent-border: rgba(251, 146, 60, 0.3);
   --accent-gradient: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
+
+  /* Ambient effects */
+  --grid-line: var(--line-subtle);
+  --glow-color: var(--accent-subtle);
+  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
 /* =====================================================
@@ -311,6 +346,11 @@
   --accent-text: #ffffff;
   --accent-border: rgba(255, 255, 255, 0.3);
   --accent-gradient: linear-gradient(135deg, #e5e5e5 0%, #a3a3a3 50%, #737373 100%);
+
+  /* Ambient effects */
+  --grid-line: var(--line-subtle);
+  --glow-color: var(--accent-subtle);
+  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
 /* =====================================================
@@ -359,6 +399,11 @@
   /* EXTENDED PALETTE (CYBER) - Adjusted for Light Mode contrast */
   --color-cyan: #0891B2;
   --color-magenta: #C026D3;
+
+  /* Ambient effects */
+  --grid-line: var(--line-default);
+  --glow-color: var(--accent-border);
+  --shadow-glow: 0 0 20px var(--accent-border), 0 0 40px var(--accent-subtle);
 }
 
 /* =====================================================

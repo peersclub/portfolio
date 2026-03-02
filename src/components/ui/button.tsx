@@ -9,7 +9,7 @@ const buttonVariants = cva(
   [
     "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md",
     "text-sm font-medium transition-all duration-200",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-primary)]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-solid)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-root)]",
     "disabled:pointer-events-none disabled:opacity-50",
     "select-none",
   ].join(" "),
@@ -17,24 +17,24 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: [
-          "bg-[var(--accent)] text-[var(--bg-primary)]",
+          "bg-[var(--accent-solid)] text-[var(--content-inverse)]",
           "hover:opacity-90 active:scale-[0.98]",
           "shadow-sm",
         ].join(" "),
         secondary: [
-          "bg-[var(--bg-tertiary)] text-[var(--text-primary)]",
-          "border border-[var(--glass-border)]",
-          "hover:border-[var(--accent)] hover:text-[var(--accent)]",
+          "bg-[var(--surface-elevated)] text-[var(--content-primary)]",
+          "border border-[var(--line-subtle)]",
+          "hover:border-[var(--accent-solid)] hover:text-[var(--accent-solid)]",
         ].join(" "),
         ghost: [
-          "text-[var(--text-secondary)]",
-          "hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]",
+          "text-[var(--content-secondary)]",
+          "hover:bg-[var(--surface-elevated)] hover:text-[var(--content-primary)]",
         ].join(" "),
         outline: [
-          "border border-[var(--glass-border)] bg-transparent text-[var(--text-primary)]",
-          "hover:border-[var(--accent)] hover:text-[var(--accent)]",
+          "border border-[var(--line-subtle)] bg-transparent text-[var(--content-primary)]",
+          "hover:border-[var(--accent-solid)] hover:text-[var(--accent-solid)]",
         ].join(" "),
-        link: "text-[var(--accent)] underline-offset-4 hover:underline p-0 h-auto",
+        link: "text-[var(--accent-solid)] underline-offset-4 hover:underline p-0 h-auto",
       },
       size: {
         default: "h-9 px-4 py-2",

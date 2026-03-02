@@ -3,24 +3,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2",
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent-solid)] focus:ring-offset-2",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-[var(--accent)] text-[var(--bg-primary)]",
+          "border-transparent bg-[var(--accent-solid)] text-[var(--content-inverse)]",
         secondary:
-          "border-[var(--glass-border)] bg-[var(--bg-tertiary)] text-[var(--text-secondary)]",
+          "border-[var(--line-subtle)] bg-[var(--surface-elevated)] text-[var(--content-secondary)]",
         outline:
-          "border-[var(--glass-border)] text-[var(--text-primary)]",
+          "border-[var(--line-subtle)] text-[var(--content-primary)]",
         success:
-          "border-[rgba(16,185,129,0.3)] bg-[rgba(16,185,129,0.12)] text-[#10b981]",
+          "border-[var(--severity-success-border)] bg-[var(--severity-success-bg)] text-[var(--severity-success)]",
         warning:
-          "border-[rgba(245,158,11,0.3)] bg-[rgba(245,158,11,0.12)] text-[#f59e0b]",
+          "border-[var(--severity-warning-border)] bg-[var(--severity-warning-bg)] text-[var(--severity-warning)]",
         destructive:
-          "border-[rgba(239,68,68,0.3)] bg-[rgba(239,68,68,0.12)] text-[#ef4444]",
+          "border-[var(--severity-critical-border)] bg-[var(--severity-critical-bg)] text-[var(--severity-critical)]",
         info:
-          "border-[rgba(59,130,246,0.3)] bg-[rgba(59,130,246,0.12)] text-[#3b82f6]",
+          "border-[var(--severity-info-border)] bg-[var(--severity-info-bg)] text-[var(--severity-info)]",
       },
     },
     defaultVariants: {
