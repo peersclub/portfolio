@@ -51,8 +51,8 @@ export default function LogoMarquee() {
         .marquee-wrapper {
           width: 100%;
           overflow: hidden;
-          border-top: 1px solid var(--glass-border);
-          border-bottom: 1px solid var(--glass-border);
+          border-top: 1px solid var(--line-subtle);
+          border-bottom: 1px solid var(--line-subtle);
           padding: var(--space-lg) 0;
           cursor: default;
         }
@@ -62,7 +62,7 @@ export default function LogoMarquee() {
           font-size: 0.625rem;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: var(--text-muted);
+          color: var(--content-muted);
           text-align: center;
           margin-bottom: var(--space-md);
         }
@@ -110,19 +110,19 @@ export default function LogoMarquee() {
           font-family: var(--font-heading);
           font-size: clamp(1.25rem, 3vw, 2rem);
           font-weight: 500;
-          color: var(--text-secondary);
+          color: var(--content-secondary);
           padding: 0 var(--space-xl);
           transition: all 0.3s ease;
           position: relative;
         }
 
         .company-name:hover {
-          color: var(--accent);
-          text-shadow: 0 0 30px var(--glow-color);
+          color: var(--accent-solid);
+          text-shadow: 0 0 30px var(--glow-color, var(--accent-subtle));
         }
 
         .separator {
-          color: var(--text-muted);
+          color: var(--content-muted);
           margin-left: var(--space-xl);
         }
 

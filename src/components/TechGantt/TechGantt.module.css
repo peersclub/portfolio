@@ -92,7 +92,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--accent);
-    color: #000;
+    color: var(--content-inverse);
     font-family: var(--font-mono);
     font-size: 0.7rem;
     padding: 2px 6px;
@@ -239,11 +239,11 @@
 }
 
 .popupId {
-    color: #888;
+    color: var(--content-muted);
 }
 
 .popupStatus {
-    color: #0f0;
+    color: var(--severity-success);
 }
 
 .popupTitle {
@@ -268,7 +268,7 @@
 
 .metaLabel {
     font-size: 0.55rem;
-    color: #666;
+    color: var(--content-muted);
     margin-bottom: 2px;
 }
 
@@ -387,10 +387,6 @@
 :global([data-theme='light']) .popupHeader {
     background: rgba(0, 0, 0, 0.03);
     border-bottom-color: rgba(0, 0, 0, 0.08);
-}
-
-:global([data-theme='light']) .popupId {
-    color: #666;
 }
 
 :global([data-theme='light']) .metaValue {

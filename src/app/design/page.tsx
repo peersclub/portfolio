@@ -27,7 +27,7 @@ const colorTokens = {
   'Accent': [
     { name: '--accent', value: '#E8C547', desc: 'Primary gold' },
     { name: '--accent-dim', value: 'rgba(232,197,71,0.6)', desc: 'Muted gold' },
-    { name: '--glow-color', value: 'rgba(232,197,71,0.15)', desc: 'Glow effect' },
+    { name: '--glow-color', value: 'var(--accent-subtle)', desc: 'Glow effect ambient color' },
   ],
   'Text': [
     { name: '--text-primary', value: '#FAFAFA', desc: 'Headlines' },

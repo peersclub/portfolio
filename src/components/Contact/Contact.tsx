@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Phone, Mail, MessageCircle } from 'lucide-react';
 
+const BRAND_COLORS = {
+  whatsapp: '#25D366',
+  gmail: '#EA4335',
+} as const;
+
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -105,33 +110,33 @@ export default function Contact() {
           gap: var(--space-sm);
           margin-bottom: var(--space-3xl);
           padding: var(--space-sm) var(--space-md);
-          background: rgba(34, 197, 94, 0.1);
-          border: 1px solid rgba(34, 197, 94, 0.3);
+          background: var(--severity-success-bg);
+          border: 1px solid var(--severity-success-border);
           border-radius: var(--radius-full);
         }
-        
+
         .status-dot {
           width: 8px;
           height: 8px;
-          background: #22c55e;
+          background: var(--severity-success);
           border-radius: 50%;
           animation: pulse-green 2s infinite;
         }
-        
+
         .status-text {
           font-family: var(--font-mono);
           font-size: 0.6875rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: #22c55e;
+          color: var(--severity-success);
         }
-        
+
         @keyframes pulse-green {
           0%, 100% {
-            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            box-shadow: 0 0 0 0 var(--severity-success-border);
           }
           50% {
-            box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+            box-shadow: 0 0 0 6px transparent;
           }
         }
 
@@ -162,17 +167,17 @@ export default function Contact() {
         }
 
         .contact-btn.whatsapp:hover {
-          border-color: #25D366;
-          background: rgba(37, 211, 102, 0.1);
+          border-color: ${BRAND_COLORS.whatsapp};
+          background: ${BRAND_COLORS.whatsapp}1a;
         }
 
         .contact-btn.whatsapp :global(svg) {
-          color: #25D366;
+          color: ${BRAND_COLORS.whatsapp};
         }
 
         .contact-btn.phone:hover {
           border-color: var(--accent);
-          background: rgba(232, 197, 71, 0.1);
+          background: color-mix(in srgb, var(--accent) 10%, transparent);
         }
 
         .contact-btn.phone :global(svg) {
@@ -180,12 +185,12 @@ export default function Contact() {
         }
 
         .contact-btn.email:hover {
-          border-color: #EA4335;
-          background: rgba(234, 67, 53, 0.1);
+          border-color: ${BRAND_COLORS.gmail};
+          background: ${BRAND_COLORS.gmail}1a;
         }
 
         .contact-btn.email :global(svg) {
-          color: #EA4335;
+          color: ${BRAND_COLORS.gmail};
         }
 
         .contact-info-text {
