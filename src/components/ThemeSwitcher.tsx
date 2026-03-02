@@ -3,6 +3,33 @@
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { THEME_PRESETS } from "@/lib/theme/presets";
+
+// Defined at module scope to avoid re-creation on every render
+const rayVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: (i: number) => ({
+        scale: 1,
+        opacity: 1,
+        transition: {
+            delay: i * 0.05,
+            type: "spring",
+            stiffness: 300,
+            damping: 20,
+        },
+    }),
+};
+
+const SUN_RAYS = [
+    { x1: 12, y1: 1, x2: 12, y2: 3 },
+    { x1: 12, y1: 21, x2: 12, y2: 23 },
+    { x1: 4.22, y1: 4.22, x2: 5.64, y2: 5.64 },
+    { x1: 18.36, y1: 18.36, x2: 19.78, y2: 19.78 },
+    { x1: 1, y1: 12, x2: 3, y2: 12 },
+    { x1: 21, y1: 12, x2: 23, y2: 12 },
+    { x1: 4.22, y1: 19.78, x2: 5.64, y2: 18.36 },
+    { x1: 18.36, y1: 5.64, x2: 19.78, y2: 4.22 },
+];
 
 export const ThemeSwitcher = () => {
     const { theme, setTheme, resolvedTheme } = useTheme();
@@ -16,38 +43,25 @@ export const ThemeSwitcher = () => {
         return null;
     }
 
-    const currentTheme = theme === 'system' ? resolvedTheme : theme;
-    const isDark = currentTheme === "dark";
+    const currentTheme = theme === "system" ? resolvedTheme : theme;
+    const currentIndex = THEME_PRESETS.findIndex((p) => p.id === currentTheme);
+    const preset = currentIndex >= 0 ? THEME_PRESETS[currentIndex] : THEME_PRESETS[0];
+    const isDark = preset.mode === "dark";
 
-    const toggleTheme = () => {
-        setTheme(isDark ? "light" : "dark");
-    };
-
-    // Sun rays animation
-    const rayVariants = {
-        hidden: { scale: 0, opacity: 0 },
-        visible: (i: number) => ({
-            scale: 1,
-            opacity: 1,
-            transition: {
-                delay: i * 0.05,
-                type: "spring",
-                stiffness: 300,
-                damping: 20,
-            },
-        }),
+    const cycleTheme = () => {
+        const nextIndex = (currentIndex + 1) % THEME_PRESETS.length;
+        setTheme(THEME_PRESETS[nextIndex].id);
     };
 
     return (
         <button
-            onClick={toggleTheme}
+            onClick={cycleTheme}
             className="fixed bottom-8 right-8 z-[200] flex h-14 w-14 items-center justify-center rounded-full border border-[var(--glass-border)] bg-[var(--bg-glass)] backdrop-blur-md transition-all hover:border-[var(--accent)] hover:scale-110 active:scale-95"
             aria-label="Toggle Theme"
         >
             <div className="relative h-6 w-6">
                 <AnimatePresence mode="wait">
                     {isDark ? (
-                        // Moon
                         <motion.svg
                             key="moon"
                             width="24"
@@ -68,7 +82,6 @@ export const ThemeSwitcher = () => {
                             />
                         </motion.svg>
                     ) : (
-                        // Sun with animated rays
                         <motion.svg
                             key="sun"
                             width="24"
@@ -85,7 +98,6 @@ export const ThemeSwitcher = () => {
                             transition={{ type: "spring", stiffness: 200, damping: 15 }}
                             className="absolute inset-0"
                         >
-                            {/* Sun circle */}
                             <motion.circle
                                 cx="12"
                                 cy="12"
@@ -95,17 +107,7 @@ export const ThemeSwitcher = () => {
                                 animate={{ scale: 1 }}
                                 transition={{ delay: 0.1, type: "spring", stiffness: 300 }}
                             />
-                            {/* Sun rays */}
-                            {[
-                                { x1: 12, y1: 1, x2: 12, y2: 3 },
-                                { x1: 12, y1: 21, x2: 12, y2: 23 },
-                                { x1: 4.22, y1: 4.22, x2: 5.64, y2: 5.64 },
-                                { x1: 18.36, y1: 18.36, x2: 19.78, y2: 19.78 },
-                                { x1: 1, y1: 12, x2: 3, y2: 12 },
-                                { x1: 21, y1: 12, x2: 23, y2: 12 },
-                                { x1: 4.22, y1: 19.78, x2: 5.64, y2: 18.36 },
-                                { x1: 18.36, y1: 5.64, x2: 19.78, y2: 4.22 },
-                            ].map((ray, i) => (
+                            {SUN_RAYS.map((ray, i) => (
                                 <motion.line
                                     key={i}
                                     x1={ray.x1}
@@ -125,4 +127,3 @@ export const ThemeSwitcher = () => {
         </button>
     );
 };
-
