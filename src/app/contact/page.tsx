@@ -4,6 +4,11 @@ import { motion } from "framer-motion";
 import { Phone, Mail, MessageCircle } from "lucide-react";
 import Footer from "@/components/Footer/Footer";
 
+const BRAND_COLORS = {
+    whatsapp: '#25D366',
+    gmail: '#EA4335',
+} as const;
+
 export default function ContactPage() {
     const phone = "9535710101";
     const email = "sureshthejosephite@gmail.com";
@@ -39,9 +44,19 @@ export default function ContactPage() {
                             href={whatsappLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group flex items-center gap-3 px-8 py-4 rounded-full border border-[var(--glass-border)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] transition-all duration-300 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:scale-105 w-full sm:w-auto justify-center"
+                            className="group flex items-center gap-3 px-8 py-4 rounded-full border border-[var(--glass-border)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] transition-all duration-300 hover:scale-105 w-full sm:w-auto justify-center"
+                            onMouseEnter={e => {
+                                const el = e.currentTarget;
+                                el.style.borderColor = BRAND_COLORS.whatsapp;
+                                el.style.backgroundColor = `${BRAND_COLORS.whatsapp}1a`;
+                            }}
+                            onMouseLeave={e => {
+                                const el = e.currentTarget;
+                                el.style.borderColor = '';
+                                el.style.backgroundColor = '';
+                            }}
                         >
-                            <MessageCircle size={22} className="text-[#25D366]" />
+                            <MessageCircle size={22} style={{ color: BRAND_COLORS.whatsapp }} />
                             <span className="font-semibold">WhatsApp</span>
                         </a>
 
@@ -57,9 +72,19 @@ export default function ContactPage() {
                         {/* Email Button */}
                         <a
                             href={emailLink}
-                            className="group flex items-center gap-3 px-8 py-4 rounded-full border border-[var(--glass-border)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] transition-all duration-300 hover:border-[#EA4335] hover:bg-[#EA4335]/10 hover:scale-105 w-full sm:w-auto justify-center"
+                            className="group flex items-center gap-3 px-8 py-4 rounded-full border border-[var(--glass-border)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] transition-all duration-300 hover:scale-105 w-full sm:w-auto justify-center"
+                            onMouseEnter={e => {
+                                const el = e.currentTarget;
+                                el.style.borderColor = BRAND_COLORS.gmail;
+                                el.style.backgroundColor = `${BRAND_COLORS.gmail}1a`;
+                            }}
+                            onMouseLeave={e => {
+                                const el = e.currentTarget;
+                                el.style.borderColor = '';
+                                el.style.backgroundColor = '';
+                            }}
                         >
-                            <Mail size={22} className="text-[#EA4335]" />
+                            <Mail size={22} style={{ color: BRAND_COLORS.gmail }} />
                             <span className="font-semibold">Email</span>
                         </a>
                     </motion.div>

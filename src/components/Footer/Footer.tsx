@@ -18,8 +18,8 @@ export default function Footer() {
             <style jsx>{`
                 .footer {
                     padding: var(--space-3xl) 0 var(--space-xl);
-                    border-top: 1px solid var(--glass-border);
-                    background: var(--bg-primary);
+                    border-top: 1px solid var(--line-subtle);
+                    background: var(--surface-root);
                 }
 
                 .footer-content {
@@ -40,7 +40,7 @@ export default function Footer() {
                     font-size: 0.75rem;
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
-                    color: var(--text-muted);
+                    color: var(--content-muted);
                 }
 
                 @media (max-width: 640px) {

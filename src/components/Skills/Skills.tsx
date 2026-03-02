@@ -2,13 +2,22 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+const SKILL_COLORS = [
+  '#8B5CF6', // violet
+  '#EC4899', // pink
+  '#06B6D4', // cyan
+  '#10B981', // emerald
+  '#F59E0B', // amber
+  '#3B82F6', // blue
+] as const;
+
 const skills = [
-  { name: 'Product Strategy', level: 95, color: '#8B5CF6' },
-  { name: 'Team Leadership', level: 92, color: '#EC4899' },
-  { name: 'User Experience', level: 90, color: '#06B6D4' },
-  { name: 'Data Analytics', level: 85, color: '#10B981' },
-  { name: 'AI/ML Products', level: 80, color: '#F59E0B' },
-  { name: 'Full Stack Dev', level: 75, color: '#3B82F6' },
+  { name: 'Product Strategy', level: 95, color: SKILL_COLORS[0] },
+  { name: 'Team Leadership', level: 92, color: SKILL_COLORS[1] },
+  { name: 'User Experience', level: 90, color: SKILL_COLORS[2] },
+  { name: 'Data Analytics', level: 85, color: SKILL_COLORS[3] },
+  { name: 'AI/ML Products', level: 80, color: SKILL_COLORS[4] },
+  { name: 'Full Stack Dev', level: 75, color: SKILL_COLORS[5] },
 ];
 
 const technologies = [
@@ -16,6 +25,8 @@ const technologies = [
   'Agile/Scrum', 'Analytics', 'Figma', 'Flutter', 'Rust', 'Claude AI',
   'OpenAI GPT', 'Mobile Apps', 'Web Platforms', 'SaaS', 'Fintech',
 ];
+
+const technologiesReversed = [...technologies].reverse();
 
 export default function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -89,7 +100,7 @@ export default function Skills() {
             </div>
             <div className="marquee reverse">
               <div className="marquee-content">
-                {[...technologies.reverse(), ...technologies].map((tech, index) => (
+                {[...technologiesReversed, ...technologiesReversed].map((tech, index) => (
                   <span key={index} className="tech-tag">
                     {tech}
                   </span>
@@ -102,7 +113,7 @@ export default function Skills() {
 
       <style jsx>{`
         .skills {
-          background: var(--bg-secondary);
+          background: var(--surface-elevated);
         }
 
         .section-header {
@@ -147,18 +158,18 @@ export default function Skills() {
 
         .skill-name {
           font-weight: 500;
-          color: var(--text-primary);
+          color: var(--content-primary);
         }
 
         .skill-level {
           font-size: 0.875rem;
-          color: var(--text-muted);
+          color: var(--content-muted);
           font-family: var(--font-mono);
         }
 
         .skill-bar {
           height: 8px;
-          background: var(--bg-glass);
+          background: var(--surface-overlay);
           border-radius: var(--radius-full);
           overflow: hidden;
         }
@@ -211,11 +222,11 @@ export default function Skills() {
 
         .tech-tag {
           padding: var(--space-sm) var(--space-lg);
-          background: var(--bg-glass);
-          border: 1px solid var(--glass-border);
+          background: var(--surface-overlay);
+          border: 1px solid var(--line-subtle);
           border-radius: var(--radius-full);
           font-size: 0.875rem;
-          color: var(--text-secondary);
+          color: var(--content-secondary);
           white-space: nowrap;
           transition: all 0.3s;
         }
@@ -223,7 +234,7 @@ export default function Skills() {
         .tech-tag:hover {
           background: var(--accent-light);
           border-color: var(--accent);
-          color: var(--text-primary);
+          color: var(--content-primary);
         }
 
         @keyframes slideUp {

@@ -8,6 +8,13 @@ import {
   TrendingUp, Rocket, Target, Bot,
 } from 'lucide-react';
 
+const IMPACT_CARD_PALETTE = [
+  { accent: '#F97316', gradientFrom: 'rgba(249, 115, 22, 0.2)', gradientTo: 'rgba(249, 115, 22, 0.05)' },
+  { accent: '#F43F5E', gradientFrom: 'rgba(244, 63, 94, 0.2)',  gradientTo: 'rgba(244, 63, 94, 0.05)'  },
+  { accent: '#EF4444', gradientFrom: 'rgba(239, 68, 68, 0.2)',  gradientTo: 'rgba(239, 68, 68, 0.05)'  },
+  { accent: '#94A3B8', gradientFrom: 'rgba(148, 163, 184, 0.2)', gradientTo: 'rgba(148, 163, 184, 0.05)' },
+] as const;
+
 const impacts = [
   {
     number: '01',
@@ -17,9 +24,9 @@ const impacts = [
     company: 'CoinDCX',
     icon: TrendingUp,
     size: 'large',
-    accentColor: '#F97316', // Orange
-    gradientFrom: 'rgba(249, 115, 22, 0.2)',
-    gradientTo: 'rgba(249, 115, 22, 0.05)',
+    accentColor: IMPACT_CARD_PALETTE[0].accent,
+    gradientFrom: IMPACT_CARD_PALETTE[0].gradientFrom,
+    gradientTo: IMPACT_CARD_PALETTE[0].gradientTo,
     chartType: 'area', // Hockey Stick
   },
   {
@@ -30,9 +37,9 @@ const impacts = [
     company: 'Babychakra',
     icon: Rocket,
     size: 'medium',
-    accentColor: '#F43F5E', // Pinkish Red (Rose)
-    gradientFrom: 'rgba(244, 63, 94, 0.2)',
-    gradientTo: 'rgba(244, 63, 94, 0.05)',
+    accentColor: IMPACT_CARD_PALETTE[1].accent,
+    gradientFrom: IMPACT_CARD_PALETTE[1].gradientFrom,
+    gradientTo: IMPACT_CARD_PALETTE[1].gradientTo,
     chartType: 'retention', // Step Up
   },
   {
@@ -43,9 +50,9 @@ const impacts = [
     company: 'CaptainFresh',
     icon: Target,
     size: 'medium',
-    accentColor: '#EF4444', // Red
-    gradientFrom: 'rgba(239, 68, 68, 0.2)',
-    gradientTo: 'rgba(239, 68, 68, 0.05)',
+    accentColor: IMPACT_CARD_PALETTE[2].accent,
+    gradientFrom: IMPACT_CARD_PALETTE[2].gradientFrom,
+    gradientTo: IMPACT_CARD_PALETTE[2].gradientTo,
     chartType: 'bar', // Growth Bars
   },
   {
@@ -55,8 +62,9 @@ const impacts = [
     context: 'Co-founded platform integrating Claude AI & GPT for investment insights',
     company: 'Assetworks AI',
     icon: Bot,
-    accentColor: '#94A3B8', // Grey
-    gradientFrom: 'rgba(148, 163, 184, 0.2)',
+    accentColor: IMPACT_CARD_PALETTE[3].accent,
+    gradientFrom: IMPACT_CARD_PALETTE[3].gradientFrom,
+    gradientTo: IMPACT_CARD_PALETTE[3].gradientTo,
     chartType: 'line',
   },
 ];
@@ -237,8 +245,6 @@ export default function Impact() {
                 transition: { duration: 0.4, ease: "easeOut" }
               }}
               style={{
-                position: 'relative',
-                overflow: 'hidden',
                 '--accent-color': item.accentColor,
                 '--gradient-from': item.gradientFrom,
                 '--gradient-to': item.gradientTo,
@@ -252,8 +258,6 @@ export default function Impact() {
 
               {/* Texture Pattern (CSS Only - Safe) */}
               <div className="card-texture" />
-
-
 
               {/* Shimmer effect */}
               <div className="card-shimmer" />
@@ -408,8 +412,8 @@ export default function Impact() {
         /* Card base styles */
         .impact-card {
           position: relative;
-          background: var(--bg-secondary);
-          border: 1px solid var(--glass-border);
+          background: var(--surface-elevated);
+          border: 1px solid var(--line-subtle);
           border-radius: 24px;
           overflow: hidden;
           cursor: default;
@@ -570,16 +574,16 @@ export default function Impact() {
           font-size: 0.7rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: var(--text-primary);
+          color: var(--content-primary);
           padding: 8px 14px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid var(--glass-border);
+          background: var(--surface-overlay);
+          border: 1px solid var(--line-subtle);
           border-radius: var(--radius-full);
           transition: all 0.3s ease;
         }
 
         .impact-card:hover .badge-company {
-          background: rgba(255, 255, 255, 0.1);
+          background: var(--surface-elevated);
           border-color: var(--accent-color);
         }
 
@@ -657,14 +661,14 @@ export default function Impact() {
           font-size: 1.15rem;
           font-weight: 500;
           line-height: 1.6;
-          color: var(--text-primary);
+          color: var(--content-primary);
           margin-bottom: var(--space-sm);
         }
 
         .impact-context {
           font-size: 0.9rem;
           line-height: 1.6;
-          color: var(--text-muted);
+          color: var(--content-secondary);
           max-width: 90%;
         }
 

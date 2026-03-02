@@ -70,7 +70,7 @@ export default function About() {
 
       <style jsx>{`
         .about {
-          background: var(--bg-primary);
+          background: var(--surface-root);
           min-height: auto;
           padding: var(--space-5xl) 0;
         }
@@ -90,7 +90,7 @@ export default function About() {
           font-size: 0.75rem;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: var(--text-muted);
+          color: var(--content-muted);
           display: block;
           margin-bottom: var(--space-md);
         }
@@ -102,7 +102,7 @@ export default function About() {
 
         .lead {
           font-size: 1.25rem;
-          color: var(--text-primary);
+          color: var(--content-primary);
           margin-bottom: var(--space-xl);
           line-height: 1.6;
         }
@@ -117,7 +117,7 @@ export default function About() {
           flex-direction: column;
           gap: var(--space-lg);
           padding-left: var(--space-2xl);
-          border-left: 1px solid var(--glass-border);
+          border-left: 1px solid var(--line-subtle);
         }
 
         .detail-item {
@@ -131,12 +131,12 @@ export default function About() {
           font-size: 0.6875rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: var(--text-muted);
+          color: var(--content-muted);
         }
 
         .detail-value {
           font-size: 1rem;
-          color: var(--text-primary);
+          color: var(--content-primary);
         }
 
         @media (max-width: 768px) {
@@ -149,7 +149,7 @@ export default function About() {
             padding-left: 0;
             border-left: none;
             padding-top: var(--space-xl);
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid var(--line-subtle);
           }
         }
       `}</style>
