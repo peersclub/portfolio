@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 interface Role {
@@ -11,11 +12,13 @@ interface Role {
 
 interface ExperienceCardProps {
     company: string;
-    logo?: string; // Optional logo/icon
+    logo?: string;
+    url?: string;
+    description?: string;
     roles: Role[];
 }
 
-export const ExperienceCard = ({ company, roles }: ExperienceCardProps) => {
+export const ExperienceCard = ({ company, logo, url, description, roles }: ExperienceCardProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -24,15 +27,42 @@ export const ExperienceCard = ({ company, roles }: ExperienceCardProps) => {
             className="group relative overflow-hidden rounded-xl border border-[var(--glass-border)] bg-[var(--bg-secondary)] p-6 transition-colors hover:border-[var(--accent-light)]"
         >
             <div className="flex cursor-pointer items-start justify-between" onClick={() => setIsOpen(!isOpen)}>
-                <div>
-                    <h3 className="text-xl font-bold text-[var(--text-primary)]">{company}</h3>
-                    <div className="mt-2 flex flex-col gap-1">
-                        {roles.map((role, idx) => (
-                            <div key={idx} className="flex flex-wrap items-baseline gap-2 text-sm text-[var(--text-secondary)]">
-                                <span className="font-medium">{role.title}</span>
-                                <span className="text-[var(--text-muted)]">• {role.period}</span>
-                            </div>
-                        ))}
+                <div className="flex items-start gap-4">
+                    {logo && (
+                        <img
+                            src={logo}
+                            alt={company}
+                            width={40}
+                            height={40}
+                            className="rounded-lg border border-[var(--glass-border)] bg-white/5 object-contain p-0.5"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                    )}
+                    <div>
+                        <h3 className="text-xl font-bold text-[var(--text-primary)]">{company}</h3>
+                        <div className="mt-2 flex flex-col gap-1">
+                            {roles.map((role, idx) => (
+                                <div key={idx} className="flex flex-wrap items-baseline gap-2 text-sm text-[var(--text-secondary)]">
+                                    <span className="font-medium">{role.title}</span>
+                                    <span className="text-[var(--text-muted)]">• {role.period}</span>
+                                </div>
+                            ))}
+                        </div>
+                        {description && (
+                            <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">{description}</p>
+                        )}
+                        {url && (
+                            <a
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="mt-2 inline-flex items-center gap-1.5 text-xs text-[var(--accent)] opacity-70 hover:opacity-100 transition-opacity"
+                            >
+                                <ExternalLink size={12} />
+                                {url.replace(/^https?:\/\/(www\.)?/, '')}
+                            </a>
+                        )}
                     </div>
                 </div>
 
