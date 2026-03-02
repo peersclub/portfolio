@@ -485,3 +485,265 @@
         background: rgba(0, 0, 0, 0.03);
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   PHASE ZONE STYLES (Unit 2 addition)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.phaseZone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.phaseZoneGradient {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.phaseZonePattern {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.phaseZoneEdgeLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  z-index: 2;
+}
+
+.phaseZoneEdgeRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  z-index: 2;
+}
+
+.phaseZoneNumeral {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  font-size: 5rem;
+  font-weight: 900;
+  font-family: var(--font-sans, sans-serif);
+  opacity: 0.07;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  z-index: 3;
+  user-select: none;
+}
+
+.phaseZoneLabel {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 0.6rem;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  z-index: 4;
+  margin-top: 4.5rem;
+}
+
+.phaseZoneAtmosphere {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+  font-size: 0.55rem;
+  font-family: var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  z-index: 4;
+  user-select: none;
+}
+
+.phaseZoneTopBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 5;
+  transform-origin: left center;
+}
+
+/* Responsive: hide decorative text on small screens */
+@media (max-width: 1024px) {
+  .phaseZone {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TIMELINE CARD INTEGRATION STYLES (Unit 3 addition)
+   Supplemental classes used when TimelineCard replaces the inline hudCard JSX.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Perspective container — enables 3D child transforms inside itemWrapper */
+.itemWrapper3d {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* Override itemWrapper height to accommodate taller holographic cards */
+.itemWrapperExpanded {
+  height: 320px;
+}
+
+/* Scan line extended variant — matches the longer connector when card is active */
+.scanLineExtended {
+  height: 120px !important;
+}
+
+/* Shimmer angle CSS property registration hint (used by globals.css @property) */
+.shimmerHost {
+  --shimmer-angle: 0deg;
+}
+
+@media (max-width: 1024px) {
+  .itemWrapper3d {
+    perspective: none;
+    transform-style: flat;
+  }
+
+  .itemWrapperExpanded {
+    height: auto;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIFE CHRONICLES REDESIGN — New layout overrides (Unit 6 integration)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Replace old container with outerContainer */
+.outerContainer {
+  position: relative;
+  width: 100%;
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+/* Controls strip — above the timeline, outside drag zone */
+.controlsStrip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto 1.5rem;
+  padding: 0 4rem;
+  gap: 1.5rem;
+}
+
+/* Override: items use absolute proportional positioning now */
+.itemsContainer {
+  position: relative;
+  width: 100%;
+  height: 320px; /* tall enough for top + bottom cards */
+  z-index: 2;
+}
+
+/* Each event is absolutely placed at its proportional year position */
+.itemWrapper {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Thread layer sits at center of itemsContainer */
+.threadLayer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Stem connector (replaces scanLine) */
+.stem {
+  position: absolute;
+  width: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  will-change: height;
+}
+.stem.top    { bottom: calc(50% + 4px); transform-origin: bottom center; }
+.stem.bottom { top: calc(50% + 4px);    transform-origin: top center;    }
+
+/* Marker dot */
+.markerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  position: relative;
+  z-index: 3;
+  will-change: transform, background-color;
+}
+
+/* Year label */
+.yearLabel {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  font-family: var(--font-mono, monospace);
+  white-space: nowrap;
+  transition: opacity 0.3s, color 0.3s;
+  z-index: 2;
+}
+.yearLabel.top    { bottom: calc(50% + 88px); }
+.yearLabel.bottom { top: calc(50% + 88px);    }
+
+/* Phase zone overrides */
+.phaseZone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.phaseZoneGradient, .phaseZonePattern {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.phaseZoneEdgeLeft  { position: absolute; top: 0; left:  0; width: 60px; height: 100%; z-index: 2; background: linear-gradient(90deg,  var(--bg-primary,#0a0a0f) 0%, transparent 100%); }
+.phaseZoneEdgeRight { position: absolute; top: 0; right: 0; width: 60px; height: 100%; z-index: 2; background: linear-gradient(270deg, var(--bg-primary,#0a0a0f) 0%, transparent 100%); }
+.phaseZoneNumeral   { position: absolute; top: 8px; left: 16px; font-size: 5rem; font-weight: 900; opacity: 0.07; line-height: 1; letter-spacing: -0.05em; z-index: 3; user-select: none; }
+.phaseZoneLabel     { position: absolute; top: 12px; left: 16px; font-size: 0.6rem; font-family: var(--font-mono,monospace); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; z-index: 4; margin-top: 4.5rem; }
+.phaseZoneAtmosphere { position: absolute; bottom: 8px; left: 16px; font-size: 0.55rem; font-family: var(--font-mono,monospace); color: rgba(255,255,255,0.25); letter-spacing: 0.15em; text-transform: uppercase; z-index: 4; user-select: none; }
+.phaseZoneTopBar    { position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 5; transform-origin: left center; }
+
+/* ─── Mobile overrides ─────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .controlsStrip { flex-direction: column; padding: 0 1rem; }
+  .itemsContainer { display: flex; flex-direction: column; height: auto; gap: 1.5rem; }
+  .itemWrapper { position: relative; left: auto !important; transform: none; width: 100%; flex-direction: row; align-items: flex-start; gap: 1rem; padding-left: 2rem; }
+  .stem { display: none; }
+  .threadLayer { display: none; }
+  .phaseZone { display: none; }
+  .yearLabel { position: static; transform: none; }
+}

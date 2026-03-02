@@ -1,0 +1,9 @@
+.svg {
+  display: block;
+  overflow: visible;
+}
+
+.placeholder {
+  width: 100%;
+  background: transparent;
+}
