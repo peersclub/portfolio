@@ -13,6 +13,33 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const MEDIUM_ARTICLES = [
+  {
+    title: "Story about AI by an AI — Written in 3.2 Sec",
+    url: "https://sureshvictor.medium.com/story-about-ai-by-an-ai-written-in-3-2-sec-28b3e8d72e8f",
+    date: "Jan 2023",
+    tag: "AI",
+  },
+  {
+    title: "I tried to 'Connect the dots backwards' — Crazy story of my life!",
+    url: "https://sureshvictor.medium.com/life-as-a-product-manager-1d2d456af8da",
+    date: "Jul 2016",
+    tag: "Product",
+  },
+  {
+    title: "Human CO-volution with the virus",
+    url: "https://sureshvictor.medium.com/human-co-volution-with-the-virus-20990e1b737f",
+    date: "Mar 2021",
+    tag: "Future",
+  },
+  {
+    title: "Taking care of apps on phone can help you live a meaningful life",
+    url: "https://sureshvictor.medium.com/taking-care-of-apps-on-phone-can-help-you-live-a-meaningful-life-b0ac462c77b1",
+    date: "May 2020",
+    tag: "Life",
+  },
+];
+
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -160,6 +187,59 @@ export default function Hero() {
           <StatusBar />
         </motion.div>
 
+        {/* Social Links */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.85, ease: [0.19, 1, 0.22, 1] }}
+          className="social-row"
+        >
+          <a
+            href="https://www.linkedin.com/in/sureshvictor/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            <span>sureshvictor</span>
+          </a>
+          <span className="social-divider" />
+          <a
+            href="https://sureshvictor.medium.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
+            </svg>
+            <span>Writing on Medium</span>
+          </a>
+        </motion.div>
+
+        {/* Medium Article Strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.0, ease: [0.19, 1, 0.22, 1] }}
+          className="article-strip"
+        >
+          {MEDIUM_ARTICLES.map((article, idx) => (
+            <a
+              key={idx}
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="article-card"
+            >
+              <span className="article-tag">{article.tag}</span>
+              <span className="article-title">{article.title}</span>
+              <span className="article-date">{article.date}</span>
+            </a>
+          ))}
+        </motion.div>
 
         {/* Scroll Indicator */}
         <motion.div
@@ -289,10 +369,98 @@ export default function Hero() {
         }
 
         .status-wrapper {
-          margin-bottom: var(--space-4xl);
+          margin-bottom: var(--space-xl);
         }
 
         /* Styles moved to globals.css to fix motion component scoping */
+
+        .social-row {
+          display: flex;
+          align-items: center;
+          gap: var(--space-lg);
+          margin-bottom: var(--space-xl);
+        }
+
+        .social-link {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-sm);
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
+          letter-spacing: 0.05em;
+          color: var(--text-secondary);
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .social-link:hover {
+          color: var(--accent);
+        }
+
+        .social-divider {
+          width: 1px;
+          height: 16px;
+          background: var(--glass-border);
+        }
+
+        .article-strip {
+          display: flex;
+          gap: var(--space-md);
+          overflow-x: auto;
+          scrollbar-width: none;
+          padding-bottom: var(--space-sm);
+          margin-bottom: var(--space-3xl);
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .article-strip::-webkit-scrollbar {
+          display: none;
+        }
+
+        .article-card {
+          flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          padding: var(--space-md) var(--space-lg);
+          border: 1px solid var(--glass-border);
+          background: var(--bg-glass);
+          backdrop-filter: blur(12px);
+          text-decoration: none;
+          max-width: 220px;
+          transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .article-card:hover {
+          border-color: var(--accent);
+          background: var(--accent-light);
+        }
+
+        .article-tag {
+          font-family: var(--font-mono);
+          font-size: 0.6rem;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--accent);
+        }
+
+        .article-title {
+          font-size: 0.8rem;
+          font-weight: 500;
+          color: var(--text-primary);
+          line-height: 1.4;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .article-date {
+          font-family: var(--font-mono);
+          font-size: 0.6rem;
+          color: var(--text-muted);
+          margin-top: 2px;
+        }
 
         .role {
           font-family: var(--font-heading);
@@ -387,7 +555,11 @@ export default function Hero() {
           }
 
           .status-wrapper {
-            margin-bottom: var(--space-3xl);
+            margin-bottom: var(--space-xl);
+          }
+
+          .article-strip {
+            margin-bottom: var(--space-2xl);
           }
 
           .role {
@@ -420,7 +592,21 @@ export default function Hero() {
           }
 
           .status-wrapper {
-            margin-bottom: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+          }
+
+          .social-row {
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+          }
+
+          .article-strip {
+            margin-bottom: var(--space-xl);
+          }
+
+          .article-card {
+            max-width: 180px;
+            padding: var(--space-sm) var(--space-md);
           }
 
           .scroll-hint {
