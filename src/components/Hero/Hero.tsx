@@ -161,35 +161,40 @@ export default function Hero() {
           <StatusBar />
         </motion.div>
 
-        {/* Social Links */}
+        {/* Social Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.85, ease: [0.19, 1, 0.22, 1] }}
-          className="social-row"
+          className="social-buttons"
         >
           <a
             href="https://www.linkedin.com/in/sureshvictor/"
             target="_blank"
             rel="noopener noreferrer"
-            className="social-link"
+            className="social-btn linkedin-btn"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
             </svg>
-            <span>sureshvictor</span>
+            <div className="social-btn-text">
+              <span className="social-btn-name">LinkedIn</span>
+              <span className="social-btn-handle">sureshvictor</span>
+            </div>
           </a>
-          <span className="social-divider" />
           <a
             href="https://sureshvictor.medium.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="social-link"
+            className="social-btn medium-btn"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
             </svg>
-            <span>Writing on Medium</span>
+            <div className="social-btn-text">
+              <span className="social-btn-name">Medium</span>
+              <span className="social-btn-handle">Writing weekly</span>
+            </div>
           </a>
         </motion.div>
 
@@ -326,33 +331,68 @@ export default function Hero() {
 
         /* Styles moved to globals.css to fix motion component scoping */
 
-        .social-row {
+        .social-buttons {
           display: flex;
           align-items: center;
-          gap: var(--space-lg);
+          gap: 0.75rem;
           margin-bottom: var(--space-xl);
+          flex-wrap: wrap;
         }
 
-        .social-link {
+        .social-btn {
           display: inline-flex;
           align-items: center;
-          gap: var(--space-sm);
-          font-family: var(--font-mono);
-          font-size: 0.75rem;
-          letter-spacing: 0.05em;
-          color: var(--text-secondary);
+          gap: 0.75rem;
+          padding: 0.6rem 1.1rem;
+          border: 1px solid var(--glass-border);
+          background: var(--bg-glass);
+          backdrop-filter: blur(12px);
           text-decoration: none;
-          transition: color 0.2s ease;
+          transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
         }
 
-        .social-link:hover {
+        .social-btn:hover {
+          transform: translateY(-2px);
+        }
+
+        .linkedin-btn {
+          color: #0A66C2;
+          border-color: rgba(10, 102, 194, 0.3);
+        }
+
+        .linkedin-btn:hover {
+          border-color: #0A66C2;
+          background: rgba(10, 102, 194, 0.08);
+        }
+
+        .medium-btn {
+          color: var(--text-primary);
+          border-color: var(--glass-border);
+        }
+
+        .medium-btn:hover {
+          border-color: var(--accent);
+          background: var(--accent-light);
           color: var(--accent);
         }
 
-        .social-divider {
-          width: 1px;
-          height: 16px;
-          background: var(--glass-border);
+        .social-btn-text {
+          display: flex;
+          flex-direction: column;
+          gap: 1px;
+        }
+
+        .social-btn-name {
+          font-size: 0.8rem;
+          font-weight: 600;
+          line-height: 1;
+        }
+
+        .social-btn-handle {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          opacity: 0.65;
+          line-height: 1;
         }
 
         .role {
@@ -484,9 +524,13 @@ export default function Hero() {
             margin-bottom: var(--space-lg);
           }
 
-          .social-row {
-            gap: var(--space-md);
+          .social-buttons {
+            gap: 0.5rem;
             margin-bottom: var(--space-lg);
+          }
+
+          .social-btn {
+            padding: 0.5rem 0.85rem;
           }
 
           .scroll-hint {

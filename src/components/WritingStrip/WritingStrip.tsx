@@ -33,11 +33,21 @@ export default function WritingStrip() {
   return (
     <section className="writing-strip">
       <div className="strip-inner">
-        <div className="strip-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="medium-icon">
-            <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
-          </svg>
-          <span>Latest Writing</span>
+        <div className="strip-header">
+          <div className="strip-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="medium-icon">
+              <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
+            </svg>
+            <span>Latest Writing on Medium</span>
+          </div>
+          <a
+            href="https://sureshvictor.medium.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="view-all"
+          >
+            View all <ExternalLink size={11} />
+          </a>
         </div>
 
         <div className="articles-row">
@@ -58,16 +68,6 @@ export default function WritingStrip() {
             </a>
           ))}
         </div>
-
-        <a
-          href="https://sureshvictor.medium.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="view-all"
-        >
-          View all articles
-          <ExternalLink size={12} />
-        </a>
       </div>
 
       <style jsx>{`
@@ -75,28 +75,30 @@ export default function WritingStrip() {
           border-top: 1px solid var(--glass-border);
           border-bottom: 1px solid var(--glass-border);
           background: var(--bg-secondary);
-          padding: 2rem var(--space-xl);
+          padding: 1.5rem 2.5rem;
         }
 
         .strip-inner {
           max-width: 1200px;
           margin: 0 auto;
+        }
+
+        .strip-header {
           display: flex;
           align-items: center;
-          gap: 2rem;
+          justify-content: space-between;
+          margin-bottom: 1.25rem;
         }
 
         .strip-label {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          flex-shrink: 0;
           font-family: var(--font-mono);
-          font-size: 0.65rem;
+          font-size: 0.7rem;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           color: var(--text-muted);
-          white-space: nowrap;
         }
 
         .medium-icon {
@@ -104,30 +106,41 @@ export default function WritingStrip() {
           flex-shrink: 0;
         }
 
-        .articles-row {
-          display: flex;
-          gap: 1rem;
-          overflow-x: auto;
-          scrollbar-width: none;
-          flex: 1;
-          min-width: 0;
+        .view-all {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--accent);
+          text-decoration: none;
+          opacity: 0.75;
+          transition: opacity 0.2s ease;
+          white-space: nowrap;
         }
 
-        .articles-row::-webkit-scrollbar {
-          display: none;
+        .view-all:hover {
+          opacity: 1;
+        }
+
+        .articles-row {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 0.75rem;
         }
 
         .article-card {
-          flex-shrink: 0;
           display: flex;
           flex-direction: column;
-          gap: 0.3rem;
-          padding: 0.75rem 1rem;
+          gap: 0.4rem;
+          padding: 1rem 1.25rem;
           border: 1px solid var(--glass-border);
           background: var(--bg-primary);
           text-decoration: none;
-          width: 200px;
           transition: border-color 0.2s ease, transform 0.2s ease;
+          min-width: 0;
         }
 
         .article-card:hover {
@@ -137,17 +150,17 @@ export default function WritingStrip() {
 
         .article-tag {
           font-family: var(--font-mono);
-          font-size: 0.55rem;
+          font-size: 0.6rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
           color: var(--accent);
         }
 
         .article-title {
-          font-size: 0.78rem;
+          font-size: 0.85rem;
           font-weight: 500;
           color: var(--text-primary);
-          line-height: 1.4;
+          line-height: 1.45;
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
@@ -161,42 +174,35 @@ export default function WritingStrip() {
           font-family: var(--font-mono);
           font-size: 0.6rem;
           color: var(--text-muted);
-          margin-top: 0.1rem;
+          margin-top: auto;
+          padding-top: 0.25rem;
         }
 
-        .view-all {
-          flex-shrink: 0;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--accent);
-          text-decoration: none;
-          white-space: nowrap;
-          opacity: 0.8;
-          transition: opacity 0.2s ease;
+        @media (max-width: 900px) {
+          .articles-row {
+            grid-template-columns: repeat(2, 1fr);
+          }
         }
 
-        .view-all:hover {
-          opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-          .strip-inner {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
+        @media (max-width: 600px) {
+          .writing-strip {
+            padding: 1.25rem 1rem;
           }
 
           .articles-row {
-            width: 100%;
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+            gap: 0.75rem;
           }
 
-          .view-all {
-            align-self: flex-end;
+          .articles-row::-webkit-scrollbar {
+            display: none;
+          }
+
+          .article-card {
+            flex-shrink: 0;
+            width: 200px;
           }
         }
       `}</style>
