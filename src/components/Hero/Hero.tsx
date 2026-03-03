@@ -13,32 +13,6 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const MEDIUM_ARTICLES = [
-  {
-    title: "Story about AI by an AI — Written in 3.2 Sec",
-    url: "https://sureshvictor.medium.com/story-about-ai-by-an-ai-written-in-3-2-sec-28b3e8d72e8f",
-    date: "Jan 2023",
-    tag: "AI",
-  },
-  {
-    title: "I tried to 'Connect the dots backwards' — Crazy story of my life!",
-    url: "https://sureshvictor.medium.com/life-as-a-product-manager-1d2d456af8da",
-    date: "Jul 2016",
-    tag: "Product",
-  },
-  {
-    title: "Human CO-volution with the virus",
-    url: "https://sureshvictor.medium.com/human-co-volution-with-the-virus-20990e1b737f",
-    date: "Mar 2021",
-    tag: "Future",
-  },
-  {
-    title: "Taking care of apps on phone can help you live a meaningful life",
-    url: "https://sureshvictor.medium.com/taking-care-of-apps-on-phone-can-help-you-live-a-meaningful-life-b0ac462c77b1",
-    date: "May 2020",
-    tag: "Life",
-  },
-];
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -219,28 +193,6 @@ export default function Hero() {
           </a>
         </motion.div>
 
-        {/* Medium Article Strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.0, ease: [0.19, 1, 0.22, 1] }}
-          className="article-strip"
-        >
-          {MEDIUM_ARTICLES.map((article, idx) => (
-            <a
-              key={idx}
-              href={article.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="article-card"
-            >
-              <span className="article-tag">{article.tag}</span>
-              <span className="article-title">{article.title}</span>
-              <span className="article-date">{article.date}</span>
-            </a>
-          ))}
-        </motion.div>
-
         {/* Scroll Indicator */}
         <motion.div
           className="scroll-hint"
@@ -403,65 +355,6 @@ export default function Hero() {
           background: var(--glass-border);
         }
 
-        .article-strip {
-          display: flex;
-          gap: var(--space-md);
-          overflow-x: auto;
-          scrollbar-width: none;
-          padding-bottom: var(--space-sm);
-          margin-bottom: var(--space-3xl);
-          -webkit-overflow-scrolling: touch;
-        }
-
-        .article-strip::-webkit-scrollbar {
-          display: none;
-        }
-
-        .article-card {
-          flex-shrink: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          padding: var(--space-md) var(--space-lg);
-          border: 1px solid var(--glass-border);
-          background: var(--bg-glass);
-          backdrop-filter: blur(12px);
-          text-decoration: none;
-          max-width: 220px;
-          transition: border-color 0.2s ease, background 0.2s ease;
-        }
-
-        .article-card:hover {
-          border-color: var(--accent);
-          background: var(--accent-light);
-        }
-
-        .article-tag {
-          font-family: var(--font-mono);
-          font-size: 0.6rem;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: var(--accent);
-        }
-
-        .article-title {
-          font-size: 0.8rem;
-          font-weight: 500;
-          color: var(--text-primary);
-          line-height: 1.4;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .article-date {
-          font-family: var(--font-mono);
-          font-size: 0.6rem;
-          color: var(--text-muted);
-          margin-top: 2px;
-        }
-
         .role {
           font-family: var(--font-heading);
           font-size: clamp(2rem, 6vw, 4rem);
@@ -558,10 +451,6 @@ export default function Hero() {
             margin-bottom: var(--space-xl);
           }
 
-          .article-strip {
-            margin-bottom: var(--space-2xl);
-          }
-
           .role {
             margin-bottom: var(--space-md);
           }
@@ -598,15 +487,6 @@ export default function Hero() {
           .social-row {
             gap: var(--space-md);
             margin-bottom: var(--space-lg);
-          }
-
-          .article-strip {
-            margin-bottom: var(--space-xl);
-          }
-
-          .article-card {
-            max-width: 180px;
-            padding: var(--space-sm) var(--space-md);
           }
 
           .scroll-hint {

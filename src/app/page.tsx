@@ -1,6 +1,7 @@
 'use client';
 
 import Hero from '@/components/Hero/Hero';
+import WritingStrip from '@/components/WritingStrip/WritingStrip';
 import LogoMarquee from '@/components/LogoMarquee/LogoMarquee';
 import About from '@/components/About/About';
 import Impact from '@/components/Impact/Impact';
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <WritingStrip />
       <LogoMarquee />
       <About />
       <Impact />
