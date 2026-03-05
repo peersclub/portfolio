@@ -11,6 +11,7 @@ const navLinks = [
   { label: 'My Life', href: '/mylife' },
   { label: 'Playbook', href: '/playbook' },
   { label: 'The Right Fit', href: '/therightfit' },
+  { label: 'Sharing', href: '/sharing' },
   { label: 'Contact', href: '/contact' },
 ];
 
