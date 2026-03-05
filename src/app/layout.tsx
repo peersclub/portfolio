@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation/Navigation";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
-import EnhancedCursor from "@/components/EnhancedCursor/EnhancedCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 import "./view-transitions.css";
@@ -36,8 +35,7 @@ export default function RootLayout({
             <body>
                 <ThemeProvider>
                     <SmoothScroll>
-                        <EnhancedCursor />
-                        <div className="noise-overlay" />
+<div className="noise-overlay" />
                         <div className="blueprint-grid" />
                         <div className="atmospheric-glow" />
                         <Navigation />
