@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Copy, Check, Mail, ArrowUpRight, Sparkles, Package } from 'lucide-react';
+import { Terminal, Copy, Check, Mail, ArrowUpRight, Sparkles, Package, Shield, Zap } from 'lucide-react';
 import Footer from '@/components/Footer/Footer';
 
 const MAC_CLEANUP_RUNBOOK = `You are a Mac cleanup assistant. Your job is to help the user reclaim disk space safely on their macOS developer machine.
@@ -170,6 +170,34 @@ Requires an explicit YES before touching anything.
 Deletes only what you approved.
 Prints a before / after disk usage summary.`;
 
+const HOW_IT_WORKS = [
+  {
+    title: 'Paste → Claude silently audits',
+    desc: 'Runs all discovery commands in parallel — df, Homebrew sizes, runtime caches, project build artifacts, IDE data, Docker. No deletions. No questions yet.',
+  },
+  {
+    title: 'Claude shows a confirmation table',
+    desc: 'Every item listed with its size, why it\'s safe to remove (or flagged as DESTRUCTIVE / IRREVERSIBLE), and an estimated total recovery. Nothing ambiguous.',
+  },
+  {
+    title: 'You type YES — or say "skip X"',
+    desc: 'Claude cleans only what you approved and prints DONE [size freed] [item] for each deletion. Skipped items are dropped from the plan.',
+  },
+  {
+    title: 'Final report',
+    desc: 'Before and after free space printed side by side, with a full list of everything freed. You see exactly what happened.',
+  },
+];
+
+const SAFETY_RAILS = [
+  { label: '~/Downloads', desc: 'Always MANUAL REVIEW — never auto-deleted' },
+  { label: 'Antigravity memory', desc: 'Labelled IRREVERSIBLE — you\'re warned explicitly' },
+  { label: 'Docker volumes', desc: 'Gets a separate explicit warning before any touch' },
+  { label: 'node_modules', desc: 'Always reminds you to run npm/yarn/pnpm install after' },
+  { label: 'Homebrew packages', desc: 'Checks dependents before suggesting removal' },
+  { label: 'Nothing runs', desc: 'Until you explicitly type YES — no silent actions' },
+];
+
 const email = 'sureshthejosephite@gmail.com';
 
 export default function SharingPage() {
@@ -260,13 +288,50 @@ export default function SharingPage() {
               </pre>
             </div>
 
-            {/* How to use */}
-            <div className="how-to-use">
-              <span className="how-label">How to use</span>
+            {/* How it works — 4 steps */}
+            <div className="hiw-section">
+              <div className="hiw-header">
+                <Zap size={13} className="hiw-icon" />
+                <span className="section-label">How it works</span>
+              </div>
+              <div className="steps-list">
+                {HOW_IT_WORKS.map((step, i) => (
+                  <div className="step-row" key={i}>
+                    <span className="step-num">{i + 1}</span>
+                    <div className="step-content">
+                      <strong className="step-title">{step.title}</strong>
+                      <span className="step-desc">{step.desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Safety rails */}
+            <div className="rails-section">
+              <div className="hiw-header">
+                <Shield size={13} className="shield-icon" />
+                <span className="section-label">Built-in safety rails</span>
+              </div>
+              <div className="rails-grid">
+                {SAFETY_RAILS.map((r) => (
+                  <div className="rail-item" key={r.label}>
+                    <code className="rail-label">{r.label}</code>
+                    <span className="rail-desc">{r.desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Insight callout */}
+            <div className="insight-callout">
+              <span className="insight-marker">★ Why a prompt, not a bash script</span>
               <p>
-                Copy the prompt below and paste it into{' '}
-                <strong>Claude Code</strong> (or any Claude interface).
-                It will audit, confirm, then clean — with your explicit approval at every step.
+                Writing this as a Claude prompt flips the trust model entirely. A bash script runs blindly —
+                you have to understand it before running. A Claude prompt makes the AI do the understanding
+                first and puts a human checkpoint between audit and action. The{' '}
+                <code>IRREVERSIBLE</code> labelling is borrowed from how good CLI tools handle destructive
+                operations — it forces a moment of conscious decision rather than passive acceptance.
               </p>
             </div>
 
@@ -510,35 +575,154 @@ export default function SharingPage() {
           margin: 0;
         }
 
-        /* ── How To ── */
-        .how-to-use {
-          padding: var(--space-lg) var(--space-2xl);
-          background: var(--accent-subtle);
-          border-bottom: 1px solid var(--line-subtle);
-          display: flex;
-          align-items: flex-start;
-          gap: var(--space-md);
+        /* ── Section label shared ── */
+        .section-label {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--text-muted);
         }
 
-        .how-label {
+        .hiw-header {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          margin-bottom: var(--space-lg);
+        }
+
+        .hiw-icon {
+          color: var(--accent);
+        }
+
+        .shield-icon {
+          color: #22c55e;
+        }
+
+        /* ── How It Works ── */
+        .hiw-section {
+          padding: var(--space-2xl);
+          border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .steps-list {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-lg);
+        }
+
+        .step-row {
+          display: flex;
+          gap: var(--space-lg);
+          align-items: flex-start;
+        }
+
+        .step-num {
+          flex-shrink: 0;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: var(--accent-subtle);
+          border: 1px solid var(--accent-border);
+          color: var(--accent);
+          font-family: var(--font-mono);
+          font-size: 0.7rem;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 2px;
+        }
+
+        .step-content {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .step-title {
+          font-size: 0.9rem;
+          color: var(--text-primary);
+          font-weight: 600;
+        }
+
+        .step-desc {
+          font-size: 0.84rem;
+          color: var(--text-secondary);
+          line-height: 1.65;
+        }
+
+        /* ── Safety Rails ── */
+        .rails-section {
+          padding: var(--space-2xl);
+          border-bottom: 1px solid var(--line-subtle);
+          background: color-mix(in srgb, #22c55e 4%, transparent);
+        }
+
+        .rails-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--space-md) var(--space-xl);
+        }
+
+        .rail-item {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .rail-label {
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #22c55e;
+          background: rgba(34, 197, 94, 0.1);
+          border: 1px solid rgba(34, 197, 94, 0.2);
+          padding: 2px 8px;
+          border-radius: 4px;
+          width: fit-content;
+        }
+
+        .rail-desc {
+          font-size: 0.78rem;
+          color: var(--text-muted);
+          line-height: 1.5;
+          padding-left: 2px;
+        }
+
+        /* ── Insight Callout ── */
+        .insight-callout {
+          padding: var(--space-xl) var(--space-2xl);
+          border-bottom: 1px solid var(--line-subtle);
+          border-left: 3px solid var(--accent);
+          background: var(--accent-subtle);
+          margin: 0;
+        }
+
+        .insight-marker {
           font-family: var(--font-mono);
           font-size: 0.65rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
           color: var(--accent);
-          flex-shrink: 0;
-          padding-top: 2px;
+          display: block;
+          margin-bottom: var(--space-sm);
         }
 
-        .how-to-use p {
+        .insight-callout p {
           font-size: 0.88rem;
           color: var(--text-secondary);
-          line-height: 1.6;
+          line-height: 1.75;
           margin: 0;
         }
 
-        .how-to-use strong {
-          color: var(--text-primary);
+        .insight-callout code {
+          font-family: var(--font-mono);
+          font-size: 0.78rem;
+          color: var(--accent);
+          background: var(--accent-subtle);
+          border: 1px solid var(--accent-border);
+          padding: 1px 6px;
+          border-radius: 4px;
         }
 
         /* ── Actions ── */
@@ -657,10 +841,14 @@ export default function SharingPage() {
             justify-content: center;
           }
 
-          .how-to-use {
-            flex-direction: column;
-            padding: var(--space-md) var(--space-lg);
-            gap: var(--space-sm);
+          .rails-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .hiw-section,
+          .rails-section,
+          .insight-callout {
+            padding: var(--space-lg);
           }
 
           .terminal-body {
