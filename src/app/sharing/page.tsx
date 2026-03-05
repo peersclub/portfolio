@@ -1,220 +1,20 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Copy, Check, Mail, ArrowUpRight, Sparkles, Package, Shield, Zap } from 'lucide-react';
+import { Sparkles, ArrowUpRight, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 import Footer from '@/components/Footer/Footer';
-
-const MAC_CLEANUP_RUNBOOK = `You are a Mac cleanup assistant. Your job is to help the user reclaim disk space safely on their macOS developer machine.
-
-Follow these steps strictly in order:
-
----
-
-## STEP 1 — AUDIT (run silently, no deletions yet)
-
-Run all of the following commands in parallel to understand the system:
-
-\`\`\`
-df -h /
-\`\`\`
-
-\`\`\`
-brew list --formula | while read pkg; do size=$(du -sh "$(brew --cellar)/$pkg" 2>/dev/null | cut -f1); echo "$size    $pkg"; done | sort -h
-\`\`\`
-
-\`\`\`
-du -sh \\
-  ~/.cargo ~/.rustup \\
-  ~/.pub-cache \\
-  ~/.gradle ~/.m2 \\
-  ~/.nvm/versions/node/* \\
-  ~/.gemini ~/.antigravity ~/.antigravity_cockpit \\
-  ~/Library/Caches/ms-playwright \\
-  ~/Library/Developer/Xcode/DerivedData \\
-  ~/Library/Developer/CoreSimulator/Devices \\
-  ~/Library/Caches \\
-  ~/.docker \\
-  ~/.minikube \\
-  2>/dev/null | sort -rh
-\`\`\`
-
-\`\`\`
-du -sh ~/.gemini/antigravity/* ~/.gemini/antigravity-browser-profile 2>/dev/null | sort -rh
-\`\`\`
-
-\`\`\`
-du -sh ~/.antigravity/extensions/* 2>/dev/null | sort -rh
-\`\`\`
-
-\`\`\`
-find ~/Projects ~/Projects22 ~/Desktop ~/Documents -maxdepth 4 \\
-  \\( -name ".next" -o -name "node_modules" -o -name "dist" -o -name ".vercel" \\) \\
-  -type d 2>/dev/null | while read d; do du -sh "$d" 2>/dev/null; done | sort -rh
-\`\`\`
-
-\`\`\`
-find ~/Downloads -name "*.dmg" -o -name "*.pkg" -o -name "*.zip" 2>/dev/null | \\
-  while read f; do du -sh "$f"; done | sort -rh
-\`\`\`
-
-\`\`\`
-du -sh ~/Downloads/* 2>/dev/null | sort -rh | head -20
-\`\`\`
-
-\`\`\`
-du -sh \\
-  ~/Library/Application\\ Support/Cursor/logs \\
-  ~/Library/Application\\ Support/Cursor/User/workspaceStorage \\
-  ~/Library/Application\\ Support/Code/logs \\
-  ~/Library/Application\\ Support/Code/User/workspaceStorage \\
-  2>/dev/null | sort -rh
-\`\`\`
-
-\`\`\`
-docker system df 2>/dev/null || echo "Docker not running or not installed"
-\`\`\`
-
-\`\`\`
-grep -n "cargo\\|nvm\\|pyenv\\|rbenv\\|flutter\\|pub\\|gradle" \\
-  ~/.zshrc ~/.zshenv ~/.zprofile ~/.bashrc ~/.bash_profile 2>/dev/null | \\
-  grep -v "^Binary"
-\`\`\`
-
----
-
-## STEP 2 — CONFIRMATION REPORT (show this before doing ANYTHING)
-
-After running the audit, present a clean confirmation table like this:
-
-\`\`\`
-DISK USAGE BEFORE CLEANUP
-Current free space: X GB of Y GB
-
-WHAT WILL BE CLEANED                         SIZE        WHY IT IS SAFE
-─────────────────────────────────────────────────────────────────────────
-[list each item found, one per row]          [size]      [one-line reason]
-
-WHAT WILL NOT BE TOUCHED                     WHY
-─────────────────────────────────────────────────────────────────────────
-[list anything skipped]                      [reason]
-
-ESTIMATED SPACE RECOVERED: X GB
-
-Type YES to proceed, or tell me what to skip.
-\`\`\`
-
-Rules for building the confirmation table:
-- Only include items that actually exist and have size > 0
-- Mark anything in Downloads as MANUAL REVIEW — never auto-delete personal files
-- If a Homebrew package has dependents outside the removal list, flag it
-- If node_modules exists, list it separately and note it requires \`npm install\` to restore
-- If Antigravity conversations/brain exist, list them as DESTRUCTIVE — irreversible
-- If Docker volumes exist, list them as DESTRUCTIVE — may contain important data
-- Group items by category: Homebrew / Runtimes / Build Caches / AI Tools / IDEs / System
-
----
-
-## STEP 3 — EXECUTE (only after the user types YES or approves)
-
-Clean everything the user confirmed. For each item:
-1. Delete it
-2. Print a one-line confirmation: \`DONE  [size freed]  [what was deleted]\`
-
-After all deletions, run:
-\`\`\`
-df -h /
-\`\`\`
-
-Then print a final summary:
-
-\`\`\`
-CLEANUP COMPLETE
-─────────────────────────────
-Before:   X GB free
-After:    Y GB free
-Freed:    Z GB
-
-[List every item deleted with size]
-\`\`\`
-
----
-
-## RULES YOU MUST FOLLOW
-
-- NEVER delete anything before showing the confirmation table and receiving YES
-- NEVER delete ~/Downloads contents automatically — always mark as manual review
-- NEVER delete Docker volumes without a separate explicit warning
-- NEVER delete Antigravity conversations/brain without labelling it IRREVERSIBLE
-- NEVER delete node_modules without noting the user must run npm/yarn/pnpm install after
-- ALWAYS check brew uses --installed before removing a Homebrew package
-- ALWAYS preserve OAuth/credential files when resetting AI tools
-- If the user says skip something, remove it from the plan and re-show the table
-- If a deletion fails, report it clearly — do not silently continue`;
-
-const PREVIEW = `## STEP 1 — AUDIT
-Runs in parallel — no deletions yet:
-  · df -h /                         → current disk state
-  · Homebrew packages by size        → find bloated formulae
-  · ~/.nvm, ~/.cargo, ~/.gradle      → runtime caches
-  · node_modules / .next / dist      → project build artifacts
-  · Xcode DerivedData, Simulators    → often 20-50 GB
-  · Docker volumes & images          → flagged as destructive
-  · Downloads folder                 → manual review only
-
-## STEP 2 — CONFIRMATION TABLE
-Shows exactly what will be deleted and why it is safe.
-Requires an explicit YES before touching anything.
-
-## STEP 3 — EXECUTE
-Deletes only what you approved.
-Prints a before / after disk usage summary.`;
-
-const HOW_IT_WORKS = [
-  {
-    title: 'Paste → Claude silently audits',
-    desc: 'Runs all discovery commands in parallel — df, Homebrew sizes, runtime caches, project build artifacts, IDE data, Docker. No deletions. No questions yet.',
-  },
-  {
-    title: 'Claude shows a confirmation table',
-    desc: 'Every item listed with its size, why it\'s safe to remove (or flagged as DESTRUCTIVE / IRREVERSIBLE), and an estimated total recovery. Nothing ambiguous.',
-  },
-  {
-    title: 'You type YES — or say "skip X"',
-    desc: 'Claude cleans only what you approved and prints DONE [size freed] [item] for each deletion. Skipped items are dropped from the plan.',
-  },
-  {
-    title: 'Final report',
-    desc: 'Before and after free space printed side by side, with a full list of everything freed. You see exactly what happened.',
-  },
-];
-
-const SAFETY_RAILS = [
-  { label: '~/Downloads', desc: 'Always MANUAL REVIEW — never auto-deleted' },
-  { label: 'Antigravity memory', desc: 'Labelled IRREVERSIBLE — you\'re warned explicitly' },
-  { label: 'Docker volumes', desc: 'Gets a separate explicit warning before any touch' },
-  { label: 'node_modules', desc: 'Always reminds you to run npm/yarn/pnpm install after' },
-  { label: 'Homebrew packages', desc: 'Checks dependents before suggesting removal' },
-  { label: 'Nothing runs', desc: 'Until you explicitly type YES — no silent actions' },
-];
+import { sharingResources } from '@/data/sharing';
 
 const email = 'sureshthejosephite@gmail.com';
 
 export default function SharingPage() {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(MAC_CLEANUP_RUNBOOK);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
-
   return (
     <>
       <div className="sharing-page">
         <div className="container">
 
-          {/* ── Page Header ── */}
+          {/* ── Header ── */}
           <motion.div
             className="page-header"
             initial={{ opacity: 0, y: 32 }}
@@ -229,156 +29,70 @@ export default function SharingPage() {
             </p>
           </motion.div>
 
-          {/* ── Resource Card ── */}
-          <motion.div
-            className="resource-card"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
-          >
-            {/* Card Top */}
-            <div className="card-top">
-              <div className="card-meta">
-                <span className="resource-tag">
-                  <Sparkles size={11} />
-                  Claude Prompt · Free
-                </span>
-                <span className="resource-number">01</span>
-              </div>
+          {/* ── Resource Cards ── */}
+          <div className="cards-list">
+            {sharingResources.map((resource, i) => (
+              <motion.div
+                key={resource.slug}
+                initial={{ opacity: 0, y: 36 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: i * 0.1 + 0.2, ease: [0.19, 1, 0.22, 1] }}
+              >
+                <Link href={`/sharing/${resource.slug}`} className="resource-card">
+                  <div className="card-inner">
+                    {/* Top row */}
+                    <div className="card-meta">
+                      <span className="resource-tag">
+                        <Sparkles size={10} />
+                        {resource.tag}
+                      </span>
+                      <span className="resource-number">{resource.number}</span>
+                    </div>
 
-              <h2 className="resource-title">Mac Developer<br />Cleanup Runbook</h2>
-              <p className="resource-description">
-                A battle-tested Claude Code prompt that audits your Mac&apos;s disk usage across
-                Homebrew, Docker, node_modules, Xcode, Rust, Flutter, and more — then gives you
-                a full confirmation table before touching a single file. Safe, surgical, and
-                satisfying to run.
-              </p>
+                    {/* Title + description */}
+                    <h2 className="resource-title">{resource.shortTitle}</h2>
+                    <p className="resource-description">{resource.description}</p>
 
-              <div className="features-list">
-                {[
-                  'Parallel audit in one shot',
-                  'Confirmation required before any deletion',
-                  'Groups by: Homebrew / Runtimes / IDEs / AI tools',
-                  'Flags irreversible actions clearly',
-                  'Before & after disk usage summary',
-                ].map((f) => (
-                  <span key={f} className="feature-pill">
-                    <span className="pill-check">✓</span> {f}
-                  </span>
-                ))}
-              </div>
-            </div>
+                    {/* Feature pills */}
+                    <div className="features-list">
+                      {resource.features.map((f) => (
+                        <span key={f} className="feature-pill">
+                          <span className="pill-check">✓</span> {f}
+                        </span>
+                      ))}
+                    </div>
 
-            {/* Terminal Preview */}
-            <div className="terminal-card">
-              <div className="terminal-header">
-                <div className="terminal-dots">
-                  <span className="dot red" />
-                  <span className="dot yellow" />
-                  <span className="dot green" />
-                </div>
-                <span className="terminal-title">
-                  <Terminal size={12} />
-                  mac-cleanup-runbook.md
-                </span>
-                <Package size={13} className="terminal-icon-right" />
-              </div>
-              <pre className="terminal-body">
-                <code>{PREVIEW}</code>
-              </pre>
-            </div>
-
-            {/* How it works — 4 steps */}
-            <div className="hiw-section">
-              <div className="hiw-header">
-                <Zap size={13} className="hiw-icon" />
-                <span className="section-label">How it works</span>
-              </div>
-              <div className="steps-list">
-                {HOW_IT_WORKS.map((step, i) => (
-                  <div className="step-row" key={i}>
-                    <span className="step-num">{i + 1}</span>
-                    <div className="step-content">
-                      <strong className="step-title">{step.title}</strong>
-                      <span className="step-desc">{step.desc}</span>
+                    {/* CTA */}
+                    <div className="card-cta">
+                      <span className="cta-text">
+                        View resource
+                        <ChevronRight size={15} className="cta-arrow" />
+                      </span>
                     </div>
                   </div>
-                ))}
+                </Link>
+              </motion.div>
+            ))}
+
+            {/* ── More coming placeholder ── */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <div className="more-card">
+                <span className="mono-label">More Coming</span>
+                <p>Ideas, templates, playbooks, and prompts — dropping as I build them.</p>
+                <a
+                  href={`mailto:${email}?subject=Sharing%20Page%20%E2%80%94%20Request`}
+                  className="more-link"
+                >
+                  Got a request? Write to me
+                  <ArrowUpRight size={13} />
+                </a>
               </div>
-            </div>
-
-            {/* Safety rails */}
-            <div className="rails-section">
-              <div className="hiw-header">
-                <Shield size={13} className="shield-icon" />
-                <span className="section-label">Built-in safety rails</span>
-              </div>
-              <div className="rails-grid">
-                {SAFETY_RAILS.map((r) => (
-                  <div className="rail-item" key={r.label}>
-                    <code className="rail-label">{r.label}</code>
-                    <span className="rail-desc">{r.desc}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Insight callout */}
-            <div className="insight-callout">
-              <span className="insight-marker">★ Why a prompt, not a bash script</span>
-              <p>
-                Writing this as a Claude prompt flips the trust model entirely. A bash script runs blindly —
-                you have to understand it before running. A Claude prompt makes the AI do the understanding
-                first and puts a human checkpoint between audit and action. The{' '}
-                <code>IRREVERSIBLE</code> labelling is borrowed from how good CLI tools handle destructive
-                operations — it forces a moment of conscious decision rather than passive acceptance.
-              </p>
-            </div>
-
-            {/* Actions */}
-            <div className="card-actions">
-              <motion.button
-                className={`btn-copy ${copied ? 'copied' : ''}`}
-                onClick={handleCopy}
-                whileTap={{ scale: 0.97 }}
-              >
-                {copied
-                  ? <><Check size={16} strokeWidth={2.5} /> Copied to clipboard!</>
-                  : <><Copy size={16} /> Copy Full Prompt</>}
-              </motion.button>
-
-              <a
-                href={`mailto:${email}?subject=Re%3A%20Mac%20Cleanup%20Runbook`}
-                className="btn-write"
-              >
-                <Mail size={15} />
-                Write to me
-                <ArrowUpRight size={13} />
-              </a>
-            </div>
-          </motion.div>
-
-          {/* ── More Coming ── */}
-          <motion.div
-            className="more-section"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.45, ease: [0.19, 1, 0.22, 1] }}
-          >
-            <div className="more-card">
-              <span className="mono-label">More Coming</span>
-              <p>
-                Ideas, templates, playbooks, and prompts — dripping out as I build them.
-              </p>
-              <a
-                href={`mailto:${email}?subject=Sharing%20Page%20%E2%80%94%20Request`}
-                className="more-link"
-              >
-                Got a request? Write to me
-                <ArrowUpRight size={14} />
-              </a>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
         </div>
       </div>
@@ -386,7 +100,6 @@ export default function SharingPage() {
       <Footer />
 
       <style jsx>{`
-        /* ── Page Layout ── */
         .sharing-page {
           padding-top: 120px;
           padding-bottom: var(--space-5xl);
@@ -394,7 +107,7 @@ export default function SharingPage() {
         }
 
         .container {
-          max-width: 860px;
+          max-width: 820px;
           margin: 0 auto;
           padding: 0 var(--space-xl);
         }
@@ -424,28 +137,38 @@ export default function SharingPage() {
         .subtitle {
           font-size: 1.05rem;
           color: var(--text-secondary);
-          max-width: 460px;
+          max-width: 440px;
           margin: 0 auto;
           line-height: 1.65;
         }
 
-        /* ── Resource Card ── */
+        /* ── Cards List ── */
+        .cards-list {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-lg);
+        }
+
+        /* ── Resource Card (link) ── */
         .resource-card {
+          display: block;
+          text-decoration: none;
           background: var(--surface-primary);
           border: 1px solid var(--line-subtle);
           border-radius: var(--radius-xl);
           overflow: hidden;
-          transition: border-color 0.35s ease, box-shadow 0.35s ease;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+          color: inherit;
         }
 
         .resource-card:hover {
           border-color: var(--accent-border);
-          box-shadow: 0 12px 48px var(--accent-subtle);
+          box-shadow: 0 8px 40px var(--accent-subtle);
+          transform: translateY(-2px);
         }
 
-        .card-top {
+        .card-inner {
           padding: var(--space-2xl);
-          border-bottom: 1px solid var(--line-subtle);
         }
 
         .card-meta {
@@ -460,7 +183,7 @@ export default function SharingPage() {
           align-items: center;
           gap: 6px;
           font-family: var(--font-mono);
-          font-size: 0.68rem;
+          font-size: 0.67rem;
           letter-spacing: 0.14em;
           text-transform: uppercase;
           color: var(--accent);
@@ -478,15 +201,21 @@ export default function SharingPage() {
         }
 
         .resource-title {
-          font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-          line-height: 1.15;
+          font-size: clamp(1.4rem, 3vw, 1.9rem);
+          line-height: 1.2;
           margin-bottom: var(--space-md);
+          color: var(--text-primary);
+          transition: color 0.2s ease;
+        }
+
+        .resource-card:hover .resource-title {
+          color: var(--accent);
         }
 
         .resource-description {
           color: var(--text-secondary);
           line-height: 1.75;
-          font-size: 0.95rem;
+          font-size: 0.93rem;
           margin-bottom: var(--space-xl);
           max-width: 620px;
         }
@@ -495,305 +224,63 @@ export default function SharingPage() {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
+          margin-bottom: var(--space-xl);
         }
 
         .feature-pill {
           font-family: var(--font-mono);
-          font-size: 0.7rem;
+          font-size: 0.68rem;
           color: var(--text-muted);
           background: var(--surface-secondary, var(--bg-secondary));
           border: 1px solid var(--line-subtle);
-          padding: 5px 12px;
+          padding: 4px 11px;
           border-radius: var(--radius-full);
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 5px;
         }
 
         .pill-check {
           color: var(--accent);
-          font-size: 0.65rem;
+          font-size: 0.62rem;
         }
 
-        /* ── Terminal ── */
-        .terminal-card {
-          background: #0d1117;
-          border-top: 1px solid #21262d;
-          border-bottom: 1px solid #21262d;
-        }
-
-        .terminal-header {
+        /* ── CTA row ── */
+        .card-cta {
+          border-top: 1px solid var(--line-subtle);
+          padding-top: var(--space-lg);
           display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 18px;
-          background: #161b22;
-          border-bottom: 1px solid #21262d;
+          justify-content: flex-end;
         }
 
-        .terminal-dots {
-          display: flex;
-          gap: 6px;
-        }
-
-        .dot {
-          width: 11px;
-          height: 11px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
-
-        .dot.red    { background: #ff5f57; }
-        .dot.yellow { background: #febc2e; }
-        .dot.green  { background: #28c840; }
-
-        .terminal-title {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          color: #8b949e;
-          margin-left: 4px;
-          flex: 1;
-        }
-
-        .terminal-icon-right {
-          color: #3d444d;
-          margin-left: auto;
-        }
-
-        .terminal-body {
-          padding: var(--space-xl) var(--space-2xl);
-          font-family: var(--font-mono);
-          font-size: 0.78rem;
-          line-height: 1.75;
-          color: #c9d1d9;
-          overflow-x: auto;
-          white-space: pre-wrap;
-          word-break: break-word;
-          margin: 0;
-        }
-
-        /* ── Section label shared ── */
-        .section-label {
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: var(--text-muted);
-        }
-
-        .hiw-header {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          margin-bottom: var(--space-lg);
-        }
-
-        .hiw-icon {
-          color: var(--accent);
-        }
-
-        .shield-icon {
-          color: #22c55e;
-        }
-
-        /* ── How It Works ── */
-        .hiw-section {
-          padding: var(--space-2xl);
-          border-bottom: 1px solid var(--line-subtle);
-        }
-
-        .steps-list {
-          display: flex;
-          flex-direction: column;
-          gap: var(--space-lg);
-        }
-
-        .step-row {
-          display: flex;
-          gap: var(--space-lg);
-          align-items: flex-start;
-        }
-
-        .step-num {
-          flex-shrink: 0;
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          background: var(--accent-subtle);
-          border: 1px solid var(--accent-border);
-          color: var(--accent);
-          font-family: var(--font-mono);
-          font-size: 0.7rem;
-          font-weight: 700;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-top: 2px;
-        }
-
-        .step-content {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-
-        .step-title {
-          font-size: 0.9rem;
-          color: var(--text-primary);
-          font-weight: 600;
-        }
-
-        .step-desc {
-          font-size: 0.84rem;
-          color: var(--text-secondary);
-          line-height: 1.65;
-        }
-
-        /* ── Safety Rails ── */
-        .rails-section {
-          padding: var(--space-2xl);
-          border-bottom: 1px solid var(--line-subtle);
-          background: color-mix(in srgb, #22c55e 4%, transparent);
-        }
-
-        .rails-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--space-md) var(--space-xl);
-        }
-
-        .rail-item {
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-        }
-
-        .rail-label {
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          color: #22c55e;
-          background: rgba(34, 197, 94, 0.1);
-          border: 1px solid rgba(34, 197, 94, 0.2);
-          padding: 2px 8px;
-          border-radius: 4px;
-          width: fit-content;
-        }
-
-        .rail-desc {
-          font-size: 0.78rem;
-          color: var(--text-muted);
-          line-height: 1.5;
-          padding-left: 2px;
-        }
-
-        /* ── Insight Callout ── */
-        .insight-callout {
-          padding: var(--space-xl) var(--space-2xl);
-          border-bottom: 1px solid var(--line-subtle);
-          border-left: 3px solid var(--accent);
-          background: var(--accent-subtle);
-          margin: 0;
-        }
-
-        .insight-marker {
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: var(--accent);
-          display: block;
-          margin-bottom: var(--space-sm);
-        }
-
-        .insight-callout p {
-          font-size: 0.88rem;
-          color: var(--text-secondary);
-          line-height: 1.75;
-          margin: 0;
-        }
-
-        .insight-callout code {
-          font-family: var(--font-mono);
-          font-size: 0.78rem;
-          color: var(--accent);
-          background: var(--accent-subtle);
-          border: 1px solid var(--accent-border);
-          padding: 1px 6px;
-          border-radius: 4px;
-        }
-
-        /* ── Actions ── */
-        .card-actions {
-          padding: var(--space-xl) var(--space-2xl);
-          display: flex;
-          align-items: center;
-          gap: var(--space-md);
-          flex-wrap: wrap;
-        }
-
-        .btn-copy {
+        .cta-text {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
-          padding: 13px 24px;
-          border-radius: var(--radius-full);
-          font-size: 0.875rem;
+          gap: 5px;
+          font-size: 0.85rem;
           font-weight: 600;
-          letter-spacing: 0.01em;
-          background: var(--accent-gradient);
-          color: white;
-          border: none;
-          cursor: pointer;
-          transition: all 0.25s var(--ease-out-expo);
-          box-shadow: 0 2px 12px var(--accent-subtle);
-        }
-
-        .btn-copy:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 28px var(--accent-border);
-        }
-
-        .btn-copy.copied {
-          background: linear-gradient(135deg, #22c55e, #16a34a);
-          box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
-        }
-
-        .btn-write {
-          display: inline-flex;
-          align-items: center;
-          gap: 7px;
-          padding: 13px 22px;
-          border-radius: var(--radius-full);
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: var(--text-primary);
-          background: transparent;
-          border: 1px solid var(--line-subtle);
-          text-decoration: none;
-          transition: all 0.25s var(--ease-out-expo);
-        }
-
-        .btn-write:hover {
-          border-color: var(--accent-border);
-          background: var(--accent-subtle);
           color: var(--accent);
-          transform: translateY(-2px);
+          transition: gap 0.2s ease;
         }
 
-        /* ── More Section ── */
-        .more-section {
-          margin-top: var(--space-3xl);
+        .resource-card:hover .cta-text {
+          gap: 9px;
         }
 
+        .cta-arrow {
+          transition: transform 0.2s ease;
+        }
+
+        .resource-card:hover .cta-arrow {
+          transform: translateX(3px);
+        }
+
+        /* ── More Card ── */
         .more-card {
           text-align: center;
           padding: var(--space-3xl) var(--space-2xl);
           border: 1px dashed var(--line-subtle);
           border-radius: var(--radius-xl);
-          background: transparent;
           transition: border-color 0.3s ease;
         }
 
@@ -803,7 +290,7 @@ export default function SharingPage() {
 
         .more-card p {
           color: var(--text-secondary);
-          font-size: 0.95rem;
+          font-size: 0.93rem;
           margin: var(--space-sm) 0 var(--space-lg);
           line-height: 1.6;
         }
@@ -813,7 +300,7 @@ export default function SharingPage() {
           align-items: center;
           gap: 5px;
           color: var(--accent);
-          font-size: 0.9rem;
+          font-size: 0.88rem;
           font-weight: 500;
           text-decoration: none;
           transition: gap 0.2s ease, opacity 0.2s ease;
@@ -826,34 +313,8 @@ export default function SharingPage() {
 
         /* ── Responsive ── */
         @media (max-width: 640px) {
-          .card-top {
+          .card-inner {
             padding: var(--space-lg);
-          }
-
-          .card-actions {
-            padding: var(--space-lg);
-            flex-direction: column;
-          }
-
-          .btn-copy,
-          .btn-write {
-            width: 100%;
-            justify-content: center;
-          }
-
-          .rails-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .hiw-section,
-          .rails-section,
-          .insight-callout {
-            padding: var(--space-lg);
-          }
-
-          .terminal-body {
-            padding: var(--space-md) var(--space-lg);
-            font-size: 0.72rem;
           }
         }
       `}</style>
