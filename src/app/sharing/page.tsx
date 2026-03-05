@@ -154,18 +154,25 @@ export default function SharingPage() {
           display: block;
           text-decoration: none;
           background: var(--surface-elevated);
-          border: 1px solid var(--line-default);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-top: 3px solid var(--accent);
           border-radius: var(--radius-xl);
           overflow: hidden;
-          box-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
+          box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+            0 8px 40px rgba(0, 0, 0, 0.55);
           transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
           color: inherit;
         }
 
         .resource-card:hover {
-          border-color: var(--accent-border);
-          box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--accent-border);
-          transform: translateY(-3px);
+          border-color: rgba(255, 255, 255, 0.2);
+          border-top-color: var(--accent);
+          box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+            0 16px 56px rgba(0, 0, 0, 0.65),
+            0 0 32px var(--accent-subtle);
+          transform: translateY(-4px);
         }
 
         .card-inner {
