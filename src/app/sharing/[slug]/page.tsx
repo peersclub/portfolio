@@ -241,10 +241,11 @@ export default function ResourceDetailPage() {
 
         /* ── Detail Card ── */
         .detail-card {
-          background: var(--surface-primary);
-          border: 1px solid var(--line-subtle);
+          background: var(--surface-elevated);
+          border: 1px solid var(--line-default);
           border-radius: var(--radius-xl);
           overflow: hidden;
+          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
         }
 
         .card-top {
@@ -305,7 +306,7 @@ export default function ResourceDetailPage() {
           font-family: var(--font-mono);
           font-size: 0.7rem;
           color: var(--text-muted);
-          background: var(--surface-secondary, var(--bg-secondary));
+          background: var(--surface-intense);
           border: 1px solid var(--line-subtle);
           padding: 5px 12px;
           border-radius: var(--radius-full);

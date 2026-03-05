@@ -153,18 +153,19 @@ export default function SharingPage() {
         .resource-card {
           display: block;
           text-decoration: none;
-          background: var(--surface-primary);
-          border: 1px solid var(--line-subtle);
+          background: var(--surface-elevated);
+          border: 1px solid var(--line-default);
           border-radius: var(--radius-xl);
           overflow: hidden;
+          box-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
           transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
           color: inherit;
         }
 
         .resource-card:hover {
           border-color: var(--accent-border);
-          box-shadow: 0 8px 40px var(--accent-subtle);
-          transform: translateY(-2px);
+          box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--accent-border);
+          transform: translateY(-3px);
         }
 
         .card-inner {
@@ -231,7 +232,7 @@ export default function SharingPage() {
           font-family: var(--font-mono);
           font-size: 0.68rem;
           color: var(--text-muted);
-          background: var(--surface-secondary, var(--bg-secondary));
+          background: var(--surface-intense);
           border: 1px solid var(--line-subtle);
           padding: 4px 11px;
           border-radius: var(--radius-full);
@@ -279,8 +280,9 @@ export default function SharingPage() {
         .more-card {
           text-align: center;
           padding: var(--space-3xl) var(--space-2xl);
-          border: 1px dashed var(--line-subtle);
+          border: 1px dashed var(--line-default);
           border-radius: var(--radius-xl);
+          background: var(--surface-elevated);
           transition: border-color 0.3s ease;
         }
 
