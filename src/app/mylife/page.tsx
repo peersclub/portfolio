@@ -1,9 +1,18 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import InteractiveTimeline from '@/components/InteractiveTimeline/InteractiveTimeline';
-import TechGantt from '@/components/TechGantt/TechGantt';
 import Footer from '@/components/Footer/Footer';
+
+const InteractiveTimeline = dynamic(
+  () => import('@/components/InteractiveTimeline/InteractiveTimeline'),
+  { ssr: false }
+);
+
+const TechGantt = dynamic(
+  () => import('@/components/TechGantt/TechGantt'),
+  { ssr: false }
+);
 
 export default function MyLifePage() {
   return (

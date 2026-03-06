@@ -50,8 +50,6 @@ export default function Hero() {
     setQuote(QUOTES[randomIndex]);
   }, []);
 
-  if (!mounted) return null;
-
   const firstName = "Suresh".split("");
   const lastName = "Victor".split("");
 
@@ -88,9 +86,9 @@ export default function Hero() {
   };
 
   return (
-    <section className="hero" id="hero" ref={sectionRef}>
+    <section className={`hero${mounted ? " hero-ready" : ""}`} id="hero" ref={sectionRef}>
       {/* Blueprint Grid */}
-      <div className="blueprint-grid" ref={gridRef} />
+      <div className="hero-parallax-grid" ref={gridRef} />
 
       {/* Gradient Overlay for Depth */}
       <div className="hero-gradient-overlay" />
@@ -222,9 +220,15 @@ export default function Hero() {
           padding: var(--space-xl);
           padding-top: 15vh; /* Push content down significantly */
           overflow: hidden;
+          opacity: 0;
+          transition: opacity 0.4s ease;
         }
 
-        .blueprint-grid {
+        .hero.hero-ready {
+          opacity: 1;
+        }
+
+        .hero-parallax-grid {
           position: absolute;
           inset: 0;
           pointer-events: none;
