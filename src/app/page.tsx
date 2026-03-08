@@ -1,3 +1,5 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero/Hero';
 import WritingStrip from '@/components/WritingStrip/WritingStrip';
