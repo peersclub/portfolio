@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import Footer from '@/components/Footer/Footer';
+import { GlowCard } from '@/components/ui/spotlight-card';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -37,6 +38,7 @@ interface Chapter {
   moments: Moment[];
   quote: string;
   decoration: 'kite' | 'nodes' | 'chart' | 'neural';
+  glow: 'blue' | 'purple' | 'orange' | 'red';
   palette?: string[];
 }
 
@@ -57,6 +59,7 @@ const chapters: Chapter[] = [
     ],
     quote: 'The line that became the roadmap.',
     decoration: 'kite',
+    glow: 'blue',
     palette: ['#FF6B6B', '#FFB800', '#00F0FF', '#7B2FFF', '#10B981', '#F472B6'],
   },
   {
@@ -74,6 +77,7 @@ const chapters: Chapter[] = [
     ],
     quote: "The conductor doesn't play an instrument — and that's the point.",
     decoration: 'nodes',
+    glow: 'purple',
   },
   {
     numeral: 'III',
@@ -90,6 +94,7 @@ const chapters: Chapter[] = [
     ],
     quote: 'Every user story started as a drawn one.',
     decoration: 'chart',
+    glow: 'orange',
   },
   {
     numeral: 'IV',
@@ -105,6 +110,7 @@ const chapters: Chapter[] = [
     ],
     quote: 'The canvas was always infinite. Now the brush thinks.',
     decoration: 'neural',
+    glow: 'red',
   },
 ];
 
@@ -454,43 +460,50 @@ export default function MyLifePage() {
               {chapters.map((ch, i) => {
                 const Deco = decoMap[ch.decoration];
                 return (
-                  <div key={i} className="ch-card" style={{ '--ch': ch.color } as React.CSSProperties}>
-                    {/* Decoration — absolute positioned top-right */}
-                    <div className="ch-deco-float"><Deco color={ch.color} /></div>
+                  <GlowCard
+                    key={i}
+                    glowColor={ch.glow}
+                    customSize
+                    className="ch-card"
+                  >
+                    <div style={{ '--ch': ch.color } as React.CSSProperties} className="ch-card-inner-wrap">
+                      {/* Decoration — absolute positioned top-right */}
+                      <div className="ch-deco-float"><Deco color={ch.color} /></div>
 
-                    {/* Floating particles behind card */}
-                    <FloatingParticles color={ch.color} count={5} />
+                      {/* Floating particles behind card */}
+                      <FloatingParticles color={ch.color} count={5} />
 
-                    <div className="ch-inner">
-                      <div className="ch-hdr">
-                        <span className="ch-badge">Chapter {ch.numeral}</span>
-                        <span className="ch-years">{ch.years}</span>
+                      <div className="ch-inner">
+                        <div className="ch-hdr">
+                          <span className="ch-badge">Chapter {ch.numeral}</span>
+                          <span className="ch-years">{ch.years}</span>
+                        </div>
+
+                        <h2 className="ch-title">{ch.title}</h2>
+                        <p className="ch-desc">{ch.description}</p>
+
+                        <div className="ch-moments">
+                          {ch.moments.map((m, j) => {
+                            const Ic = m.icon;
+                            return (
+                              <motion.div key={j} className="ch-moment"
+                                whileHover={{ x: 8, transition: { duration: 0.2 } }}>
+                                <div className="m-icon"><Ic size={16} strokeWidth={2} /></div>
+                                <span className="m-year">{m.year}</span>
+                                <div className="m-txt">
+                                  <span className="m-lbl">{m.label}</span>
+                                  <span className="m-dtl">{m.detail}</span>
+                                </div>
+                              </motion.div>
+                            );
+                          })}
+                        </div>
+
+                        <blockquote className="ch-quote">&ldquo;{ch.quote}&rdquo;</blockquote>
+                        {ch.palette && <ColorPalette colors={ch.palette} />}
                       </div>
-
-                      <h2 className="ch-title">{ch.title}</h2>
-                      <p className="ch-desc">{ch.description}</p>
-
-                      <div className="ch-moments">
-                        {ch.moments.map((m, j) => {
-                          const Ic = m.icon;
-                          return (
-                            <motion.div key={j} className="ch-moment"
-                              whileHover={{ x: 8, transition: { duration: 0.2 } }}>
-                              <div className="m-icon"><Ic size={16} strokeWidth={2} /></div>
-                              <span className="m-year">{m.year}</span>
-                              <div className="m-txt">
-                                <span className="m-lbl">{m.label}</span>
-                                <span className="m-dtl">{m.detail}</span>
-                              </div>
-                            </motion.div>
-                          );
-                        })}
-                      </div>
-
-                      <blockquote className="ch-quote">&ldquo;{ch.quote}&rdquo;</blockquote>
-                      {ch.palette && <ColorPalette colors={ch.palette} />}
                     </div>
-                  </div>
+                  </GlowCard>
                 );
               })}
             </div>
@@ -698,21 +711,21 @@ export default function MyLifePage() {
         }
 
         .ch-card {
-          flex: 0 0 340px;
-          width: 340px;
-          position: relative;
-          background: var(--surface-primary);
-          border: 1px solid var(--line-subtle);
-          border-radius: 20px;
-          overflow: hidden;
-          transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+          flex: 0 0 340px !important;
+          width: 340px !important;
+          height: auto !important;
+          aspect-ratio: unset !important;
+          overflow: visible;
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
         .ch-card:hover {
           transform: translateY(-6px) scale(1.02);
-          box-shadow: 0 24px 60px color-mix(in srgb, var(--ch) 20%, transparent);
         }
-        .ch-card:hover {
-          border-color: color-mix(in srgb, var(--ch) 40%, transparent);
+
+        .ch-card-inner-wrap {
+          position: relative;
+          width: 100%;
+          height: 100%;
         }
 
         /* Decoration — floated top-right inside the card */
@@ -749,17 +762,7 @@ export default function MyLifePage() {
           50%{transform:translateY(-15px) scale(1.3);opacity:0.45}
         }
 
-        /* Card glow border on hover */
-        .ch-card::before {
-          content: '';
-          position: absolute; inset: -1px;
-          border-radius: 25px;
-          background: linear-gradient(135deg, color-mix(in srgb, var(--ch) 40%, transparent), transparent 60%);
-          opacity: 0;
-          transition: opacity 0.4s;
-          z-index: -1;
-        }
-        .ch-card:hover::before { opacity: 1; }
+        /* Card glow border on hover — handled by GlowCard spotlight */
 
         .ch-inner {
           position: relative; z-index: 2;
@@ -957,7 +960,7 @@ export default function MyLifePage() {
         @media (max-width: 768px) {
           .ml-hero-title { font-size: clamp(3.5rem, 16vw, 7rem); }
           .ml-origin-line span { font-size: clamp(1.8rem, 6vw, 3rem); }
-          .ch-card { flex: 0 0 300px; width: 300px; }
+          .ch-card { flex: 0 0 300px !important; width: 300px !important; }
           .ml-ch-track { padding: 0 calc(50vw - 150px); }
           .ch-title { font-size: 1.3rem; }
           .m-dtl { display: none; }
@@ -969,7 +972,7 @@ export default function MyLifePage() {
         }
         @media (max-width: 480px) {
           .ml-met-grid { grid-template-columns: 1fr; }
-          .ch-card { flex: 0 0 80vw; width: 80vw; }
+          .ch-card { flex: 0 0 80vw !important; width: 80vw !important; }
           .ml-ch-track { padding: 0 10vw; }
           .ch-deco-float { display: none; }
         }

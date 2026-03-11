@@ -170,11 +170,8 @@ export default function Navigation() {
           z-index: var(--z-fixed);
           padding: var(--space-md) var(--space-xl);
           transition: all 0.3s var(--ease-out-expo);
-          /* ALWAYS BLURRED */
-          background: var(--bg-glass);
-          backdrop-filter: blur(16px) saturate(180%);
-          -webkit-backdrop-filter: blur(16px) saturate(180%);
-          border-bottom: 1px solid var(--glass-border);
+          background: transparent;
+          border-bottom: none;
         }
 
         .navigation.hidden-nav {
@@ -206,7 +203,7 @@ export default function Navigation() {
           justify-content: space-between;
         }
 
-        .nav-logo {
+        .navigation :global(.nav-logo) {
           width: 42px;
           height: 42px;
           display: flex;
@@ -219,12 +216,12 @@ export default function Navigation() {
           box-shadow: 0 2px 8px var(--accent-subtle);
         }
 
-        .nav-logo:hover {
+        .navigation :global(.nav-logo:hover) {
           transform: scale(1.08) rotate(5deg);
           box-shadow: 0 4px 20px var(--accent-border);
         }
 
-        .logo-icon {
+        .navigation :global(.logo-icon) {
           color: white;
           filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
         }
@@ -239,7 +236,7 @@ export default function Navigation() {
           border: 1px solid var(--line-subtle);
         }
 
-        .nav-link {
+        .nav-links :global(.nav-link) {
           position: relative;
           font-size: 0.875rem;
           font-weight: 500;
@@ -251,12 +248,12 @@ export default function Navigation() {
           isolation: isolate;
         }
 
-        .nav-link:hover {
+        .nav-links :global(.nav-link:hover) {
           color: var(--text-primary);
           background: var(--line-subtle);
         }
 
-        .nav-link.active {
+        .nav-links :global(.nav-link.active) {
           color: var(--accent);
           background: var(--accent-subtle);
         }

@@ -1,0 +1,280 @@
+/* =====================================================================
+   Knowledge Graph — Upgraded Visual Layer
+   ===================================================================== */
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #0a0a0f;
+}
+
+/* Graph container */
+.graphContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* ─── Header Bar ─── */
+.header {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.headerLeft h2 {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.3px;
+  color: var(--content-primary);
+}
+
+.headerLeft p {
+  font-family: var(--font-mono-loaded), monospace;
+  font-size: 10px;
+  color: var(--content-muted);
+  letter-spacing: 2px;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+.headerRight {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.statPill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  pointer-events: auto;
+}
+
+.statPill .num {
+  font-family: var(--font-mono-loaded), monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-text);
+}
+
+.statPill .label {
+  font-size: 11px;
+  color: var(--content-muted);
+  letter-spacing: 0.5px;
+}
+
+/* ─── Filter Tabs ─── */
+.filters {
+  position: absolute;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 4px;
+  background: var(--surface-overlay);
+  border: 1px solid var(--line-subtle);
+  border-radius: 10px;
+  padding: 4px;
+  backdrop-filter: blur(20px);
+}
+
+.filterBtn {
+  padding: 6px 14px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--content-muted);
+  transition: all 0.2s;
+  font-family: var(--font-inter), sans-serif;
+}
+
+.filterBtn:hover {
+  color: var(--content-primary);
+  background: var(--line-subtle);
+}
+
+.filterBtnActive {
+  composes: filterBtn;
+  background: var(--accent-solid);
+  color: #fff;
+}
+
+.filterBtnActive:hover {
+  background: var(--accent-hover);
+  color: #fff;
+}
+
+/* ─── Legend ─── */
+.legend {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--surface-overlay);
+  border: 1px solid var(--line-subtle);
+  border-radius: 12px;
+  padding: 16px 20px;
+  backdrop-filter: blur(20px);
+}
+
+.legendTitle {
+  font-family: var(--font-mono-loaded), monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--content-muted);
+  margin-bottom: 4px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--content-tertiary);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── Zoom Controls ─── */
+.controls {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ctrlBtn {
+  width: 36px;
+  height: 36px;
+  background: var(--surface-overlay);
+  border: 1px solid var(--line-subtle);
+  border-radius: 8px;
+  color: var(--content-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s;
+  backdrop-filter: blur(20px);
+}
+
+.ctrlBtn:hover {
+  border-color: var(--accent-border);
+  color: var(--accent-text);
+  background: var(--accent-subtle);
+}
+
+/* ─── Tooltip ─── */
+.tooltip {
+  position: fixed;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: var(--surface-overlay);
+  border: 1px solid var(--line-default);
+  border-radius: 12px;
+  padding: 14px 18px;
+  max-width: 240px;
+  backdrop-filter: blur(30px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+.tooltipType {
+  font-family: var(--font-mono-loaded), monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.tooltipName {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--content-primary);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.tooltipMeta {
+  font-size: 11px;
+  color: var(--content-muted);
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+/* ─── Canvas cursor ─── */
+.graphContainer canvas { cursor: grab; }
+.graphContainer canvas:active { cursor: grabbing; }
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    top: 70px;
+    padding: 0 16px;
+  }
+
+  .headerRight {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .statPill {
+    padding: 4px 10px;
+  }
+
+  .statPill .num {
+    font-size: 12px;
+  }
+
+  .filters {
+    top: 160px;
+    flex-wrap: wrap;
+    max-width: 90vw;
+    justify-content: center;
+  }
+
+  .legend {
+    display: none;
+  }
+}
