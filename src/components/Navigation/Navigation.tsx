@@ -316,14 +316,14 @@ export default function Navigation() {
           transform: translateY(-8px) rotate(-45deg);
         }
 
-        .mobile-backdrop {
+        .navigation :global(.mobile-backdrop) {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
             z-index: 140;
         }
 
-        .mobile-menu {
+        .navigation :global(.mobile-menu) {
             position: fixed;
             top: 0;
             right: 0;
@@ -339,7 +339,7 @@ export default function Navigation() {
             flex-direction: column;
             box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
         }
-        
+
         .mobile-menu-content {
             padding: 120px 32px 40px;
             display: flex;

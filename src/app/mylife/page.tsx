@@ -234,14 +234,25 @@ const decoMap = { kite: KiteDecoration, nodes: NodesDecoration, chart: ChartDeco
    ═══════════════════════════════════════════════════════════════════════════ */
 
 function FloatingParticles({ color, count = 8 }: { color: string; count?: number }) {
+  const [particles, setParticles] = useState<React.CSSProperties[]>([]);
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: count }, () => ({
+        '--px': `${10 + Math.random() * 80}%`,
+        '--py': `${10 + Math.random() * 80}%`,
+        '--ps': `${2 + Math.random() * 4}px`,
+        '--pd': `${4 + Math.random() * 6}s`,
+        '--pdel': `${Math.random() * 4}s`,
+        background: color,
+      } as React.CSSProperties)),
+    );
+  }, [color, count]);
+
+  if (!particles.length) return null;
   return (
     <div className="fp-wrap">
-      {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="fp-dot" style={{
-          '--px': `${10 + Math.random() * 80}%`, '--py': `${10 + Math.random() * 80}%`,
-          '--ps': `${2 + Math.random() * 4}px`, '--pd': `${4 + Math.random() * 6}s`,
-          '--pdel': `${Math.random() * 4}s`, background: color,
-        } as React.CSSProperties} />
+      {particles.map((style, i) => (
+        <span key={i} className="fp-dot" style={style} />
       ))}
     </div>
   );
@@ -488,7 +499,7 @@ export default function MyLifePage() {
                             return (
                               <motion.div key={j} className="ch-moment"
                                 whileHover={{ x: 8, transition: { duration: 0.2 } }}>
-                                <div className="m-icon"><Ic size={16} strokeWidth={2} /></div>
+                                <div className="m-icon"><Ic size={22} strokeWidth={1.8} /></div>
                                 <span className="m-year">{m.year}</span>
                                 <div className="m-txt">
                                   <span className="m-lbl">{m.label}</span>
@@ -702,17 +713,16 @@ export default function MyLifePage() {
 
         .ml-ch-track {
           display: flex;
-          gap: 32px;
-          /* center each 340px card in the viewport */
-          padding: 0 calc(50vw - 170px);
+          gap: 40px;
+          padding: 0 calc(50vw - 260px);
           height: auto;
           align-items: center;
           will-change: transform;
         }
 
         .ch-card {
-          flex: 0 0 340px !important;
-          width: 340px !important;
+          flex: 0 0 520px !important;
+          width: 520px !important;
           height: auto !important;
           aspect-ratio: unset !important;
           overflow: visible;
@@ -731,10 +741,10 @@ export default function MyLifePage() {
         /* Decoration — floated top-right inside the card */
         .ch-deco-float {
           position: absolute;
-          top: 8px;
-          right: 8px;
-          width: 80px;
-          height: 95px;
+          top: 16px;
+          right: 16px;
+          width: 100px;
+          height: 110px;
           opacity: 0.25;
           pointer-events: none;
           z-index: 1;
@@ -766,73 +776,74 @@ export default function MyLifePage() {
 
         .ch-inner {
           position: relative; z-index: 2;
-          padding: 20px 20px 16px;
+          padding: 36px 36px 32px;
         }
 
-        .ch-hdr { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .ch-hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         .ch-badge {
-          font-family: var(--font-mono); font-size: 0.6rem;
+          font-family: var(--font-mono); font-size: 0.72rem;
           letter-spacing: 0.12em; text-transform: uppercase;
-          color: var(--ch); padding: 3px 10px;
+          color: var(--ch); padding: 5px 14px;
           border: 1px solid var(--ch); border-radius: var(--radius-full);
           transition: background 0.3s;
         }
         .ch-badge:hover { background: color-mix(in srgb, var(--ch) 12%, transparent); }
-        .ch-years { font-family: var(--font-mono); font-size: 0.6rem; color: var(--content-muted); letter-spacing: 0.1em; }
+        .ch-years { font-family: var(--font-mono); font-size: 0.72rem; color: var(--content-muted); letter-spacing: 0.1em; }
 
         .ch-title {
           font-family: var(--font-heading);
-          font-size: 1.5rem;
+          font-size: 2.2rem;
           font-weight: 800; color: var(--content-primary);
           letter-spacing: -0.03em; line-height: 1.1;
-          margin-bottom: 6px;
+          margin-bottom: 10px;
           text-transform: none !important;
         }
         .ch-desc {
-          font-size: 0.75rem; color: var(--content-secondary);
-          line-height: 1.55; max-width: none !important;
-          margin-bottom: 14px;
+          font-size: 0.95rem; color: var(--content-secondary);
+          line-height: 1.6; max-width: none !important;
+          margin-bottom: 24px;
         }
 
         /* Moments */
-        .ch-moments { display: flex; flex-direction: column; gap: 1px; margin-bottom: 12px; }
+        .ch-moments { display: flex; flex-direction: column; gap: 4px; margin-bottom: 24px; }
         .ch-moment {
-          display: flex; align-items: center; gap: 8px;
-          padding: 5px 6px; border-radius: 7px;
+          display: flex; align-items: center; gap: 14px;
+          padding: 10px 12px; border-radius: 12px;
           cursor: default; transition: background 0.2s;
         }
         .ch-moment:hover { background: color-mix(in srgb, var(--ch) 8%, transparent); }
 
         .m-icon {
           display: flex; align-items: center; justify-content: center;
-          width: 24px; height: 24px; border-radius: 6px;
-          background: color-mix(in srgb, var(--ch) 15%, transparent);
+          width: 44px; height: 44px; border-radius: 12px;
+          background: color-mix(in srgb, var(--ch) 12%, transparent);
           color: var(--ch); flex-shrink: 0;
           transition: transform 0.2s, background 0.2s;
         }
         .ch-moment:hover .m-icon {
-          transform: scale(1.15) rotate(-5deg);
-          background: color-mix(in srgb, var(--ch) 25%, transparent);
+          transform: scale(1.1) rotate(-3deg);
+          background: color-mix(in srgb, var(--ch) 22%, transparent);
         }
 
-        .m-year { font-family: var(--font-mono); font-size: 0.58rem; font-weight: 600; color: var(--ch); min-width: 28px; flex-shrink: 0; }
-        .m-txt { display: flex; flex-direction: column; gap: 0; min-width: 0; }
-        .m-lbl { font-weight: 600; font-size: 0.75rem; color: var(--content-primary); white-space: nowrap; }
-        .m-dtl { font-size: 0.65rem; color: var(--content-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .m-year { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; color: var(--ch); min-width: 36px; flex-shrink: 0; }
+        .m-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .m-lbl { font-weight: 600; font-size: 0.95rem; color: var(--content-primary); white-space: nowrap; }
+        .m-dtl { font-size: 0.8rem; color: var(--content-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .ch-quote {
-          font-size: 0.72rem; font-style: italic;
+          font-size: 0.9rem; font-style: italic;
           color: var(--ch); opacity: 0.7;
-          padding-left: 10px;
+          padding-left: 16px;
           border-left: 2px solid var(--ch);
-          margin-bottom: 10px;
+          margin-bottom: 14px;
+          line-height: 1.5;
           max-width: none !important;
         }
 
         /* Color palette */
-        .cpal { display: flex; gap: 5px; align-items: center; }
+        .cpal { display: flex; gap: 8px; align-items: center; }
         .cpal-dot {
-          width: 12px; height: 12px; border-radius: 50%; cursor: pointer;
+          width: 16px; height: 16px; border-radius: 50%; cursor: pointer;
           box-shadow: 0 0 0 2px rgba(255,255,255,0.08);
           transition: box-shadow 0.2s, transform 0.2s;
         }
@@ -885,7 +896,7 @@ export default function MyLifePage() {
           display: grid; grid-template-columns: repeat(4, 1fr);
           gap: var(--space-xl); max-width: 1100px; margin: 0 auto;
         }
-        .ml-mc {
+        .ml-met-grid :global(.ml-mc) {
           position: relative;
           display: flex; flex-direction: column; align-items: center; text-align: center;
           padding: var(--space-3xl) var(--space-xl);
@@ -894,14 +905,14 @@ export default function MyLifePage() {
           border-radius: 24px; overflow: hidden; cursor: default;
           transition: border-color 0.3s;
         }
-        .ml-mc:hover { border-color: var(--accent-border); }
+        .ml-met-grid :global(.ml-mc:hover) { border-color: var(--accent-border); }
         .mc-glow {
           position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
           width: 200px; height: 200px;
           background: radial-gradient(circle, var(--accent-subtle) 0%, transparent 70%);
           opacity: 0; transition: opacity 0.4s; pointer-events: none;
         }
-        .ml-mc:hover .mc-glow { opacity: 1; }
+        .ml-met-grid :global(.ml-mc:hover) .mc-glow { opacity: 1; }
         .mc-val {
           position: relative;
           font-family: var(--font-heading);
@@ -960,20 +971,23 @@ export default function MyLifePage() {
         @media (max-width: 768px) {
           .ml-hero-title { font-size: clamp(3.5rem, 16vw, 7rem); }
           .ml-origin-line span { font-size: clamp(1.8rem, 6vw, 3rem); }
-          .ch-card { flex: 0 0 300px !important; width: 300px !important; }
-          .ml-ch-track { padding: 0 calc(50vw - 150px); }
-          .ch-title { font-size: 1.3rem; }
-          .m-dtl { display: none; }
+          .ch-card { flex: 0 0 420px !important; width: 420px !important; }
+          .ml-ch-track { padding: 0 calc(50vw - 210px); }
+          .ch-title { font-size: 1.8rem; }
+          .ch-inner { padding: 28px 24px 24px; }
+          .m-icon { width: 38px; height: 38px; }
+          .m-lbl { font-size: 0.88rem; }
+          .m-dtl { font-size: 0.72rem; }
           .ml-met-grid { gap: var(--space-md); }
-          .ml-mc { padding: var(--space-2xl) var(--space-md); }
+          .ml-met-grid :global(.ml-mc) { padding: var(--space-2xl) var(--space-md); }
           .mc-val { font-size: clamp(2.5rem, 8vw, 3.5rem); }
           .ml-phil-txt { font-size: clamp(1.2rem, 3.5vw, 1.8rem); }
           .ml-cl-q { font-size: clamp(1.5rem, 4.5vw, 2.5rem); }
         }
         @media (max-width: 480px) {
           .ml-met-grid { grid-template-columns: 1fr; }
-          .ch-card { flex: 0 0 80vw !important; width: 80vw !important; }
-          .ml-ch-track { padding: 0 10vw; }
+          .ch-card { flex: 0 0 88vw !important; width: 88vw !important; }
+          .ml-ch-track { padding: 0 6vw; }
           .ch-deco-float { display: none; }
         }
       `}</style>
