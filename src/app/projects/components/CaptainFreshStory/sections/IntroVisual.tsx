@@ -16,7 +16,7 @@ const industryStats = [
     },
     {
         icon: Fish,
-        value: 14.2,
+        value: 14,
         label: 'Million Tonnes',
         suffix: '',
         description: 'fish caught annually',

@@ -30,7 +30,7 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
           >
             <p className="lead">
-              I'm driven by a simple mission: build high quality,
+              I'm driven by a simple mission: build high-quality,
               scalable products that people genuinely love to use.
             </p>
             <p>
@@ -39,7 +39,7 @@ export default function About() {
               ideas into intuitive experiences that serve millions.
             </p>
             <p>
-              Currently co-founding Assetworks AI, where we're making
+              Currently co-founding AssetWorks AI, where we're making
               sophisticated financial analysis accessible through
               natural language.
             </p>
@@ -62,7 +62,7 @@ export default function About() {
             </div>
             <div className="detail-item">
               <span className="detail-label">Focus</span>
-              <span className="detail-value">Product Strategy, AI, Fintech</span>
+              <span className="detail-value">Product Strategy, AI, and Fintech</span>
             </div>
           </motion.div>
         </div>

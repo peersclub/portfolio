@@ -5,9 +5,9 @@ import { Plane, Hotel, Coffee, GripVertical, Sparkles, Check } from 'lucide-reac
 
 const initialItems = [
     { id: '1', type: 'flight', title: 'Flight to London', time: '10:00 AM', duration: '8h 20m' },
-    { id: '2', type: 'hotel', title: 'The Ritz Carlton', time: 'Check-in', duration: '3 Nights' },
+    { id: '2', type: 'hotel', title: 'The Ritz-Carlton', time: 'Check-in', duration: '3 Nights' },
     { id: '3', type: 'activity', title: 'Private Museum Tour', time: '04:00 PM', duration: '2 Hours' },
-    { id: '4', type: 'dinner', title: 'Michelin Star Dinner', time: '08:00 PM', duration: 'Resv confirmed' },
+    { id: '4', type: 'dinner', title: 'Michelin Star Dinner', time: '08:00 PM', duration: 'Reservation confirmed' },
 ];
 
 export default function ItineraryEngine() {

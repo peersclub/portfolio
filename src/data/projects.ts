@@ -20,8 +20,8 @@ export const projects: Project[] = [
     {
         slug: 'assetworks-ai',
         year: '2025',
-        company: 'Assetworks',
-        title: 'Assetworks AI',
+        company: 'AssetWorks AI',
+        title: 'AssetWorks AI',
         tagline: 'AI-powered financial analytics platform',
         description: 'Co-founded and led AssetWorks, an AI-powered financial analytics platform. Built full-stack SaaS product integrating Claude AI and OpenAI GPT with Rust backend and Flutter mobile apps. Users can create investment widgets using simple natural language.',
         metrics: [
@@ -103,8 +103,8 @@ export const projects: Project[] = [
     {
         slug: 'babychakra',
         year: '2017-2018',
-        company: 'Babychakra',
-        title: 'Babychakra',
+        company: 'BabyChakra',
+        title: 'BabyChakra',
         tagline: 'India\'s leading parenting platform',
         description: 'Increased retention by 42% and stickiness by 21% in 8 months. Built the product marketplace and completely revamped the web platform for better user experience.',
         metrics: [

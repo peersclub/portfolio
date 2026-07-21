@@ -188,7 +188,7 @@ export default function PlaybookPage() {
                         <div className="flex items-center gap-4 mb-10">
                             <div className="flex flex-col">
                                 <span className="text-6xl sm:text-7xl md:text-8xl font-bold text-[var(--glass-border)] opacity-20 -mb-4 sm:-mb-6 leading-none select-none">03</span>
-                                <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">Delivery</h2>
+                                <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">Development</h2>
                             </div>
                             <div className="h-px flex-1 bg-gradient-to-r from-[var(--glass-border)] to-transparent opacity-50" />
                         </div>

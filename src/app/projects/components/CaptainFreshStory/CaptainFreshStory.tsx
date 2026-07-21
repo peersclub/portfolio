@@ -38,7 +38,7 @@ const LOSS_DATA = [
 ];
 
 const JOURNEY_QUOTES = [
-    { location: 'Pulicut', quote: "The lake takes hours to navigate. By the time we reach market, the price has dropped.", type: "Start" },
+    { location: 'Pulicat', quote: "The lake takes hours to navigate. By the time we reach market, the price has dropped.", type: "Start" },
     { location: 'Kasimedu', quote: "Auction is chaos. If you don't have a contact, you sell at a loss.", type: "Hub" },
     { location: 'Nagapattinam', quote: "Diesel costs eat 60% of our earnings. One bad trip means debt.", type: "Crisis" },
     { location: 'Point Calimere', quote: "It's a bird sanctuary now. We can't fish where our fathers did.", type: "Conservation" },
@@ -79,7 +79,7 @@ const USER_INTERVIEWS = [
         id: 'interview-3',
         name: 'Rajan Selvam',
         role: 'Boat Owner, Rameswaram',
-        quote: "The border alerts are everything. My son was arrested for 2 years. Now my family sleeps at night.",
+        quote: "The border alerts are everything. My son was jailed for 2 years. Now my family sleeps at night.",
         image: '/projects/captain-fresh/4b3691ce-4957-44ea-8739-16dd0aab9062.jpg',
     },
 ];
@@ -132,7 +132,7 @@ function SectionWrapper({ children, className = '' }: { children: React.ReactNod
 }
 
 // Image placeholder component for when real images aren't available
-function ImagePlaceholder({ className = '', label = 'Add Your Photo' }: { className?: string; label?: string }) {
+function ImagePlaceholder({ className = '', label = 'Photo unavailable' }: { className?: string; label?: string }) {
     return (
         <div className={`bg-secondary/80 border-2 border-dashed border-glass flex flex-col items-center justify-center ${className}`}>
             <Users className="w-12 h-12 text-muted mb-2" />
@@ -855,6 +855,8 @@ function InterviewsSection() {
                         >
                             {/* Photo */}
                             <div className="relative aspect-[4/3] overflow-hidden">
+                                {/* Placeholder sits underneath; the loaded image covers it */}
+                                <ImagePlaceholder className="absolute inset-0" label="Photo unavailable" />
                                 <Image
                                     src={interview.image}
                                     alt={interview.name}
@@ -865,7 +867,6 @@ function InterviewsSection() {
                                         e.currentTarget.style.display = 'none';
                                     }}
                                 />
-                                <ImagePlaceholder className="absolute inset-0" label="Add interview photo" />
                             </div>
 
                             {/* Content */}
@@ -914,6 +915,7 @@ function GallerySection() {
                             transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
                             className="relative aspect-[4/3] rounded-xl overflow-hidden group cursor-pointer"
                         >
+                            <ImagePlaceholder className="absolute inset-0 rounded-xl" label={photo.caption} />
                             <Image
                                 src={photo.src}
                                 alt={photo.caption}
@@ -923,7 +925,6 @@ function GallerySection() {
                                     e.currentTarget.style.display = 'none';
                                 }}
                             />
-                            <ImagePlaceholder className="absolute inset-0 rounded-xl" label={photo.caption} />
 
                             {/* Hover Overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">

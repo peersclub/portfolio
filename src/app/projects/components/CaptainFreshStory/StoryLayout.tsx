@@ -120,7 +120,7 @@ export default function StoryLayout({ project }: StoryLayoutProps) {
                         <h2 className="text-4xl font-bold mb-6 text-amber-500 drop-shadow-sm">1,000 km of Truth</h2>
                         <div className="bg-secondary/40 backdrop-blur-md p-6 rounded-xl border border-glass md:bg-transparent md:backdrop-blur-none md:p-0 md:border-none">
                             <p className="text-lg text-secondary-foreground mb-8 leading-relaxed">
-                                We didn't build from a glass office. We drove from Pulicut (North TN) to Kanyakumari (The Southern Tip).
+                                We didn't build from a glass office. We drove from Pulicat (North TN) to Kanyakumari (The Southern Tip).
                             </p>
                             <p className="text-lg text-secondary-foreground mb-8 leading-relaxed">
                                 We slept in harbors, woke up at 3 AM for auctions, and sat on boats. We learned that trust is the only currency that matters.

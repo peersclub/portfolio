@@ -157,7 +157,7 @@ Freed:    Z GB
 - NEVER delete anything before showing the confirmation table and receiving YES
 - NEVER delete ~/Downloads contents automatically — always mark as manual review
 - NEVER delete Docker volumes without a separate explicit warning
-- NEVER delete Antigravity conversations/brain without labelling it IRREVERSIBLE
+- NEVER delete Antigravity conversations/brain without labeling it IRREVERSIBLE
 - NEVER delete node_modules without noting the user must run npm/yarn/pnpm install after
 - ALWAYS check brew uses --installed before removing a Homebrew package
 - ALWAYS preserve OAuth/credential files when resetting AI tools
@@ -365,7 +365,7 @@ export const sharingResources: SharingResource[] = [
     ],
     safetyRails: [
       { label: '~/Downloads', desc: 'Always MANUAL REVIEW — never auto-deleted' },
-      { label: 'Antigravity memory', desc: "Labelled IRREVERSIBLE — you're warned explicitly" },
+      { label: 'Antigravity memory', desc: "Labeled IRREVERSIBLE — you're warned explicitly" },
       { label: 'Docker volumes', desc: 'Gets a separate explicit warning before any touch' },
       { label: 'node_modules', desc: 'Always reminds you to run npm/yarn/pnpm install after' },
       { label: 'Homebrew packages', desc: 'Checks dependents before suggesting removal' },
@@ -373,7 +373,7 @@ export const sharingResources: SharingResource[] = [
     ],
     insightTitle: 'Why a prompt, not a bash script',
     insight:
-      'Writing this as a Claude prompt flips the trust model entirely. A bash script runs blindly — you have to understand it before running. A Claude prompt makes the AI do the understanding first and puts a human checkpoint between audit and action. The IRREVERSIBLE labelling is borrowed from how good CLI tools handle destructive operations — it forces a moment of conscious decision rather than passive acceptance.',
+      'Writing this as a Claude prompt flips the trust model entirely. A bash script runs blindly — you have to understand it before running. A Claude prompt makes the AI do the understanding first and puts a human checkpoint between audit and action. The IRREVERSIBLE labeling is borrowed from how good CLI tools handle destructive operations — it forces a moment of conscious decision rather than passive acceptance.',
     insightHighlight: 'IRREVERSIBLE',
     terminalPreview: `## STEP 1 — AUDIT
 Runs in parallel — no deletions yet:
@@ -403,7 +403,7 @@ Prints a before / after disk usage summary.`,
     titleLine1: 'When AI Becomes',
     titleLine2: 'a Team',
     description:
-      "Last week I built a pipeline where Claude orchestrated a team of local LLMs — assigning tasks, reviewing outputs, deciding what was good enough to keep. Qwen generated. Claude judged. The thing that struck me wasn't the output quality. It was how human it felt. Here's the agent. Drop it in your .claude/agents/ directory.",
+      "I built a pipeline where Claude orchestrated a team of local LLMs — assigning tasks, reviewing outputs, deciding what was good enough to keep. Qwen generated. Claude judged. The thing that struck me wasn't the output quality. It was how human it felt. Here's the agent. Drop it in your .claude/agents/ directory.",
     features: [
       'Profiles all local models by capability',
       'Decomposes tasks into routable subtasks',

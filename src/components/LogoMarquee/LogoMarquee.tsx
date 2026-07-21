@@ -3,13 +3,13 @@
 import { useState } from 'react';
 
 const companies = [
-  'Assetworks AI',
+  'AssetWorks AI',
   'CoinDCX',
   'CaptainFresh',
   'Cox & Kings',
-  'Babychakra',
+  'BabyChakra',
   'Hopscotch',
-  'Kleverkid',
+  'KleverKid',
 ];
 
 export default function LogoMarquee() {

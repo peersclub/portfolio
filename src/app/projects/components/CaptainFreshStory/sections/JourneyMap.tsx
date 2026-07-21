@@ -7,7 +7,7 @@ import { Navigation, MapPin, ChevronLeft, ChevronRight, Play, Pause } from 'luci
 const INDIA_TOPO_JSON = "https://raw.githubusercontent.com/udit-001/india-maps-data/master/topojson/india.json";
 
 const LOCATIONS = [
-    { id: 'pulicut', name: 'Pulicut', coordinates: [80.32, 13.42], quote: "The lake takes hours to navigate. By the time we reach market, the price has dropped.", type: "Start" },
+    { id: 'pulicut', name: 'Pulicat', coordinates: [80.32, 13.42], quote: "The lake takes hours to navigate. By the time we reach market, the price has dropped.", type: "Start" },
     { id: 'ennore', name: 'Ennore', coordinates: [80.22, 13.22], quote: "The thermal plant's warm water changes fish patterns. We don't know where they go.", type: "Climate" },
     { id: 'kasimedu', name: 'Kasimedu', coordinates: [80.29, 13.12], quote: "Auction is chaos. If you don't have a contact, you sell at a loss.", type: "Hub" },
     { id: 'kovalam', name: 'Kovalam', coordinates: [80.25, 12.79], quote: "Foreign vessels fish 12 nautical miles out. We can only go 5.", type: "Competition" },

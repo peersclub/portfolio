@@ -29,8 +29,8 @@ const GREEN_FLAGS = [
 ];
 
 const RED_FLAGS = [
-    { text: "Decisions are made based on HIPPO (Highest Paid Person's Opinion) rather than data." },
-    { text: "Engineers are treated as 'Ticket Moabers' rather than product partners." },
+    { text: "Decisions are made based on HiPPO (Highest Paid Person's Opinion) rather than data." },
+    { text: "Engineers are treated as 'Ticket Monkeys' rather than product partners." },
     { text: "Failure is punished rather than analyzed for root cause." },
     { text: "Process is valued more than the actual product outcome." },
 ];

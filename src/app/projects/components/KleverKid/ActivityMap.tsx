@@ -31,7 +31,7 @@ export default function ActivityMap() {
                         <span className="text-[#3B82F6]">Neighborhood</span>
                     </h2>
                     <p className="text-[#1e40af] text-lg mb-8 leading-relaxed">
-                        We mapped over 10,000+ verified activities across Delhi NCR.
+                        We mapped over 10,000 verified activities across Delhi NCR.
                         Parents could find, filter, and book trusted classes within a 5km radius.
                     </p>
 

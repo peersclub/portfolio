@@ -33,7 +33,7 @@ const EXPERIENCE_DATA: ExperienceEntry[] = [
                 title: "Co-Founder & CPO",
                 period: "2023 - Present",
                 details: [
-                    "Building the first AI-Native financial analytics platform.",
+                    "Building the first AI-native financial analytics platform.",
                     "Making sophisticated financial analysis accessible through natural language interfaces.",
                     "Leading product strategy, design, and engineering.",
                 ],
@@ -165,10 +165,10 @@ export default function ResumePage() {
                         <SectionNumber n="03" />
                         <div className="flex flex-col gap-6">
                             <ExperienceCard
-                                company="Babychakra"
+                                company="BabyChakra"
                                 logo="https://logo.clearbit.com/babychakra.com"
                                 url="https://www.babychakra.com"
-                                description="India's largest parenting platform, connecting millions of parents with pediatricians, child care experts, and trusted products from pregnancy through early childhood."
+                                description="India's leading parenting platform, connecting millions of parents with pediatricians, child care experts, and trusted products from pregnancy through early childhood."
                                 roles={[
                                     {
                                         title: "Product Manager",

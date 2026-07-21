@@ -43,7 +43,7 @@ const samplePrompts = [
     {
         text: "Compare BTC vs ETH performance over 6 months",
         widget: "comparison",
-        insight: "ETH outperformed BTC with +23.8% vs +44.1% returns"
+        insight: "BTC outperformed ETH with +44.1% vs +23.8% returns"
     },
     {
         text: "Show my portfolio allocation breakdown",
@@ -53,7 +53,7 @@ const samplePrompts = [
     {
         text: "Daily trading volume for top cryptos in billions",
         widget: "bar",
-        insight: "BTC dominates with 58% of total volume"
+        insight: "BTC dominates with 57% of total volume"
     },
     {
         text: "AAPL moving average crossover signals",

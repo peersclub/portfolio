@@ -10,7 +10,7 @@ export default function Footer() {
                     <SocialDock />
                 </div>
                 <div className="footer-bottom">
-                    <span className="copyright">© 2025 Suresh Victor</span>
+                    <span className="copyright">© {new Date().getFullYear()} Suresh Victor</span>
                     <span className="credit">Built with passion</span>
                 </div>
             </div>

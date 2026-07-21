@@ -85,7 +85,7 @@ export const QUOTES = [
     { text: "Experience is the", highlight: "product" },
     { text: "Fail fast, learn", highlight: "faster" },
     { text: "Features are not", highlight: "solutions" },
-    { text: "First principles beats", highlight: "analogy" },
+    { text: "First principles beat", highlight: "analogy" },
     { text: "Focus beats", highlight: "frenzy" },
     { text: "Good judgment comes from", highlight: "experience" },
     { text: "Growth follows", highlight: "value" },

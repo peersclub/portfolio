@@ -39,7 +39,7 @@ const companies = [
   { name: 'Amazon', count: 150, sector: 'Big Tech' },
   { name: 'Google', count: 109, sector: 'Big Tech' },
   { name: 'Microsoft', count: 94, sector: 'Big Tech' },
-  { name: 'Captain Fresh', count: 66, sector: 'Startup' },
+  { name: 'CaptainFresh', count: 66, sector: 'Startup' },
   { name: 'CoinDCX', count: 49, sector: 'FinTech' },
   { name: 'Apple', count: 45, sector: 'Big Tech' },
   { name: 'Meta', count: 41, sector: 'Big Tech' },

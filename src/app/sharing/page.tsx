@@ -82,7 +82,7 @@ export default function SharingPage() {
             >
               <div className="more-card">
                 <span className="mono-label">More Coming</span>
-                <p>Ideas, templates, playbooks, and prompts — dropping as I build them.</p>
+                <p>Ideas, templates, playbooks, and prompts — added as they earn their keep.</p>
                 <a
                   href={`mailto:${email}?subject=Sharing%20Page%20%E2%80%94%20Request`}
                   className="more-link"

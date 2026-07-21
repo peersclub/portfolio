@@ -47,7 +47,7 @@ export default function NurtureHero() {
                     </h1>
 
                     <p className="text-xl text-[#BE185D]/80 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-                        India's largest parenting platform connecting families with <br className="hidden md:block" />
+                        India's leading parenting platform connecting families with <br className="hidden md:block" />
                         top care, doctors, and a supportive community.
                     </p>
 

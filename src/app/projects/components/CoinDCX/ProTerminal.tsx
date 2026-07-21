@@ -4,14 +4,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { TrendingUp, TrendingDown, Activity, Clock, DollarSign } from 'lucide-react';
 
-const initialData = Array.from({ length: 40 }, (_, i) => ({
-    time: i,
-    price: 45000 + Math.random() * 2000 - 1000,
-    volume: Math.random() * 100
-}));
+// Lazy init inside useState: Math.random() at module scope evaluates
+// differently on server vs client and risks hydration mismatches.
+const makeInitialData = () =>
+    Array.from({ length: 40 }, (_, i) => ({
+        time: i,
+        price: 45000 + Math.random() * 2000 - 1000,
+        volume: Math.random() * 100
+    }));
 
 export default function ProTerminal() {
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState(makeInitialData);
     const [currentPrice, setCurrentPrice] = useState(46240.50);
     const [priceChange, setPriceChange] = useState(2.4);
     const [activeTab, setActiveTab] = useState('chart');
@@ -52,7 +55,7 @@ export default function ProTerminal() {
                         </div>
                         <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
                             Deep Liquidity <br />
-                            <span className="text-[#4ECDC4]">Zero Latency</span>
+                            <span className="text-[#4ECDC4]">Ultra-Low Latency</span>
                         </h2>
                         <p className="text-slate-400 mb-8 max-w-md">
                             Engineered for high-frequency trading with a matching engine capable of 1M+ transactions per second.

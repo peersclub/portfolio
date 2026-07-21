@@ -24,7 +24,7 @@ export default function TravelHero({ project }: { project?: Project }) {
             </div>
 
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1e1b4b] via-transparent to-transparent z-10 opactiy-80" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1e1b4b] via-transparent to-transparent z-10 opacity-80" />
 
             {/* Content w/ Glassmorphism */}
             <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">

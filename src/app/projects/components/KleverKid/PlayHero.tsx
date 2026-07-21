@@ -52,7 +52,7 @@ export default function PlayHero() {
                     className="text-[#60A5FA] text-lg font-bold bg-white/80 backdrop-blur px-6 py-2 rounded-full shadow-lg border-2 border-white inline-flex items-center gap-2"
                 >
                     <MapPin size={18} className="animate-bounce" />
-                    Discover best tutors & classes near you
+                    Discover the best tutors & classes near you
                 </motion.p>
             </div>
         </section>

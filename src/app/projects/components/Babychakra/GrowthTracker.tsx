@@ -74,15 +74,17 @@ export default function GrowthTracker() {
                             contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
                             formatter={(value: number | undefined) => [value ?? 0, metric === 'weight' ? 'kg' : 'cm']}
                         />
-                        <Area
-                            type="monotone"
-                            dataKey={metric === 'weight' ? 'website' : 'height'}
-                            stroke="#E5E7EB"
-                            strokeWidth={2}
-                            strokeDasharray="5 5"
-                            fill="transparent"
-                            name="WHO Standard"
-                        />
+                        {metric === 'weight' && (
+                            <Area
+                                type="monotone"
+                                dataKey="weight"
+                                stroke="#E5E7EB"
+                                strokeWidth={2}
+                                strokeDasharray="5 5"
+                                fill="transparent"
+                                name="WHO Standard"
+                            />
+                        )}
                         <Area
                             type="monotone"
                             dataKey={metric === 'weight' ? 'user' : 'height'}

@@ -71,9 +71,9 @@ const chapters: Chapter[] = [
       'Skills finding each other. Team play, leadership at NITK Surathkal, organizing ENGINEER fest, and traveling shaped the mindset for building at scale.',
     moments: [
       { year: '2011', label: 'Synergy', detail: 'Team player — empathy, learning from others', icon: Users },
-      { year: '2012', label: 'Orchestration', detail: 'Engineer Fest — guiding vision, taking ownership', icon: Crown },
+      { year: '2012', label: 'Orchestration', detail: 'ENGINEER Fest — guiding vision, taking ownership', icon: Crown },
       { year: '2013', label: 'NITK Surathkal', detail: 'B.Tech — building the engineering mindset', icon: GraduationCap },
-      { year: '2014', label: 'Global Context', detail: 'Travelling — global mindset, cultural intelligence', icon: Globe },
+      { year: '2014', label: 'Global Context', detail: 'Traveling — global mindset, cultural intelligence', icon: Globe },
     ],
     quote: "The conductor doesn't play an instrument — and that's the point.",
     decoration: 'nodes',
@@ -88,7 +88,7 @@ const chapters: Chapter[] = [
       'The craft becoming a career. From first PM role to leading products at CoinDCX and CaptainFresh — building teams and products that scaled to millions.',
     moments: [
       { year: '2016', label: 'Product Strategy', detail: 'KleverKid — first PM role, user research', icon: Rocket },
-      { year: '2017', label: 'Growth Engine', detail: 'Babychakra — 42% retention increase in 8 months', icon: Zap },
+      { year: '2017', label: 'Growth Engine', detail: 'BabyChakra — 42% retention increase in 8 months', icon: Zap },
       { year: '2019', label: 'Scale & Impact', detail: "CoinDCX — India's largest crypto exchange, 1M+ users", icon: Briefcase },
       { year: '2021', label: 'Industry First', detail: 'CaptainFresh — supply chain platform from scratch', icon: Trophy },
     ],
@@ -102,10 +102,10 @@ const chapters: Chapter[] = [
     years: '2024 — Present',
     color: '#FF0080',
     description:
-      'All roads converge here. Co-founding Assetworks AI, building with Claude & GPT, leading product & tech at the highest level.',
+      'All roads converge here. Co-founding AssetWorks AI, building with Claude & GPT, leading product & tech at the highest level.',
     moments: [
-      { year: '2024', label: 'SVP Product & Tech', detail: 'Cox & Kings — personalised travel experience', icon: Briefcase },
-      { year: '2025', label: 'Co-Founder', detail: 'Assetworks AI — AI-powered financial analytics', icon: Sparkles },
+      { year: '2024', label: 'SVP Product & Tech', detail: 'Cox & Kings — personalized travel experience', icon: Briefcase },
+      { year: '2025', label: 'Co-Founder', detail: 'AssetWorks AI — AI-powered financial analytics', icon: Sparkles },
       { year: 'Now', label: 'Future Systems', detail: 'LLM integration, AI strategy, what comes next', icon: Sparkles },
     ],
     quote: 'The canvas was always infinite. Now the brush thinks.',
