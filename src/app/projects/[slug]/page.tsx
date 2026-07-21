@@ -9,10 +9,10 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects, getProjectBySlug } from '@/data/projects';
 import dynamic from 'next/dynamic';
+import Footer from '@/components/Footer/Footer';
 
 // Each case-study layout is its own lazy chunk so visiting one project
 // doesn't download the bundles of all seven.
-const CaptainFreshLayout = dynamic(() => import('../components/CaptainFreshLayout'));
 const CaptainFreshStory = dynamic(() => import('../components/CaptainFreshStory/CaptainFreshStory'));
 const AssetWorksLayout = dynamic(() => import('../components/AssetWorksAI/AssetWorksLayout'));
 const CoinDCXLayout = dynamic(() => import('../components/CoinDCX/CoinDCXLayout'));
@@ -92,31 +92,27 @@ export default function ProjectCaseStudy() {
     }
 
     if (slug === 'captain-fresh') {
-        return <CaptainFreshStory />;
-    }
-
-    if (slug === 'captain-fresh-old') {
-        return <CaptainFreshLayout project={project} />;
+        return <><CaptainFreshStory /><Footer /></>;
     }
 
     if (slug === 'assetworks-ai') {
-        return <AssetWorksLayout project={project} />;
+        return <><AssetWorksLayout project={project} /><Footer /></>;
     }
 
     if (slug === 'coindcx') {
-        return <CoinDCXLayout project={project} />;
+        return <><CoinDCXLayout project={project} /><Footer /></>;
     }
 
     if (slug === 'cox-and-kings') {
-        return <CoxLayout project={project} />;
+        return <><CoxLayout project={project} /><Footer /></>;
     }
 
     if (slug === 'babychakra') {
-        return <BabychakraLayout project={project} />;
+        return <><BabychakraLayout project={project} /><Footer /></>;
     }
 
     if (slug === 'kleverkid') {
-        return <KleverLayout project={project} />;
+        return <><KleverLayout project={project} /><Footer /></>;
     }
 
     return (

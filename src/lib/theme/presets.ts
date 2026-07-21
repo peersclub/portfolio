@@ -31,7 +31,12 @@ const DESCRIPTIONS: Record<ThemeId, string> = {
   light: "Indigo on clean white",
 };
 
-export const THEME_PRESETS: ThemePreset[] = themes.map((t) => ({
+// Editorial cut 2026-07-21: the switcher offers dark (midnight) + light only.
+// The other theme token blocks remain in tokens.css, so previously saved
+// preferences keep working until the user toggles.
+const OFFERED: ThemeId[] = ["midnight", "light"];
+
+export const THEME_PRESETS: ThemePreset[] = themes.filter((t) => OFFERED.includes(t.id as ThemeId)).map((t) => ({
   id: t.id as ThemeId,
   name: t.name,
   description: DESCRIPTIONS[t.id as ThemeId],

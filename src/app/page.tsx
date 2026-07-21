@@ -1,19 +1,13 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { Linkedin, Instagram, Twitter, BookOpen } from 'lucide-react';
 import { MinimalistHero } from '@/components/ui/minimalist-hero';
-import WritingStrip from '@/components/WritingStrip/WritingStrip';
-import LogoMarquee from '@/components/LogoMarquee/LogoMarquee';
+import ProofBar from '@/components/ProofBar/ProofBar';
+import SelectedWork from '@/components/SelectedWork/SelectedWork';
 import About from '@/components/About/About';
-import Impact from '@/components/Impact/Impact';
 import Contact from '@/components/Contact/Contact';
 import Footer from '@/components/Footer/Footer';
-
-const HorizontalProjects = dynamic(
-  () => import('@/components/HorizontalProjects/HorizontalProjects'),
-  { ssr: false }
-);
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://www.linkedin.com/in/sureshvictor/' },
@@ -27,8 +21,9 @@ export default function Home() {
     <main className="home-main">
       <MinimalistHero
         logoText="suresh."
-        mainText="Product Leader & Co-Founder with 10+ years building products that scale to millions. Focused on Product Strategy, AI, and Fintech."
-        readMoreLink="/resume"
+        mainText="Product Architect. Co-Founder & CPO at AssetWorks AI. 13 years shipping products used by millions — across AI, fintech, and supply chain."
+        ctaText="Let's talk"
+        ctaHref="/contact"
         imageSrc="/images/victor-hero.png"
         imageAlt="Suresh Victor — Product Architect"
         overlayText={{
@@ -38,11 +33,42 @@ export default function Home() {
         socialLinks={socialLinks}
         locationText="Bangalore, India"
       />
-      <WritingStrip />
-      <LogoMarquee />
+      <ProofBar />
+      <SelectedWork />
       <About />
-      <Impact />
-      <HorizontalProjects />
+      <section className="how-i-work section" aria-label="How I work">
+        <div className="container">
+          <p className="hiw-line">
+            I work in written docs over meetings, measure outcomes over output, and treat
+            engineers as product partners — not ticket takers.
+          </p>
+          <Link href="/about" className="hiw-link">
+            How I work →
+          </Link>
+        </div>
+        <style jsx>{`
+          .how-i-work {
+            padding: var(--space-3xl) 0;
+            border-top: 1px solid var(--glass-border);
+          }
+          .hiw-line {
+            max-width: 640px;
+            font-size: 1.35rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+          }
+          .how-i-work :global(.hiw-link) {
+            display: inline-block;
+            margin-top: var(--space-md);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-decoration: none;
+          }
+        `}</style>
+      </section>
       <Contact />
       <Footer />
     </main>

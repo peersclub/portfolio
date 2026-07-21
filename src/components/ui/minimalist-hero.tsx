@@ -8,7 +8,8 @@ import { cn } from '@/lib/utils';
 interface MinimalistHeroProps {
   logoText: string;
   mainText: string;
-  readMoreLink: string;
+  ctaText: string;
+  ctaHref: string;
   imageSrc: string;
   imageAlt: string;
   overlayText: {
@@ -31,7 +32,8 @@ const SocialIcon = ({ href, icon: Icon }: { href: string; icon: LucideIcon }) =>
 export const MinimalistHero = ({
   logoText,
   mainText,
-  readMoreLink,
+  ctaText,
+  ctaHref,
   imageSrc,
   imageAlt,
   overlayText,
@@ -59,8 +61,12 @@ export const MinimalistHero = ({
           className="z-20 order-2 md:order-1 text-center md:text-left"
         >
           <p className="mx-auto max-w-sm text-base leading-relaxed text-foreground/80 md:mx-0 md:text-lg">{mainText}</p>
-          <a href={readMoreLink} className="mt-4 inline-block text-sm font-medium text-foreground underline decoration-from-font">
-            Read More
+          <a
+            href={ctaHref}
+            className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+            style={{ background: 'var(--accent)', color: '#fff', boxShadow: '0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent)' }}
+          >
+            {ctaText}
           </a>
         </motion.div>
 
