@@ -1,7 +1,8 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ArticleCard } from '@/components/ui/blog-post-card';
 import { projects as allProjects } from '@/data/projects';
 
@@ -18,9 +19,13 @@ export default function HorizontalProjects() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [overflowing, setOverflowing] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Reveal-on-scroll for the section
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -31,64 +36,91 @@ export default function HorizontalProjects() {
       },
       { threshold: 0.2 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  // Convert vertical mouse wheel into horizontal scroll
-  // Must capture at the section level BEFORE Lenis intercepts
-  useEffect(() => {
-    const section = sectionRef.current;
+  // Track scroll position → arrow enabled state (with a small tolerance so
+  // sub-pixel scrollLeft saturation on Retina/zoom can't leave an arrow stuck)
+  const updateScrollState = useCallback(() => {
     const el = scrollRef.current;
-    if (!section || !el) return;
-
-    const onWheel = (e: WheelEvent) => {
-      if (el.scrollWidth <= el.clientWidth) return;
-
-      const atStart = el.scrollLeft <= 0;
-      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
-
-      // Let page scroll normally if we've reached either end
-      if ((e.deltaY < 0 && atStart) || (e.deltaY > 0 && atEnd)) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-      el.scrollLeft += e.deltaY;
-    };
-
-    // Use capture phase to intercept BEFORE Lenis gets the event
-    section.addEventListener('wheel', onWheel, { passive: false, capture: true });
-    return () => section.removeEventListener('wheel', onWheel, { capture: true });
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setOverflowing(max > 2);
+    setCanScrollLeft(el.scrollLeft > 2);
+    setCanScrollRight(el.scrollLeft < max - 2);
   }, []);
 
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateScrollState();
+    el.addEventListener('scroll', updateScrollState, { passive: true });
+    window.addEventListener('resize', updateScrollState);
+    return () => {
+      el.removeEventListener('scroll', updateScrollState);
+      window.removeEventListener('resize', updateScrollState);
+    };
+  }, [updateScrollState]);
+
+  // Active-card counter
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = Number(entry.target.getAttribute('data-index'));
-            if (!isNaN(index)) {
-              setActiveIndex(index);
-            }
+            if (!isNaN(index)) setActiveIndex(index);
           }
         });
       },
-      {
-        root: scrollRef.current,
-        threshold: 0.55
-      }
+      { root: scrollRef.current, threshold: 0.55 }
     );
-
-    cardsRef.current.forEach((card) => {
-      if (card) observer.observe(card);
-    });
-
+    cardsRef.current.forEach((card) => card && observer.observe(card));
     return () => observer.disconnect();
   }, []);
+
+  const scrollByCards = (direction: 1 | -1) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = cardsRef.current[0];
+    const amount = card ? card.offsetWidth + 24 : el.clientWidth * 0.8;
+    el.scrollBy({ left: amount * direction, behavior: 'smooth' });
+  };
+
+  // Drag-to-scroll for mouse users (touch/trackpad use native scrolling)
+  const drag = useRef({ active: false, startX: 0, startScroll: 0, moved: false });
+  const suppressClick = useRef(false);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
+    const el = scrollRef.current;
+    if (!el) return;
+    drag.current = { active: true, startX: e.clientX, startScroll: el.scrollLeft, moved: false };
+    el.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    const el = scrollRef.current;
+    if (!el || !drag.current.active) return;
+    const dx = e.clientX - drag.current.startX;
+    if (Math.abs(dx) > 5) drag.current.moved = true;
+    el.scrollLeft = drag.current.startScroll - dx;
+  };
+  const endDrag = (e: React.PointerEvent) => {
+    const el = scrollRef.current;
+    if (!drag.current.active) return;
+    drag.current.active = false;
+    if (drag.current.moved) suppressClick.current = true; // swallow the click a drag would trigger
+    el?.releasePointerCapture?.(e.pointerId);
+  };
+  // A drag ends with a click event on the card link — cancel it once.
+  const onClickCapture = (e: React.MouseEvent) => {
+    if (suppressClick.current) {
+      e.preventDefault();
+      e.stopPropagation();
+      suppressClick.current = false;
+    }
+  };
 
   return (
     <section className="projects section" id="projects" ref={sectionRef}>
@@ -104,6 +136,26 @@ export default function HorizontalProjects() {
               <span className="separator">/</span>
               <span className="total">{String(projects.length).padStart(2, '0')}</span>
             </span>
+            {overflowing && (
+              <div className="nav-arrows">
+                <button
+                  type="button"
+                  aria-label="Previous projects"
+                  onClick={() => scrollByCards(-1)}
+                  disabled={!canScrollLeft}
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next projects"
+                  onClick={() => scrollByCards(1)}
+                  disabled={!canScrollRight}
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -111,7 +163,11 @@ export default function HorizontalProjects() {
       <div
         className={`projects-scroll ${isVisible ? 'visible' : ''}`}
         ref={scrollRef}
-        data-lenis-prevent
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onClickCapture={onClickCapture}
       >
         <div className="projects-track">
           {projects.map((project, index) => (
@@ -121,7 +177,7 @@ export default function HorizontalProjects() {
               ref={(el) => { cardsRef.current[index] = el; }}
               className={`project-card-wrapper ${activeIndex === index ? 'active' : ''}`}
             >
-              <Link href={`/projects/${project.slug}`} className="project-link">
+              <Link href={`/projects/${project.slug}`} className="project-link" draggable={false}>
                 <ArticleCard
                   headline={project.title}
                   excerpt={project.description}
@@ -134,7 +190,6 @@ export default function HorizontalProjects() {
               </Link>
             </div>
           ))}
-          <div className="scroll-padding" />
         </div>
       </div>
 
@@ -171,6 +226,12 @@ export default function HorizontalProjects() {
           margin-bottom: var(--space-md);
         }
 
+        .header-right {
+          display: flex;
+          align-items: center;
+          gap: var(--space-lg);
+        }
+
         .counter {
           font-family: var(--font-mono);
           font-size: 1rem;
@@ -186,15 +247,49 @@ export default function HorizontalProjects() {
           margin: 0 var(--space-sm);
         }
 
+        .nav-arrows {
+          display: flex;
+          gap: var(--space-sm);
+        }
+
+        .nav-arrows button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 999px;
+          border: 1px solid var(--glass-border);
+          background: var(--bg-secondary);
+          color: var(--text-primary);
+          cursor: pointer;
+          transition: all 0.25s var(--ease-out-expo);
+        }
+
+        .nav-arrows button:hover:not(:disabled) {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
+
+        .nav-arrows button:disabled {
+          opacity: 0.35;
+          cursor: default;
+        }
+
         .projects-scroll {
           display: flex;
           overflow-x: auto;
-          scroll-snap-type: x mandatory;
+          scroll-snap-type: x proximity;
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
           padding: var(--space-md) 0;
           opacity: 0;
+          cursor: grab;
           transition: opacity 0.8s var(--ease-out-expo) 0.2s;
+        }
+
+        .projects-scroll:active {
+          cursor: grabbing;
         }
 
         .projects-scroll.visible {
@@ -209,11 +304,7 @@ export default function HorizontalProjects() {
           display: flex;
           gap: var(--space-lg);
           padding-left: max(var(--space-xl), calc((100vw - 1440px) / 2 + var(--space-xl)));
-        }
-
-        .scroll-padding {
-          flex-shrink: 0;
-          width: 20vw;
+          padding-right: var(--space-xl);
         }
 
         .project-card-wrapper {
