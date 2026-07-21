@@ -11,6 +11,9 @@ export interface Project {
     tech: string[];
     color: string;
     image?: string;
+    // Home-page card fields — entries without a cover are excluded from the home gallery
+    category?: string;
+    cover?: string;
 }
 
 export const projects: Project[] = [
@@ -28,6 +31,8 @@ export const projects: Project[] = [
         role: 'Co-Founder',
         tech: ['Claude AI', 'Rust', 'Flutter', 'SaaS'],
         color: '#E8C547',
+        category: 'AI & Fintech',
+        cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80',
     },
     {
         slug: 'coindcx',
@@ -43,6 +48,8 @@ export const projects: Project[] = [
         role: 'Product Leader',
         tech: ['Product Strategy', 'Mobile', 'Web', 'Fintech'],
         color: '#4ECDC4',
+        category: 'Crypto Exchange',
+        cover: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80',
     },
     {
         slug: 'captain-fresh',
@@ -58,6 +65,8 @@ export const projects: Project[] = [
         role: 'Product Lead',
         tech: ['B2B', 'Operations', 'Mobile', 'Supply Chain'],
         color: '#FF6B6B',
+        category: 'Supply Chain',
+        cover: 'https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?w=800&q=80',
     },
     {
         slug: 'captain-fresh-old',
@@ -88,6 +97,8 @@ export const projects: Project[] = [
         role: 'SVP Product & Tech',
         tech: ['Personalization', 'Strategy', 'Travel Tech'],
         color: '#A78BFA',
+        category: 'Travel Tech',
+        cover: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80',
     },
     {
         slug: 'babychakra',
@@ -103,6 +114,8 @@ export const projects: Project[] = [
         role: 'Product Manager',
         tech: ['Growth', 'Marketplace', 'UX', 'Consumer'],
         color: '#F472B6',
+        category: 'Consumer',
+        cover: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
     },
     {
         slug: 'kleverkid',
@@ -118,6 +131,8 @@ export const projects: Project[] = [
         role: 'Product Manager',
         tech: ['EdTech', 'Marketplace', 'Mobile', 'Product Mgmt'],
         color: '#60A5FA',
+        category: 'EdTech',
+        cover: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80',
     },
 ];
 

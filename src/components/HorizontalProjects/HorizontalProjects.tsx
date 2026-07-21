@@ -3,87 +3,10 @@
 import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArticleCard } from '@/components/ui/blog-post-card';
+import { projects as allProjects } from '@/data/projects';
 
-interface Project {
-  number: string;
-  title: string;
-  category: string;
-  description: string;
-  year: string;
-  tags: string[];
-  slug: string;
-  role: string;
-  cover: string;
-}
-
-const projects: Project[] = [
-  {
-    number: '01',
-    title: 'Assetworks AI',
-    category: 'AI & Fintech',
-    description: 'AI-powered financial analytics platform. Natural language queries create sophisticated investment widgets. Co-founded and built full-stack SaaS with Claude AI and Rust backend.',
-    year: '2025',
-    tags: ['Claude AI', 'Rust', 'Flutter'],
-    slug: 'assetworks-ai',
-    role: 'Co-Founder',
-    cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80',
-  },
-  {
-    number: '02',
-    title: 'CoinDCX',
-    category: 'Crypto Exchange',
-    description: "1M+ users on India's largest crypto exchange. Led product for DCXInsta, DCXTrade, DCXMargin, and DCXFutures platforms. Built and managed a team of 3 PMs.",
-    year: '2019-2021',
-    tags: ['Product Strategy', 'Mobile', 'Web'],
-    slug: 'coindcx',
-    role: 'Product Leader',
-    cover: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80',
-  },
-  {
-    number: '03',
-    title: 'CaptainFresh',
-    category: 'Supply Chain',
-    description: 'First-in-industry products for century-old seafood industry. Built product and team from scratch, shaping the long-term roadmap for global scale.',
-    year: '2021-2024',
-    tags: ['B2B', 'Operations', 'Mobile'],
-    slug: 'captain-fresh',
-    role: 'Product Lead',
-    cover: 'https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?w=800&q=80',
-  },
-  {
-    number: '04',
-    title: 'Cox & Kings',
-    category: 'Travel Tech',
-    description: 'Building first personalized experience in travel tech as SVP Product and Tech. Strategy, team building, and a modern travel platform.',
-    year: '2024',
-    tags: ['Personalization', 'Strategy'],
-    slug: 'cox-and-kings',
-    role: 'SVP Product & Tech',
-    cover: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80',
-  },
-  {
-    number: '05',
-    title: 'Babychakra',
-    category: 'Consumer',
-    description: '42% retention increase and 21% stickiness boost in 8 months. Built product marketplace. Complete web platform overhaul.',
-    year: '2017-2018',
-    tags: ['Growth', 'Marketplace', 'UX'],
-    slug: 'babychakra',
-    role: 'Product Manager',
-    cover: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
-  },
-  {
-    number: '06',
-    title: 'KleverKid',
-    category: 'EdTech',
-    description: 'Managed product requirements and development for afterschool activities marketplace. Android/iOS apps from concept to launch.',
-    year: '2015-2016',
-    tags: ['EdTech', 'Marketplace', 'Product Mgmt'],
-    slug: 'kleverkid',
-    role: 'Product Manager',
-    cover: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80',
-  },
-];
+// Single source of truth: entries with a cover image appear in the home gallery
+const projects = allProjects.filter(p => p.cover && p.category);
 
 // Parse year string like "2019-2021" → Date for the start year
 function yearToDate(year: string): Date {
@@ -193,7 +116,7 @@ export default function HorizontalProjects() {
         <div className="projects-track">
           {projects.map((project, index) => (
             <div
-              key={project.number}
+              key={project.slug}
               data-index={index}
               ref={(el) => { cardsRef.current[index] = el; }}
               className={`project-card-wrapper ${activeIndex === index ? 'active' : ''}`}
@@ -202,8 +125,8 @@ export default function HorizontalProjects() {
                 <ArticleCard
                   headline={project.title}
                   excerpt={project.description}
-                  cover={project.cover}
-                  tag={project.category}
+                  cover={project.cover!}
+                  tag={project.category!}
                   writer={project.role}
                   publishedAt={yearToDate(project.year)}
                   clampLines={3}

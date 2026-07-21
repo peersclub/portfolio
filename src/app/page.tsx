@@ -9,19 +9,12 @@ import About from '@/components/About/About';
 import Impact from '@/components/Impact/Impact';
 import Contact from '@/components/Contact/Contact';
 import Footer from '@/components/Footer/Footer';
+import { HERO_NAV_LINKS as navLinks } from '@/data/navigation';
 
 const HorizontalProjects = dynamic(
   () => import('@/components/HorizontalProjects/HorizontalProjects'),
   { ssr: false }
 );
-
-const navLinks = [
-  { label: 'WORK', href: '/projects' },
-  { label: 'RESUME', href: '/resume' },
-  { label: 'MY LIFE', href: '/mylife' },
-  { label: 'PLAYBOOK', href: '/playbook' },
-  { label: 'SHARING', href: '/sharing' },
-];
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://www.linkedin.com/in/sureshvictor/' },

@@ -6,15 +6,7 @@ import { Sparkles } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-const navLinks = [
-  { label: 'Work', href: '/projects' },
-  { label: 'Resume', href: '/resume' },
-  { label: 'My Life', href: '/mylife' },
-  { label: 'Playbook', href: '/playbook' },
-  { label: 'The Right Fit', href: '/therightfit' },
-  { label: 'Sharing', href: '/sharing' },
-  { label: 'Contact', href: '/contact' },
-];
+import { NAV_LINKS as navLinks } from '@/data/navigation';
 
 const MotionLink = motion(Link);
 
