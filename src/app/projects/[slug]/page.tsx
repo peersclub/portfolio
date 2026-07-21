@@ -8,13 +8,17 @@ import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects, getProjectBySlug } from '@/data/projects';
-import CaptainFreshLayout from '../components/CaptainFreshLayout';
-import CaptainFreshStory from '../components/CaptainFreshStory/CaptainFreshStory';
-import AssetWorksLayout from '../components/AssetWorksAI/AssetWorksLayout';
-import CoinDCXLayout from '../components/CoinDCX/CoinDCXLayout';
-import CoxLayout from '../components/CoxAndKings/CoxLayout';
-import BabychakraLayout from '../components/Babychakra/BabychakraLayout';
-import KleverLayout from '../components/KleverKid/KleverLayout';
+import dynamic from 'next/dynamic';
+
+// Each case-study layout is its own lazy chunk so visiting one project
+// doesn't download the bundles of all seven.
+const CaptainFreshLayout = dynamic(() => import('../components/CaptainFreshLayout'));
+const CaptainFreshStory = dynamic(() => import('../components/CaptainFreshStory/CaptainFreshStory'));
+const AssetWorksLayout = dynamic(() => import('../components/AssetWorksAI/AssetWorksLayout'));
+const CoinDCXLayout = dynamic(() => import('../components/CoinDCX/CoinDCXLayout'));
+const CoxLayout = dynamic(() => import('../components/CoxAndKings/CoxLayout'));
+const BabychakraLayout = dynamic(() => import('../components/Babychakra/BabychakraLayout'));
+const KleverLayout = dynamic(() => import('../components/KleverKid/KleverLayout'));
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
