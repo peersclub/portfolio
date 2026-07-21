@@ -31,7 +31,7 @@ const EXPERIENCE_DATA: ExperienceEntry[] = [
         roles: [
             {
                 title: "Co-Founder & CPO",
-                period: "2023 - Present",
+                period: "2025 - Present",
                 details: [
                     "Building the first AI-native financial analytics platform.",
                     "Making sophisticated financial analysis accessible through natural language interfaces.",
@@ -41,18 +41,18 @@ const EXPERIENCE_DATA: ExperienceEntry[] = [
         ],
     },
     {
-        company: "CoinDCX",
-        url: "https://coindcx.com",
-        logoUrl: "https://logo.clearbit.com/coindcx.com",
-        description: "India's largest and most trusted crypto exchange, providing access to 500+ cryptocurrencies with a regulated, investor-backed platform.",
+        company: "Cox & Kings",
+        url: "https://www.coxandkings.com",
+        logoUrl: "https://logo.clearbit.com/coxandkings.com",
+        description: "One of the world's oldest travel brands, rebuilding as a modern personalized travel platform.",
         roles: [
             {
-                title: "Director of Product",
-                period: "2021 - 2023",
+                title: "SVP Product & Tech",
+                period: "2024 - 2025",
                 details: [
-                    "Scaled India's largest crypto exchange to 1M+ users.",
-                    "Led the core exchange product and growth initiatives.",
-                    "Launched multiple crypto-native financial products.",
+                    "Built the first personalized experience in travel tech.",
+                    "Put together a team of senior executives; owned budget and product plan.",
+                    "Moved on as the business model shifted from SaaS to franchisee.",
                 ],
             },
         ],
@@ -64,11 +64,29 @@ const EXPERIENCE_DATA: ExperienceEntry[] = [
         description: "India's first tech-enabled B2B seafood supply chain platform, connecting fishermen directly with restaurants and retailers for freshness and traceability.",
         roles: [
             {
-                title: "Senior Product Manager",
-                period: "2020 - 2021",
+                title: "Product Lead",
+                period: "2021 - 2024",
                 details: [
-                    "Built the industry's first B2B supply chain platform for fisheries.",
-                    "Optimized supply chain efficiency and marketplace liquidity.",
+                    "Led the overall product, building the product and product team from scratch.",
+                    "Shipped first-in-industry products for a century-old industry.",
+                    "Played an active part in the long-term roadmap for global scale.",
+                ],
+            },
+        ],
+    },
+    {
+        company: "CoinDCX",
+        url: "https://coindcx.com",
+        logoUrl: "https://logo.clearbit.com/coindcx.com",
+        description: "India's largest and most trusted crypto exchange, providing access to 500+ cryptocurrencies with a regulated, investor-backed platform.",
+        roles: [
+            {
+                title: "Product Lead",
+                period: "2019 - 2021",
+                details: [
+                    "Scaled India's largest crypto exchange to 1M+ users.",
+                    "Led product across DCXInsta, DCXTrade, DCXMargin, and DCXFutures.",
+                    "Built a team of 3 product managers; closely involved in leadership and company-level decisions.",
                 ],
             },
         ],
@@ -165,31 +183,60 @@ export default function ResumePage() {
                         <SectionNumber n="03" />
                         <div className="flex flex-col gap-6">
                             <ExperienceCard
+                                company="Hopscotch"
+                                logo="https://logo.clearbit.com/hopscotch.in"
+                                url="https://www.hopscotch.in"
+                                description="India's leading online fashion brand for kids, serving millions of parents across the country."
+                                roles={[
+                                    {
+                                        title: "Product Manager",
+                                        period: "2018 - 2019",
+                                        details: [
+                                            "Owned both demand- and supply-side products for the e-commerce platform.",
+                                            "Drove the long-term product roadmap, internal ops tools, and user-facing products.",
+                                        ],
+                                    },
+                                ]}
+                            />
+                            <ExperienceCard
                                 company="BabyChakra"
                                 logo="https://logo.clearbit.com/babychakra.com"
                                 url="https://www.babychakra.com"
                                 description="India's leading parenting platform, connecting millions of parents with pediatricians, child care experts, and trusted products from pregnancy through early childhood."
                                 roles={[
                                     {
-                                        title: "Product Manager",
-                                        period: "2018-2020",
+                                        title: "Senior Product Manager",
+                                        period: "2017 - 2018",
                                         details: [
-                                            "Increased retention by 42% in 8 months.",
-                                            "Scaled the parenting community platform to millions of users.",
-                                            "Launched new verticals in health, education, and e-commerce.",
+                                            "Increased retention by 42% and stickiness by 21% in 8 months.",
+                                            "Completely revamped the web platform and built the product marketplace across web and app.",
                                         ],
                                     },
                                 ]}
                             />
                             <ExperienceCard
-                                company="Early Startups"
+                                company="KleverKid"
                                 roles={[
                                     {
-                                        title: "Product Engineer",
-                                        period: "2014-2018",
+                                        title: "Product Manager",
+                                        period: "2015 - 2016",
                                         details: [
-                                            "Foundational engineering and product roles across multiple early-stage startups.",
-                                            "Built core product features across fintech and consumer apps.",
+                                            "First PM role — owned feature requirements, timeline, and the development team.",
+                                            "Shipped the KleverKid Android and iOS apps through the full product life cycle.",
+                                            "Hands-on wireframing, product flows, and UI/UX across web and mobile.",
+                                        ],
+                                    },
+                                ]}
+                            />
+                            <ExperienceCard
+                                company="Early Ventures"
+                                roles={[
+                                    {
+                                        title: "Product & Engineering (Contract)",
+                                        period: "2013 - 2015",
+                                        details: [
+                                            "Manager Administration at Rhythms Academy — designed CMIS, a custom webapp for school admissions, attendance, and fees.",
+                                            "Contract product work with Docpulse Technologies and Finomena; founded Smatrx Infosoft (webapp for schools).",
                                         ],
                                     },
                                 ]}
@@ -230,8 +277,8 @@ export default function ResumePage() {
                                         National Institute of Technology Karnataka
                                     </h3>
                                 </div>
-                                <p className="text-[var(--text-secondary)]">B.Tech in Computer Science</p>
-                                <p className="text-sm text-[var(--text-muted)]">2010 - 2014</p>
+                                <p className="text-[var(--text-secondary)]">B.Tech in Chemical Engineering</p>
+                                <p className="text-sm text-[var(--text-muted)]">2009 - 2013</p>
                                 <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
                                     NITK Surathkal is one of India's premier engineering institutes, consistently ranked among the top National Institutes of Technology. Known for its rigorous curriculum, strong industry connections, and alumni network spanning global tech and product leadership roles.
                                 </p>

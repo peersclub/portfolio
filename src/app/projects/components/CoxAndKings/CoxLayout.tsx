@@ -24,7 +24,7 @@ export default function CoxLayout({ project }: CoxLayoutProps) {
                     <span>Back to Projects</span>
                 </Link>
                 <div className="font-serif italic text-white/70">
-                    SVP Product & Tech // 2024
+                    SVP Product & Tech // 2024-2025
                 </div>
             </nav>
 

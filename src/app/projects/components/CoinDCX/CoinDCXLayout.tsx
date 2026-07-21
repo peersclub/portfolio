@@ -26,7 +26,7 @@ export default function CoinDCXLayout({ project }: CoinDCXLayoutProps) {
                     <span>Back to Projects</span>
                 </Link>
                 <div className="font-mono text-xs text-[#4ECDC4]/70">
-                    Product Leader // 2019-2021
+                    Product Lead // 2019-2021
                 </div>
             </nav>
 

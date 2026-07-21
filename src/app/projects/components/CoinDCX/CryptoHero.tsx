@@ -60,7 +60,7 @@ export default function CryptoHero() {
 
                     {/* Metrics Ticker */}
                     <div className="flex flex-wrap gap-8 justify-center items-center">
-                        <Metric label="Users" value="13M+" color={teal} />
+                        <Metric label="Users" value="1M+" color={teal} />
                         <div className="w-px h-8 bg-slate-700 hidden md:block" />
                         <Metric label="Quarterly Volume" value="$1B+" color={teal} />
                         <div className="w-px h-8 bg-slate-700 hidden md:block" />

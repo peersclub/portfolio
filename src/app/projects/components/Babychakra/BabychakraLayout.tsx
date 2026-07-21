@@ -26,7 +26,7 @@ export default function BabychakraLayout({ project }: BabychakraLayoutProps) {
                     <span>All Projects</span>
                 </Link>
                 <div className="text-[#BE185D] font-medium text-sm">
-                    Product Manager // 2017-2018
+                    Senior Product Manager // 2017-2018
                 </div>
             </nav>
 

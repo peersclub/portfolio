@@ -46,7 +46,7 @@ const chapters: Chapter[] = [
   {
     numeral: 'I',
     title: 'Childhood Craft',
-    years: '1992 — 2010',
+    years: '1992 — 2009',
     color: '#00F0FF',
     description:
       'Where curiosity became craft. Drawing, painting, flying kites, calligraphy, and photography — each hobby quietly wiring the brain for product thinking.',
@@ -65,12 +65,12 @@ const chapters: Chapter[] = [
   {
     numeral: 'II',
     title: 'The Emergence',
-    years: '2011 — 2015',
+    years: '2009 — 2015',
     color: '#7B2FFF',
     description:
       'Skills finding each other. Team play, leadership at NITK Surathkal, organizing ENGINEER fest, and traveling shaped the mindset for building at scale.',
     moments: [
-      { year: '2011', label: 'Synergy', detail: 'Team player — empathy, learning from others', icon: Users },
+      { year: '2010', label: 'Synergy', detail: 'Team player — empathy, learning from others', icon: Users },
       { year: '2012', label: 'Orchestration', detail: 'ENGINEER Fest — guiding vision, taking ownership', icon: Crown },
       { year: '2013', label: 'NITK Surathkal', detail: 'B.Tech — building the engineering mindset', icon: GraduationCap },
       { year: '2014', label: 'Global Context', detail: 'Traveling — global mindset, cultural intelligence', icon: Globe },
@@ -82,12 +82,12 @@ const chapters: Chapter[] = [
   {
     numeral: 'III',
     title: 'Professional Rise',
-    years: '2016 — 2024',
+    years: '2015 — 2024',
     color: '#FFB800',
     description:
       'The craft becoming a career. From first PM role to leading products at CoinDCX and CaptainFresh — building teams and products that scaled to millions.',
     moments: [
-      { year: '2016', label: 'Product Strategy', detail: 'KleverKid — first PM role, user research', icon: Rocket },
+      { year: '2015', label: 'Product Strategy', detail: 'KleverKid — first PM role, user research', icon: Rocket },
       { year: '2017', label: 'Growth Engine', detail: 'BabyChakra — 42% retention increase in 8 months', icon: Zap },
       { year: '2019', label: 'Scale & Impact', detail: "CoinDCX — India's largest crypto exchange, 1M+ users", icon: Briefcase },
       { year: '2021', label: 'Industry First', detail: 'CaptainFresh — supply chain platform from scratch', icon: Trophy },
