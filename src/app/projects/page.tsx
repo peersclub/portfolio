@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '@/data/projects';
+import Footer from '@/components/Footer/Footer';
 
 // Register plugins
 if (typeof window !== 'undefined') {
@@ -97,7 +98,7 @@ export default function ProjectsPage() {
                     </div>
 
                     {/* Project Cards */}
-                    {projects.map((project, index) => (
+                    {projects.filter(p => !p.hidden).map((project, index) => (
                         <div
                             key={project.slug}
                             className="project-card"
@@ -183,7 +184,6 @@ export default function ProjectsPage() {
                 /* Cursor Visibility Fix */
                 .projects-page-wrapper,
                 .sticky-viewport {
-                    cursor: none !important;
                 }
 
                 /* --- Design Styles --- */
@@ -257,7 +257,6 @@ export default function ProjectsPage() {
                     display: block;
                     text-decoration: none;
                     color: inherit;
-                    cursor: none; /* Keep custom cursor */
                     height: 100%;
                     display: flex;
                     flex-direction: column;
@@ -268,7 +267,7 @@ export default function ProjectsPage() {
                     border-color: var(--accent);
                     transform: translateY(-8px) scale(1.01);
                     background: linear-gradient(135deg, var(--bg-secondary) 0%, #1a1a1e 100%);
-                    box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6), 0 0 20px -5px var(--accent-light, rgba(232, 197, 71, 0.1));
+                    box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6), 0 0 20px -5px var(--accent-subtle);
                 }
 
                 .card-number {
@@ -380,7 +379,6 @@ export default function ProjectsPage() {
                     text-decoration: underline;
                     text-decoration-color: transparent;
                     transition: text-decoration-color 0.3s;
-                    cursor: none;
                 }
 
                 .contact-btn:hover {
@@ -441,6 +439,7 @@ export default function ProjectsPage() {
                     }
                 }
             `}</style>
+            <Footer />
         </div>
     );
 }

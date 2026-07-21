@@ -106,7 +106,7 @@ export const StickySubNav = ({ sections, rightElement }: StickySubNavProps) => {
                                 justifyContent: 'center',
                                 padding: '10px 20px',
                                 background: activeSection === section.id
-                                    ? 'rgba(232, 197, 71, 0.1)'
+                                    ? 'color-mix(in srgb, var(--accent) 10%, transparent)'
                                     : 'transparent',
                                 border: 'none',
                                 borderRadius: '100px',

@@ -76,6 +76,7 @@ export default function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={`nav-link ${pathname === link.href ? 'active' : ''}`}
+                aria-current={pathname === link.href ? 'page' : undefined}
                 onMouseEnter={() => setHoveredLink(link.href)}
                 onMouseLeave={() => setHoveredLink(null)}
               >
@@ -102,6 +103,7 @@ export default function Navigation() {
             className={`mobile-toggle ${isMobileMenuOpen ? 'open' : ''}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
           >
             <span />
             <span />

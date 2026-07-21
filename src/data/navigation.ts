@@ -13,8 +13,3 @@ export const NAV_LINKS: NavLink[] = [
     { label: 'Sharing', href: '/sharing' },
     { label: 'Contact', href: '/contact' },
 ];
-
-// The home hero shows a condensed uppercase subset
-export const HERO_NAV_LINKS: NavLink[] = NAV_LINKS
-    .filter(link => !['/therightfit', '/contact'].includes(link.href))
-    .map(link => ({ ...link, label: link.label.toUpperCase() }));

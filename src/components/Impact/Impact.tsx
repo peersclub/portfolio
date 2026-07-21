@@ -323,7 +323,7 @@ export default function Impact() {
           left: 10%;
           width: 400px;
           height: 400px;
-          background: radial-gradient(circle, rgba(232, 197, 71, 0.08) 0%, transparent 70%);
+          background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 70%);
           animation-delay: 0s;
         }
 
@@ -374,8 +374,8 @@ export default function Impact() {
           display: inline-block;
           margin-bottom: var(--space-md);
           padding: 8px 16px;
-          background: rgba(232, 197, 71, 0.1);
-          border: 1px solid rgba(232, 197, 71, 0.2);
+          background: color-mix(in srgb, var(--accent) 10%, transparent);
+          border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
           border-radius: var(--radius-full);
         }
 

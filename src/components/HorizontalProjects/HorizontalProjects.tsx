@@ -232,10 +232,10 @@ export default function HorizontalProjects() {
           border-color: var(--accent);
           background: linear-gradient(
             135deg,
-            rgba(232, 197, 71, 0.03),
+            color-mix(in srgb, var(--accent) 4%, transparent),
             transparent
           );
-          box-shadow: 0 8px 30px rgba(232, 197, 71, 0.08);
+          box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 8%, transparent);
         }
 
         .project-card-wrapper:hover :global(.rounded-2xl) {
@@ -250,7 +250,7 @@ export default function HorizontalProjects() {
           text-decoration: none;
           color: inherit;
           display: block;
-          cursor: none;
+          cursor: pointer;
         }
 
         @media (max-width: 768px) {

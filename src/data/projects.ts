@@ -14,6 +14,8 @@ export interface Project {
     // Home-page card fields — entries without a cover are excluded from the home gallery
     category?: string;
     cover?: string;
+    // Hidden entries stay reachable by URL but are excluded from listings/sitemap
+    hidden?: boolean;
 }
 
 export const projects: Project[] = [
@@ -70,6 +72,7 @@ export const projects: Project[] = [
     },
     {
         slug: 'captain-fresh-old',
+        hidden: true,
         year: '2021-2024',
         company: 'CaptainFresh',
         title: 'CaptainFresh (Legacy)',

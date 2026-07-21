@@ -224,6 +224,7 @@ export default function ResumePage() {
                                         width={32}
                                         height={32}
                                         className="rounded border border-[var(--glass-border)]"
+                                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                                     />
                                     <h3 className="text-xl font-bold text-[var(--text-primary)]">
                                         National Institute of Technology Karnataka

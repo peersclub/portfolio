@@ -65,13 +65,14 @@ export default function RootLayout({
                 />
             </head>
             <body>
+                <a href="#main-content" className="skip-link">Skip to main content</a>
                 <ThemeProvider>
                     <SmoothScroll>
 <div className="noise-overlay" />
                         <div className="blueprint-grid" />
                         <div className="atmospheric-glow" />
                         <Navigation />
-                        <main className="relative z-10">
+                        <main id="main-content" className="relative z-10">
                             {children}
                         </main>
                         <ThemeSwitcher />

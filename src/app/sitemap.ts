@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ];
 
     const projectRoutes: MetadataRoute.Sitemap = projects
-        .filter(p => p.slug !== 'captain-fresh-old') // legacy alt layout, kept off search
+        .filter(p => !p.hidden)
         .map(p => ({ url: `${SITE_URL}/projects/${p.slug}`, priority: 0.8 }));
 
     const sharingRoutes: MetadataRoute.Sitemap = sharingResources.map(r => ({

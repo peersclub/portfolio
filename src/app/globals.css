@@ -712,7 +712,7 @@ a {
 
 .card:hover {
   border-color: var(--accent);
-  background: rgba(232, 197, 71, 0.02);
+  background: color-mix(in srgb, var(--accent) 2%, transparent);
 }
 
 /* ===== Animations ===== */
@@ -917,3 +917,20 @@ a {
   inherits: false;
   initial-value: 0deg;
 }.home-main { min-height: 100vh; }
+
+/* Accessibility: skip link — visually hidden until keyboard-focused */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 10000;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 16px;
+}

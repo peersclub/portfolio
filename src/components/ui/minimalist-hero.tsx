@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -6,7 +7,6 @@ import { cn } from '@/lib/utils';
 // Define the props interface for type safety and reusability
 interface MinimalistHeroProps {
   logoText: string;
-  navLinks: { label: string; href: string }[];
   mainText: string;
   readMoreLink: string;
   imageSrc: string;
@@ -20,16 +20,6 @@ interface MinimalistHeroProps {
   className?: string;
 }
 
-// Helper component for navigation links
-const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <a
-    href={href}
-    className="text-sm font-medium tracking-widest text-foreground/60 transition-colors hover:text-foreground"
-  >
-    {children}
-  </a>
-);
-
 // Helper component for social media icons
 const SocialIcon = ({ href, icon: Icon }: { href: string; icon: LucideIcon }) => (
   <a href={href} target="_blank" rel="noopener noreferrer" className="text-foreground/60 transition-colors hover:text-foreground">
@@ -40,7 +30,6 @@ const SocialIcon = ({ href, icon: Icon }: { href: string; icon: LucideIcon }) =>
 // The main reusable Hero Section component
 export const MinimalistHero = ({
   logoText,
-  navLinks,
   mainText,
   readMoreLink,
   imageSrc,
@@ -84,19 +73,25 @@ export const MinimalistHero = ({
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                 className="relative h-[300px] w-[300px] rounded-full bg-yellow-400/90 overflow-hidden md:h-[400px] md:w-[400px] lg:h-[500px] lg:w-[500px]"
             >
-                <motion.img
-                    src={imageSrc}
-                    alt={imageAlt}
-                    className="absolute top-[12%] left-0 w-full h-full object-cover object-top"
+                <motion.div
+                    className="absolute top-[12%] left-0 w-full h-full"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-                    onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.onerror = null;
-                    target.src = `https://placehold.co/400x600/eab308/ffffff?text=Image+Not+Found`;
-                    }}
-                />
+                >
+                    <Image
+                        src={imageSrc}
+                        alt={imageAlt}
+                        fill
+                        priority
+                        sizes="(max-width: 768px) 300px, (max-width: 1024px) 400px, 500px"
+                        className="object-cover object-top"
+                        onError={(e) => {
+                            // Hide the broken image; the yellow circle + overlay text still read as designed
+                            (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                    />
+                </motion.div>
             </motion.div>
         </div>
 
