@@ -28,7 +28,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sureshvictor.com'),
+    metadataBase: new URL(
+        process.env.NEXT_PUBLIC_SITE_URL
+            || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sureshvictor.com')
+    ),
     title: "Suresh Victor | Product Architect",
     description: "Product Leader & Co-Founder. 10+ years building products that scale to millions.",
     keywords: ["product leader", "co-founder", "fintech", "crypto", "AI", "assetworks"],
