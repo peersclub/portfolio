@@ -2,7 +2,7 @@
 
 import { Project } from '@/data/projects';
 import Link from 'next/link';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import TravelHero from './TravelHero';
 import ItineraryEngine from './ItineraryEngine';
 import DestinationAI from './DestinationAI';
@@ -24,7 +24,7 @@ export default function CoxLayout({ project }: CoxLayoutProps) {
                     <span>Back to Projects</span>
                 </Link>
                 <div className="font-serif italic text-white/70">
-                    SVP Product & Tech // 2024-2025
+                    SVP Product & Tech // 2024-Present
                 </div>
             </nav>
 
@@ -47,15 +47,6 @@ export default function CoxLayout({ project }: CoxLayoutProps) {
             <section className="h-[50vh] w-full snap-start relative flex flex-col items-center justify-center bg-[#1e1b4b] text-white">
                 <div className="text-center">
                     <h3 className="text-3xl font-serif mb-6">The Journey Continues</h3>
-                    <a
-                        href="https://www.coxandkings.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-8 py-3 border border-white/20 hover:bg-white/10 transition-all uppercase tracking-widest rounded-full"
-                    >
-                        <span>Visit Website</span>
-                        <ExternalLink className="w-4 h-4" />
-                    </a>
                 </div>
             </section>
         </div>

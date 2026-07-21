@@ -233,7 +233,7 @@ function ContextSection() {
                 >
                     <span className="text-xs font-mono text-accent uppercase tracking-widest mb-2 block">India's Fishing Industry</span>
                     <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">The Scale of the Ocean</h2>
-                    <p className="text-secondary-foreground">World's 3rd largest fish producer</p>
+                    <p className="text-secondary-foreground">World's 2nd largest fish producer</p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

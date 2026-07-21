@@ -206,7 +206,7 @@ export function getTooltipContent(d: GraphNode) {
         type: 'YOU',
         color: 'var(--accent-solid)',
         name: 'Suresh Victor',
-        meta: '11,658 connections | Bangalore, India\nCreator | Indie Developer | Product Thinker',
+        meta: '11,658 connections | Bangalore, India\nProduct Architect | Product Leader & Co-Founder',
       };
     case 'hub':
       return { type: 'CLUSTER', color: '#6366f1', name: d.name, meta: 'Connected cluster node' };

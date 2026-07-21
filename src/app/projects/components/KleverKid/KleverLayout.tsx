@@ -2,7 +2,7 @@
 
 import { Project } from '@/data/projects';
 import Link from 'next/link';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import PlayHero from './PlayHero';
 import ActivityMap from './ActivityMap';
 import BookingFlow from './BookingFlow';
@@ -50,15 +50,6 @@ export default function KleverLayout({ project }: KleverLayoutProps) {
                     <p className="max-w-md mx-auto mb-8 opacity-90">
                         KleverKid helped thousands of parents find the perfect after-school programs.
                     </p>
-                    <a
-                        href="https://kleverkid.in"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#2563EB] font-bold rounded-xl shadow-[0_8px_0_rgba(0,0,0,0.1)] hover:translate-y-1 hover:shadow-[0_4px_0_rgba(0,0,0,0.1)] transition-all"
-                    >
-                        <span>Visit Archive</span>
-                        <ExternalLink className="w-5 h-5" />
-                    </a>
                 </div>
             </section>
         </div>

@@ -107,7 +107,7 @@ export default function IntroVisual() {
                     <span className="text-xs font-mono text-blue-600 dark:text-blue-400 uppercase tracking-widest">India's Fishing Industry</span>
                 </div>
                 <h3 className="text-xl font-bold text-primary mb-1">The Scale of the Ocean</h3>
-                <p className="text-sm text-secondary-foreground">World's 3rd largest fish producer</p>
+                <p className="text-sm text-secondary-foreground">World's 2nd largest fish producer</p>
             </motion.div>
 
             {/* Stats Grid */}

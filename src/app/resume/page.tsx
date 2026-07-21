@@ -48,11 +48,10 @@ const EXPERIENCE_DATA: ExperienceEntry[] = [
         roles: [
             {
                 title: "SVP Product & Tech",
-                period: "2024 - 2025",
+                period: "2024 - Present",
                 details: [
-                    "Built the first personalized experience in travel tech.",
-                    "Put together a team of senior executives; owned budget and product plan.",
-                    "Moved on as the business model shifted from SaaS to franchisee.",
+                    "Building the first personalized experience in travel tech.",
+                    "Put together a team of senior executives; owning budget and the product plan.",
                 ],
             },
         ],

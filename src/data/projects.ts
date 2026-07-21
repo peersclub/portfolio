@@ -88,11 +88,11 @@ export const projects: Project[] = [
     },
     {
         slug: 'cox-and-kings',
-        year: '2024-2025',
+        year: '2024-Present',
         company: 'Cox & Kings',
         title: 'Cox & Kings',
         tagline: 'Personalized travel tech experience',
-        description: 'Built the first personalized experience in travel tech as SVP of Product and Tech. Put together a senior executive team and delivered the product plan; moved on as the model shifted from SaaS to franchisee.',
+        description: 'Building the first personalized experience in travel tech as SVP of Product and Tech. Put together a senior executive team; owning strategy, budget, and the product plan.',
         metrics: [
             { label: 'Focus', value: 'Personalization' },
             { label: 'Role', value: 'SVP' },
