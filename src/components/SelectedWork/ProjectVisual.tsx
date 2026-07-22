@@ -516,7 +516,111 @@ function KleverKidVignette({ color }: { color: string }) {
     );
 }
 
-/* ---------- CaptainFresh: the real field photo ---------- */
+/* ---------- CaptainFresh: border-safety alert map ---------- */
+function CaptainFreshVignette({ color }: { color: string }) {
+    return (
+        <Panel color={color}>
+            <div className="nav-card">
+                <div className="nav-head">
+                    <span className="app">CaptainFresh</span>
+                    <span className="alert">⚠ BORDER 2 KM</span>
+                </div>
+                <svg viewBox="0 0 160 52" className="sea" aria-hidden>
+                    {/* international waters boundary */}
+                    <line
+                        x1="118" y1="-4" x2="150" y2="56"
+                        stroke={color} strokeWidth="2" strokeDasharray="5 4"
+                    />
+                    <text x="152" y="12" fontSize="6" fill="var(--content-muted)" fontFamily="monospace" textAnchor="end" transform="rotate(62 148 10)"></text>
+                    {/* waves */}
+                    <path d="M0,16 Q10,12 20,16 T40,16 T60,16 T80,16" fill="none" stroke="var(--line-strong)" strokeWidth="1.2" />
+                    <path d="M8,34 Q18,30 28,34 T48,34 T68,34" fill="none" stroke="var(--line-strong)" strokeWidth="1.2" />
+                    <path d="M2,46 Q12,42 22,46 T42,46" fill="none" stroke="var(--line-subtle)" strokeWidth="1.2" />
+                    {/* geofence pulse around the boat */}
+                    <circle className="fence" cx="86" cy="26" r="10" fill="none" stroke={color} strokeWidth="1.5" />
+                    {/* boat */}
+                    <g className="boat">
+                        <path d="M78,26 L94,26 L90,31 L82,31 Z" fill={color} />
+                        <path d="M86,16 L86,26 L92,23 Z" fill="var(--content-primary)" />
+                    </g>
+                </svg>
+            </div>
+            <style jsx>{`
+                .nav-card {
+                    position: relative;
+                    z-index: 1;
+                    width: 72%;
+                    max-width: 260px;
+                    border-radius: var(--radius-lg);
+                    border: 1px solid var(--line-default);
+                    background: var(--surface-overlay);
+                    padding: 10px 12px 6px;
+                }
+
+                .nav-head {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    font-family: var(--font-mono);
+                    margin-bottom: 4px;
+                }
+
+                .app {
+                    font-size: 0.6rem;
+                    color: var(--content-muted);
+                    text-transform: uppercase;
+                    letter-spacing: 0.12em;
+                }
+
+                .alert {
+                    font-size: 0.58rem;
+                    font-weight: 700;
+                    padding: 2px 7px;
+                    border-radius: var(--radius-full);
+                    background: color-mix(in srgb, ${color} 22%, transparent);
+                    color: ${color};
+                    animation: blink-alert 1.6s ease-in-out infinite;
+                }
+
+                .sea {
+                    display: block;
+                    width: 100%;
+                }
+
+                .fence {
+                    transform-origin: 86px 26px;
+                    animation: fence-pulse 2.4s ease-out infinite;
+                }
+
+                .boat {
+                    animation: drift 4.5s ease-in-out infinite;
+                }
+
+                @keyframes blink-alert {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.45; }
+                }
+
+                @keyframes fence-pulse {
+                    0% { transform: scale(0.6); opacity: 0.9; }
+                    100% { transform: scale(1.6); opacity: 0; }
+                }
+
+                @keyframes drift {
+                    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+                    50% { transform: translate(4px, -2px) rotate(1.5deg); }
+                }
+
+                @media (prefers-reduced-motion: reduce) {
+                    .alert, .fence, .boat { animation: none; }
+                    .fence { opacity: 0.5; }
+                }
+            `}</style>
+        </Panel>
+    );
+}
+
+/* ---------- Real-photo variant (unused until Phase 2 product shots) ---------- */
 function PhotoVignette({ project, large }: { project: Project; large: boolean }) {
     return (
         <div className="photo">
@@ -564,12 +668,13 @@ function PhotoVignette({ project, large }: { project: Project; large: boolean })
 
 export default function ProjectVisual({ project, large = false }: { project: Project; large?: boolean }) {
     const inner = (() => {
-        if (project.cover) return <PhotoVignette project={project} large={large} />;
         switch (project.slug) {
             case 'assetworks-ai':
                 return <AssetWorksVignette color={project.color} />;
             case 'coindcx':
                 return <CoinDCXVignette color={project.color} />;
+            case 'captain-fresh':
+                return <CaptainFreshVignette color={project.color} />;
             case 'cox-and-kings':
                 return <CoxVignette color={project.color} />;
             case 'babychakra':
@@ -577,7 +682,10 @@ export default function ProjectVisual({ project, large = false }: { project: Pro
             case 'kleverkid':
                 return <KleverKidVignette color={project.color} />;
             default:
-                return <Panel color={project.color}><span /></Panel>;
+                // future projects: real photo if provided, plain panel otherwise
+                return project.cover
+                    ? <PhotoVignette project={project} large={large} />
+                    : <Panel color={project.color}><span /></Panel>;
         }
     })();
 
