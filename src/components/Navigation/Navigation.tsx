@@ -49,6 +49,13 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Mirror hidden state to <html> so sticky elements (via --subnav-top) can
+  // hug the viewport top while the nav is away. Centrally consumed in tokens.css.
+  useEffect(() => {
+    document.documentElement.setAttribute('data-nav-hidden', String(isHidden));
+    return () => document.documentElement.removeAttribute('data-nav-hidden');
+  }, [isHidden]);
+
   // Close mobile menu on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

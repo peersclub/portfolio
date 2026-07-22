@@ -98,6 +98,12 @@
   --duration-fast: 200ms;
   --duration-normal: 400ms;
 
+  /* Layout: fixed-nav geometry. Navigation.tsx mirrors its hidden state to
+     html[data-nav-hidden]; anything that sticks below the nav should use
+     var(--subnav-top) so it hugs the viewport top when the nav slides away. */
+  --nav-height: 60px;
+  --subnav-top: var(--nav-height);
+
   /* Ambient */
   --grid-line: var(--line-subtle);
   --glow-color: var(--accent-subtle);
@@ -214,6 +220,17 @@
   --accent-hover: #6D28D9;
   --accent-text: #6D28D9;
   --accent-contrast: #ffffff;
+}
+
+/* Nav hidden (scroll-down): sticky elements move up to the viewport edge */
+html[data-nav-hidden="true"] {
+  --subnav-top: 0px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --nav-height: 56px;
+  }
 }
 
 /* ---------- Backwards-compatibility aliases ----------

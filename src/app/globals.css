@@ -13,8 +13,10 @@
 /* ===== Sticky SubNav ===== */
 .sticky-subnav-wrapper {
   position: sticky;
-  top: 60px;
-  /* Below main header (header height ~56-60px) */
+  /* Centrally managed: hugs the nav when visible, the viewport top when the
+     nav auto-hides on scroll-down (html[data-nav-hidden] flips --subnav-top) */
+  top: var(--subnav-top);
+  transition: top 0.3s var(--ease-out-expo);
   z-index: 40;
   /* Below main nav (z-fixed is higher) */
   width: 100%;
@@ -30,9 +32,6 @@
 
 /* Mobile StickySubNav */
 @media (max-width: 640px) {
-  .sticky-subnav-wrapper {
-    top: 56px;
-  }
 
   .sticky-subnav-wrapper .subnav-inner {
     padding: 0 12px !important;
