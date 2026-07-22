@@ -17,11 +17,14 @@ export interface Project {
     /** Brand logo under public/ for compact cards */
     logo?: string;
     featured?: boolean;
+    /** Case-study page background family — drives the central CaseStudyBar colors */
+    surface: 'light' | 'dark';
 }
 
 export const projects: Project[] = [
     {
         slug: 'assetworks-ai',
+        surface: 'dark',
         year: '2025-Present',
         company: 'AssetWorks AI',
         title: 'AssetWorks AI',
@@ -40,6 +43,7 @@ export const projects: Project[] = [
     },
     {
         slug: 'coindcx',
+        surface: 'dark',
         year: '2019-2021',
         company: 'CoinDCX',
         title: 'CoinDCX',
@@ -58,6 +62,7 @@ export const projects: Project[] = [
     },
     {
         slug: 'captain-fresh',
+        surface: 'dark',
         year: '2021-2024',
         company: 'CaptainFresh',
         title: 'CaptainFresh',
@@ -76,6 +81,7 @@ export const projects: Project[] = [
     },
     {
         slug: 'cox-and-kings',
+        surface: 'light',
         year: '2024-Present',
         company: 'Cox & Kings',
         title: 'Cox & Kings',
@@ -93,6 +99,7 @@ export const projects: Project[] = [
     },
     {
         slug: 'babychakra',
+        surface: 'light',
         year: '2017-2018',
         company: 'BabyChakra',
         title: 'BabyChakra',
@@ -110,6 +117,7 @@ export const projects: Project[] = [
     },
     {
         slug: 'kleverkid',
+        surface: 'light',
         year: '2015-2016',
         company: 'KleverKid',
         title: 'KleverKid',

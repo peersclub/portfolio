@@ -14,20 +14,7 @@ interface KleverLayoutProps {
 export default function KleverLayout({ project }: KleverLayoutProps) {
     return (
         <div className="klever-page bg-[#EFF6FF] h-[100dvh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory font-sans selection:bg-[#60A5FA]/30">
-            {/* Fun Navbar */}
-            <nav className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center bg-white/50 backdrop-blur-md">
-                <Link
-                    href="/projects"
-                    className="flex items-center gap-2 text-[#2563EB] hover:scale-105 transition-transform font-bold"
-                >
-                    <ArrowLeft className="w-5 h-5" />
-                    <span>Projects</span>
-                </Link>
-                <div className="px-4 py-1 bg-[#F59E0B] text-white rounded-full font-bold text-xs uppercase tracking-wide shadow-md">
-                    Product Manager
-                </div>
-            </nav>
-
+            
             {/* Hero */}
             <section className="h-screen w-full snap-start relative">
                 <PlayHero />

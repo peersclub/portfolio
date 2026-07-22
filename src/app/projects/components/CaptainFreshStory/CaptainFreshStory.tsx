@@ -5,7 +5,7 @@ import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'fra
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-    ArrowLeft, ArrowDown, Users, Fish, MapPin, Anchor, TrendingDown, AlertTriangle,
+    ArrowDown, Users, Fish, MapPin, Anchor, TrendingDown, AlertTriangle,
     Quote, ChevronLeft, ChevronRight, Palette, Smartphone, Shield, Cloud, ShoppingCart, Bell
 } from 'lucide-react';
 import {
@@ -209,12 +209,7 @@ function HeroSection() {
                 </motion.div>
             </motion.div>
 
-            {/* Back Link */}
-            <Link href="/projects" className="absolute top-6 left-6 z-30 flex items-center gap-2 text-muted hover:text-foreground transition-colors font-mono text-sm group">
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                <span>Back</span>
-            </Link>
-        </section>
+                    </section>
     );
 }
 

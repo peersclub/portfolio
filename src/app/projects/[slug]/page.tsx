@@ -10,6 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects, getProjectBySlug } from '@/data/projects';
 import dynamic from 'next/dynamic';
 import Footer from '@/components/Footer/Footer';
+import CaseStudyBar from '@/components/CaseStudyBar/CaseStudyBar';
 
 // Each case-study layout is its own lazy chunk so visiting one project
 // doesn't download the bundles of all seven.
@@ -92,27 +93,27 @@ export default function ProjectCaseStudy() {
     }
 
     if (slug === 'captain-fresh') {
-        return <><CaptainFreshStory /><Footer /></>;
+        return <><CaseStudyBar project={project} /><CaptainFreshStory /><Footer /></>;
     }
 
     if (slug === 'assetworks-ai') {
-        return <><AssetWorksLayout project={project} /><Footer /></>;
+        return <><CaseStudyBar project={project} /><AssetWorksLayout project={project} /><Footer /></>;
     }
 
     if (slug === 'coindcx') {
-        return <><CoinDCXLayout project={project} /><Footer /></>;
+        return <><CaseStudyBar project={project} /><CoinDCXLayout project={project} /><Footer /></>;
     }
 
     if (slug === 'cox-and-kings') {
-        return <><CoxLayout project={project} /><Footer /></>;
+        return <><CaseStudyBar project={project} /><CoxLayout project={project} /><Footer /></>;
     }
 
     if (slug === 'babychakra') {
-        return <><BabychakraLayout project={project} /><Footer /></>;
+        return <><CaseStudyBar project={project} /><BabychakraLayout project={project} /><Footer /></>;
     }
 
     if (slug === 'kleverkid') {
-        return <><KleverLayout project={project} /><Footer /></>;
+        return <><CaseStudyBar project={project} /><KleverLayout project={project} /><Footer /></>;
     }
 
     return (

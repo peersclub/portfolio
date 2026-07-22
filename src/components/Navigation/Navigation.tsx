@@ -6,7 +6,7 @@ import { Sparkles } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-import { NAV_LINKS as navLinks } from '@/data/navigation';
+import { NAV_LINKS as navLinks, isCaseStudyPath } from '@/data/navigation';
 
 const MotionLink = motion(Link);
 
@@ -64,6 +64,9 @@ export default function Navigation() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Case-study pages use the central CaseStudyBar (brand-aware) instead
+  if (isCaseStudyPath(pathname)) return null;
 
   return (
     <>

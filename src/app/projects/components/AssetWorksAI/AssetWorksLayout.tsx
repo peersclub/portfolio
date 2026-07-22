@@ -7,7 +7,7 @@ import TechStack from './TechStack';
 import PlatformOverview from './PlatformOverview';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 interface AssetWorksLayoutProps {
     project: Project;
@@ -20,26 +20,7 @@ export default function AssetWorksLayout({ project }: AssetWorksLayoutProps) {
 
     return (
         <div className="assetworks-page bg-[#0a0a0f] h-[100dvh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory text-slate-300 font-sans selection:bg-[#E8C547]/30">
-            {/* Navigation Overlay */}
-            <nav className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
-                <Link
-                    href="/projects"
-                    className="flex items-center gap-2 text-[#E8C547] hover:text-[#f0d579] transition-colors uppercase font-mono text-sm tracking-widest group"
-                >
-                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                    <span>Back to Projects</span>
-                </Link>
-                <a
-                    href="https://assetworks.ai"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-[#E8C547]/70 hover:text-[#E8C547] transition-colors font-mono text-xs tracking-widest"
-                >
-                    <span>assetworks.ai</span>
-                    <ExternalLink className="w-3 h-3" />
-                </a>
-            </nav>
-
+            
             {/* Hero Section */}
             <section className="h-screen w-full snap-start relative">
                 <FinanceHero />

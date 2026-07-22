@@ -14,20 +14,7 @@ interface CoxLayoutProps {
 export default function CoxLayout({ project }: CoxLayoutProps) {
     return (
         <div className="cox-page bg-[#F3F4F6] h-[100dvh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory font-sans selection:bg-[#A78BFA]/30">
-            {/* Navigation Overlay */}
-            <nav className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
-                <Link
-                    href="/projects"
-                    className="flex items-center gap-2 text-white hover:text-[#A78BFA] transition-colors uppercase font-serif tracking-widest group"
-                >
-                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                    <span>Back to Projects</span>
-                </Link>
-                <div className="font-serif italic text-white/70">
-                    SVP Product & Tech // 2024-Present
-                </div>
-            </nav>
-
+            
             {/* Hero Section */}
             <section className="h-screen w-full snap-start relative">
                 <TravelHero project={project} />

@@ -4,7 +4,7 @@ import { Project } from '@/data/projects';
 import CryptoHero from './CryptoHero';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import ProTerminal from './ProTerminal';
 import SecurityStack from './SecurityStack';
 import AppEcosystem from './AppEcosystem';
@@ -16,20 +16,7 @@ interface CoinDCXLayoutProps {
 export default function CoinDCXLayout({ project }: CoinDCXLayoutProps) {
     return (
         <div className="coindcx-page bg-[#0f172a] h-[100dvh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory text-slate-300 font-sans selection:bg-[#4ECDC4]/30">
-            {/* Navigation Overlay */}
-            <nav className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
-                <Link
-                    href="/projects"
-                    className="flex items-center gap-2 text-[#4ECDC4] hover:text-white transition-colors uppercase font-mono text-sm tracking-widest group"
-                >
-                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                    <span>Back to Projects</span>
-                </Link>
-                <div className="font-mono text-xs text-[#4ECDC4]/70">
-                    Product Lead // 2019-2021
-                </div>
-            </nav>
-
+            
             {/* Hero Section */}
             <section className="h-screen w-full snap-start relative">
                 <CryptoHero />
