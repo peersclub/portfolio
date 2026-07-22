@@ -36,7 +36,7 @@ export default function Home() {
       <ProofBar />
       <SelectedWork />
       <About />
-      <section className="how-i-work section" aria-label="How I work">
+      <section className="how-i-work" aria-label="How I work">
         <div className="container">
           <p className="hiw-line">
             I work in written docs over meetings, measure outcomes over output, and treat

@@ -12,7 +12,7 @@ const PROOF = [
 
 export default function ProofBar() {
     return (
-        <section className="proof section" aria-label="Track record">
+        <section className="proof" aria-label="Track record">
             <div className="container">
                 <div className="proof-grid">
                     {PROOF.map((stat, i) => (

@@ -67,7 +67,7 @@ function CardVisual({ project, large = false }: { project: Project; large?: bool
 
 export default function SelectedWork() {
     return (
-        <section className="work section" id="projects">
+        <section className="work" id="projects">
             <div className="container">
                 <div className="section-header">
                     <span className="label">Selected Work</span>
