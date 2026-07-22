@@ -67,7 +67,7 @@ export const MinimalistHero = ({
             style={{
               // --bg-primary inverts per theme, so the label stays readable on any accent color
               background: 'var(--accent)',
-              color: 'var(--bg-primary)',
+              color: 'var(--accent-contrast)',
               boxShadow: '0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent)',
             }}
           >

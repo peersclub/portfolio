@@ -207,7 +207,7 @@ export default function AboutPage() {
                         <Link
                             href="/contact"
                             className="mt-6 inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
-                            style={{ background: 'var(--accent)', color: 'var(--bg-primary)' }}
+                            style={{ background: 'var(--accent)', color: 'var(--accent-contrast)' }}
                         >
                             Let&apos;s talk
                         </Link>

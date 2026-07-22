@@ -1,129 +1,230 @@
-"use client";
+'use client';
 
-import { useTheme } from "next-themes";
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import { THEME_PRESETS } from "@/lib/theme/presets";
+import { useEffect, useRef, useState } from 'react';
+import { useTheme } from 'next-themes';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Palette, Moon, Sun, Check } from 'lucide-react';
+import {
+    ACCENTS,
+    ACCENT_STORAGE_KEY,
+    DEFAULT_ACCENT,
+    applyAccent,
+    isAccent,
+    type Accent,
+} from '@/lib/theme/config';
 
-// Defined at module scope to avoid re-creation on every render
-const rayVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: (i: number) => ({
-        scale: 1,
-        opacity: 1,
-        transition: {
-            delay: i * 0.05,
-            type: "spring",
-            stiffness: 300,
-            damping: 20,
-        },
-    }),
-};
-
-const SUN_RAYS = [
-    { x1: 12, y1: 1, x2: 12, y2: 3 },
-    { x1: 12, y1: 21, x2: 12, y2: 23 },
-    { x1: 4.22, y1: 4.22, x2: 5.64, y2: 5.64 },
-    { x1: 18.36, y1: 18.36, x2: 19.78, y2: 19.78 },
-    { x1: 1, y1: 12, x2: 3, y2: 12 },
-    { x1: 21, y1: 12, x2: 23, y2: 12 },
-    { x1: 4.22, y1: 19.78, x2: 5.64, y2: 18.36 },
-    { x1: 18.36, y1: 5.64, x2: 19.78, y2: 4.22 },
-];
-
-export const ThemeSwitcher = () => {
-    const { theme, setTheme, resolvedTheme } = useTheme();
+// Slack-style appearance picker: mode (dark/light) + accent swatches.
+export default function ThemeSwitcher() {
+    const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [accent, setAccent] = useState<Accent>(DEFAULT_ACCENT);
+    const panelRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setMounted(true);
+        try {
+            const stored = localStorage.getItem(ACCENT_STORAGE_KEY);
+            if (isAccent(stored)) setAccent(stored);
+        } catch { /* attribute already set by boot script */ }
     }, []);
 
-    if (!mounted) {
-        return null;
-    }
+    // Close on outside click / Escape
+    useEffect(() => {
+        if (!open) return;
+        const onPointer = (e: PointerEvent) => {
+            if (!panelRef.current?.contains(e.target as Node)) setOpen(false);
+        };
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setOpen(false);
+        };
+        document.addEventListener('pointerdown', onPointer);
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.removeEventListener('pointerdown', onPointer);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [open]);
 
-    const currentTheme = theme === "system" ? resolvedTheme : theme;
-    const currentIndex = THEME_PRESETS.findIndex((p) => p.id === currentTheme);
-    const preset = currentIndex >= 0 ? THEME_PRESETS[currentIndex] : THEME_PRESETS[0];
-    const isDark = preset.mode === "dark";
+    if (!mounted) return null;
 
-    const cycleTheme = () => {
-        const nextIndex = (currentIndex + 1) % THEME_PRESETS.length;
-        setTheme(THEME_PRESETS[nextIndex].id);
+    const pickAccent = (a: Accent) => {
+        setAccent(a);
+        applyAccent(a);
     };
 
     return (
-        <button
-            onClick={cycleTheme}
-            className="fixed bottom-8 right-8 z-[200] flex h-14 w-14 items-center justify-center rounded-full border border-[var(--glass-border)] bg-[var(--bg-glass)] backdrop-blur-md transition-all hover:border-[var(--accent)] hover:scale-110 active:scale-95"
-            aria-label="Toggle Theme"
-        >
-            <div className="relative h-6 w-6">
-                <AnimatePresence mode="wait">
-                    {isDark ? (
-                        <motion.svg
-                            key="moon"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            initial={{ rotate: -90, scale: 0, opacity: 0 }}
-                            animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                            exit={{ rotate: 90, scale: 0, opacity: 0 }}
-                            transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                            className="absolute inset-0"
-                        >
-                            <motion.path
-                                d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-                                initial={{ pathLength: 0 }}
-                                animate={{ pathLength: 1 }}
-                                transition={{ duration: 0.5, delay: 0.2 }}
-                            />
-                        </motion.svg>
-                    ) : (
-                        <motion.svg
-                            key="sun"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            initial={{ rotate: 90, scale: 0, opacity: 0 }}
-                            animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                            exit={{ rotate: -90, scale: 0, opacity: 0 }}
-                            transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                            className="absolute inset-0"
-                        >
-                            <motion.circle
-                                cx="12"
-                                cy="12"
-                                r="5"
-                                fill="currentColor"
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                transition={{ delay: 0.1, type: "spring", stiffness: 300 }}
-                            />
-                            {SUN_RAYS.map((ray, i) => (
-                                <motion.line
-                                    key={i}
-                                    x1={ray.x1}
-                                    y1={ray.y1}
-                                    x2={ray.x2}
-                                    y2={ray.y2}
-                                    custom={i}
-                                    variants={rayVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                />
+        <div className="switcher" ref={panelRef}>
+            <AnimatePresence>
+                {open && (
+                    <motion.div
+                        className="panel"
+                        role="dialog"
+                        aria-label="Appearance settings"
+                        initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                        transition={{ duration: 0.18, ease: 'easeOut' }}
+                    >
+                        <span className="panel-label">Mode</span>
+                        <div className="mode-row" role="radiogroup" aria-label="Color mode">
+                            <button
+                                role="radio"
+                                aria-checked={theme === 'dark'}
+                                className={`mode-btn ${theme === 'dark' ? 'active' : ''}`}
+                                onClick={() => setTheme('dark')}
+                            >
+                                <Moon size={14} /> Dark
+                            </button>
+                            <button
+                                role="radio"
+                                aria-checked={theme === 'light'}
+                                className={`mode-btn ${theme === 'light' ? 'active' : ''}`}
+                                onClick={() => setTheme('light')}
+                            >
+                                <Sun size={14} /> Light
+                            </button>
+                        </div>
+
+                        <span className="panel-label">Accent</span>
+                        <div className="accent-row" role="radiogroup" aria-label="Accent color">
+                            {ACCENTS.map((a) => (
+                                <button
+                                    key={a.id}
+                                    role="radio"
+                                    aria-checked={accent === a.id}
+                                    aria-label={`${a.name} accent`}
+                                    title={a.name}
+                                    className={`swatch ${accent === a.id ? 'active' : ''}`}
+                                    style={{ background: a.swatch }}
+                                    onClick={() => pickAccent(a.id)}
+                                >
+                                    {accent === a.id && <Check size={14} strokeWidth={3} />}
+                                </button>
                             ))}
-                        </motion.svg>
-                    )}
-                </AnimatePresence>
-            </div>
-        </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <button
+                className="trigger"
+                aria-label="Appearance settings"
+                aria-expanded={open}
+                onClick={() => setOpen(!open)}
+            >
+                <Palette size={18} />
+            </button>
+
+            <style jsx>{`
+                .switcher {
+                    position: fixed;
+                    bottom: var(--space-lg);
+                    right: var(--space-lg);
+                    z-index: var(--z-fixed);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    gap: var(--space-sm);
+                }
+
+                .trigger {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 44px;
+                    height: 44px;
+                    border-radius: var(--radius-full);
+                    border: 1px solid var(--line-default);
+                    background: var(--surface-overlay);
+                    color: var(--content-primary);
+                    cursor: pointer;
+                    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+                    transition: all 0.25s var(--ease-out-expo);
+                }
+
+                .trigger:hover {
+                    border-color: var(--accent);
+                    color: var(--accent);
+                    transform: translateY(-2px);
+                }
+
+                .switcher :global(.panel) {
+                    width: 220px;
+                    padding: var(--space-md);
+                    border-radius: var(--radius-lg);
+                    border: 1px solid var(--line-default);
+                    background: var(--surface-overlay);
+                    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+                }
+
+                .panel-label {
+                    display: block;
+                    font-family: var(--font-mono);
+                    font-size: 0.65rem;
+                    letter-spacing: 0.18em;
+                    text-transform: uppercase;
+                    color: var(--content-muted);
+                    margin: var(--space-sm) 0;
+                }
+
+                .mode-row {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--space-xs);
+                }
+
+                .mode-btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 6px;
+                    padding: 8px 0;
+                    border-radius: var(--radius-md);
+                    border: 1px solid var(--line-default);
+                    background: transparent;
+                    color: var(--content-secondary);
+                    font-size: 0.8rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .mode-btn:hover {
+                    color: var(--content-primary);
+                }
+
+                .mode-btn.active {
+                    background: var(--accent-subtle);
+                    border-color: var(--accent-border);
+                    color: var(--accent-text);
+                }
+
+                .accent-row {
+                    display: flex;
+                    gap: var(--space-sm);
+                }
+
+                .swatch {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 34px;
+                    height: 34px;
+                    border-radius: var(--radius-full);
+                    border: 2px solid transparent;
+                    color: rgba(0, 0, 0, 0.75);
+                    cursor: pointer;
+                    transition: transform 0.2s var(--ease-out-expo), border-color 0.2s ease;
+                }
+
+                .swatch:hover {
+                    transform: scale(1.12);
+                }
+
+                .swatch.active {
+                    border-color: var(--content-primary);
+                }
+            `}</style>
+        </div>
     );
-};
+}

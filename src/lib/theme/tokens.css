@@ -1,14 +1,22 @@
 /* =====================================================
-   Portfolio Design Tokens
-   Structured CSS variable hierarchy adapted from Clarity AI
+   DESIGN TOKENS — SINGLE SOURCE OF TRUTH
+   =====================================================
+   Imported once by globals.css. Do NOT copy these blocks
+   anywhere else.
 
-   CANONICAL REFERENCE — these tokens are inlined directly
-   into src/app/globals.css (no @import at runtime).
-   When editing token values, update BOTH files.
+   Architecture (Slack-style): two orthogonal attributes
+   on <html>, managed by src/lib/theme/config.ts:
+
+     data-theme  = dark | light      → surfaces, text, lines
+     data-accent = gold | emerald | coral | violet
+                                     → CTAs, links, highlights
+
+   2 modes × 4 accents = 8 combinations, 6 token blocks.
    ===================================================== */
 
-/* Default theme: Midnight (also applied via :root for zero-config defaults) */
-:root {
+/* ---------- MODE: DARK (default) ---------- */
+:root,
+[data-theme="dark"] {
   /* Surfaces */
   --surface-root: #0a0a0a;
   --surface-primary: #111111;
@@ -29,15 +37,7 @@
   --line-default: rgba(255, 255, 255, 0.12);
   --line-strong: rgba(255, 255, 255, 0.24);
 
-  /* Accent */
-  --accent-solid: #667eea;
-  --accent-hover: #7b91ef;
-  --accent-subtle: rgba(102, 126, 234, 0.2);
-  --accent-text: #667eea;
-  --accent-border: rgba(102, 126, 234, 0.3);
-  --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-
-  /* Severity (fixed across all themes) */
+  /* Severity */
   --severity-critical: #ef4444;
   --severity-critical-bg: rgba(239, 68, 68, 0.1);
   --severity-critical-border: rgba(239, 68, 68, 0.3);
@@ -51,253 +51,60 @@
   --severity-info-bg: rgba(59, 130, 246, 0.1);
   --severity-info-border: rgba(59, 130, 246, 0.3);
 
-  /* Ambient effects */
+  /* Semantic / data */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  --color-chart-1: #EAB308;
+  --color-chart-2: #F97316;
+  --color-chart-3: #6366F1;
+  --color-cyan: #00F3FF;
+  --color-magenta: #FF00FF;
+
+  /* Fonts */
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: var(--font-mono-loaded, 'JetBrains Mono', 'SF Mono', monospace);
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+  --space-5xl: 8rem;
+
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Z-index */
+  --z-base: 0;
+  --z-grid: 1;
+  --z-content: 10;
+  --z-sticky: 100;
+  --z-fixed: 200;
+  --z-modal: 300;
+
+  /* Animation */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+
+  /* Ambient */
   --grid-line: var(--line-subtle);
   --glow-color: var(--accent-subtle);
   --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
 }
 
-/* =====================================================
-   Midnight Theme (explicit selector, mirrors :root defaults)
-   ===================================================== */
-[data-theme="midnight"] {
-  --surface-root: #0a0a0a;
-  --surface-primary: #111111;
-  --surface-elevated: #1a1a1a;
-  --surface-overlay: #1f1f1f;
-  --surface-spotlight: #242424;
-  --surface-intense: #2a2a2a;
-
-  --content-primary: #ffffff;
-  --content-secondary: rgba(255, 255, 255, 0.7);
-  --content-tertiary: rgba(255, 255, 255, 0.5);
-  --content-muted: rgba(255, 255, 255, 0.4);
-  --content-inverse: #0a0a0a;
-
-  --line-subtle: rgba(255, 255, 255, 0.08);
-  --line-default: rgba(255, 255, 255, 0.12);
-  --line-strong: rgba(255, 255, 255, 0.24);
-
-  --accent-solid: #667eea;
-  --accent-hover: #7b91ef;
-  --accent-subtle: rgba(102, 126, 234, 0.2);
-  --accent-text: #667eea;
-  --accent-border: rgba(102, 126, 234, 0.3);
-  --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-
-  /* Ambient effects */
-  --grid-line: var(--line-subtle);
-  --glow-color: var(--accent-subtle);
-  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
-}
-
-/* =====================================================
-   Ocean Theme
-   ===================================================== */
-[data-theme="ocean"] {
-  --surface-root: #0c1929;
-  --surface-primary: #132337;
-  --surface-elevated: #1a3048;
-  --surface-overlay: #1e3554;
-  --surface-spotlight: #223a5e;
-  --surface-intense: #284268;
-
-  --content-primary: #ffffff;
-  --content-secondary: rgba(255, 255, 255, 0.7);
-  --content-tertiary: rgba(255, 255, 255, 0.5);
-  --content-muted: rgba(255, 255, 255, 0.4);
-  --content-inverse: #0c1929;
-
-  --line-subtle: rgba(0, 212, 255, 0.15);
-  --line-default: rgba(0, 212, 255, 0.2);
-  --line-strong: rgba(0, 212, 255, 0.4);
-
-  --accent-solid: #00d4ff;
-  --accent-hover: #33ddff;
-  --accent-subtle: rgba(0, 212, 255, 0.2);
-  --accent-text: #00d4ff;
-  --accent-border: rgba(0, 212, 255, 0.3);
-  --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 50%, #006699 100%);
-
-  /* Ambient effects */
-  --grid-line: var(--line-subtle);
-  --glow-color: var(--accent-subtle);
-  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
-}
-
-/* =====================================================
-   Sunset Theme
-   ===================================================== */
-[data-theme="sunset"] {
-  --surface-root: #1a1016;
-  --surface-primary: #261820;
-  --surface-elevated: #33202b;
-  --surface-overlay: #3a2532;
-  --surface-spotlight: #412a39;
-  --surface-intense: #4a2f40;
-
-  --content-primary: #ffffff;
-  --content-secondary: rgba(255, 255, 255, 0.7);
-  --content-tertiary: rgba(255, 255, 255, 0.5);
-  --content-muted: rgba(255, 255, 255, 0.4);
-  --content-inverse: #1a1016;
-
-  --line-subtle: rgba(255, 119, 89, 0.15);
-  --line-default: rgba(255, 119, 89, 0.2);
-  --line-strong: rgba(255, 119, 89, 0.4);
-
-  --accent-solid: #ff7759;
-  --accent-hover: #ff8f75;
-  --accent-subtle: rgba(255, 119, 89, 0.2);
-  --accent-text: #ff7759;
-  --accent-border: rgba(255, 119, 89, 0.3);
-  --accent-gradient: linear-gradient(135deg, #ff7759 0%, #ff5f6d 50%, #ffc371 100%);
-
-  /* Ambient effects */
-  --grid-line: var(--line-subtle);
-  --glow-color: var(--accent-subtle);
-  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
-}
-
-/* =====================================================
-   Forest Theme
-   ===================================================== */
-[data-theme="forest"] {
-  --surface-root: #0a1a0f;
-  --surface-primary: #0f261a;
-  --surface-elevated: #143324;
-  --surface-overlay: #183b2a;
-  --surface-spotlight: #1c4230;
-  --surface-intense: #204a36;
-
-  --content-primary: #ffffff;
-  --content-secondary: rgba(255, 255, 255, 0.7);
-  --content-tertiary: rgba(255, 255, 255, 0.5);
-  --content-muted: rgba(255, 255, 255, 0.4);
-  --content-inverse: #0a1a0f;
-
-  --line-subtle: rgba(46, 213, 115, 0.15);
-  --line-default: rgba(46, 213, 115, 0.2);
-  --line-strong: rgba(46, 213, 115, 0.4);
-
-  --accent-solid: #2ed573;
-  --accent-hover: #52de8a;
-  --accent-subtle: rgba(46, 213, 115, 0.2);
-  --accent-text: #2ed573;
-  --accent-border: rgba(46, 213, 115, 0.3);
-  --accent-gradient: linear-gradient(135deg, #2ed573 0%, #26de81 50%, #20bf6b 100%);
-
-  /* Ambient effects */
-  --grid-line: var(--line-subtle);
-  --glow-color: var(--accent-subtle);
-  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
-}
-
-/* =====================================================
-   Lavender Theme
-   ===================================================== */
-[data-theme="lavender"] {
-  --surface-root: #15121a;
-  --surface-primary: #1e1926;
-  --surface-elevated: #272033;
-  --surface-overlay: #2d263c;
-  --surface-spotlight: #332c45;
-  --surface-intense: #39324e;
-
-  --content-primary: #ffffff;
-  --content-secondary: rgba(255, 255, 255, 0.7);
-  --content-tertiary: rgba(255, 255, 255, 0.5);
-  --content-muted: rgba(255, 255, 255, 0.4);
-  --content-inverse: #15121a;
-
-  --line-subtle: rgba(167, 139, 250, 0.15);
-  --line-default: rgba(167, 139, 250, 0.2);
-  --line-strong: rgba(167, 139, 250, 0.4);
-
-  --accent-solid: #a78bfa;
-  --accent-hover: #b89efb;
-  --accent-subtle: rgba(167, 139, 250, 0.2);
-  --accent-text: #a78bfa;
-  --accent-border: rgba(167, 139, 250, 0.3);
-  --accent-gradient: linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #e879f9 100%);
-
-  /* Ambient effects */
-  --grid-line: var(--line-subtle);
-  --glow-color: var(--accent-subtle);
-  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
-}
-
-/* =====================================================
-   Ember Theme
-   ===================================================== */
-[data-theme="ember"] {
-  --surface-root: #1a0f0a;
-  --surface-primary: #261510;
-  --surface-elevated: #331b16;
-  --surface-overlay: #3c201b;
-  --surface-spotlight: #452520;
-  --surface-intense: #4e2a25;
-
-  --content-primary: #ffffff;
-  --content-secondary: rgba(255, 255, 255, 0.7);
-  --content-tertiary: rgba(255, 255, 255, 0.5);
-  --content-muted: rgba(255, 255, 255, 0.4);
-  --content-inverse: #1a0f0a;
-
-  --line-subtle: rgba(251, 146, 60, 0.15);
-  --line-default: rgba(251, 146, 60, 0.2);
-  --line-strong: rgba(251, 146, 60, 0.4);
-
-  --accent-solid: #fb923c;
-  --accent-hover: #fca55e;
-  --accent-subtle: rgba(251, 146, 60, 0.2);
-  --accent-text: #fb923c;
-  --accent-border: rgba(251, 146, 60, 0.3);
-  --accent-gradient: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
-
-  /* Ambient effects */
-  --grid-line: var(--line-subtle);
-  --glow-color: var(--accent-subtle);
-  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
-}
-
-/* =====================================================
-   Monochrome Theme
-   ===================================================== */
-[data-theme="monochrome"] {
-  --surface-root: #0f0f0f;
-  --surface-primary: #171717;
-  --surface-elevated: #1f1f1f;
-  --surface-overlay: #262626;
-  --surface-spotlight: #2d2d2d;
-  --surface-intense: #333333;
-
-  --content-primary: #ffffff;
-  --content-secondary: rgba(255, 255, 255, 0.7);
-  --content-tertiary: rgba(255, 255, 255, 0.5);
-  --content-muted: rgba(255, 255, 255, 0.4);
-  --content-inverse: #0f0f0f;
-
-  --line-subtle: rgba(255, 255, 255, 0.08);
-  --line-default: rgba(255, 255, 255, 0.12);
-  --line-strong: rgba(255, 255, 255, 0.24);
-
-  --accent-solid: #ffffff;
-  --accent-hover: rgba(255, 255, 255, 0.9);
-  --accent-subtle: rgba(255, 255, 255, 0.1);
-  --accent-text: #ffffff;
-  --accent-border: rgba(255, 255, 255, 0.3);
-  --accent-gradient: linear-gradient(135deg, #e5e5e5 0%, #a3a3a3 50%, #737373 100%);
-
-  /* Ambient effects */
-  --grid-line: var(--line-subtle);
-  --glow-color: var(--accent-subtle);
-  --shadow-glow: 0 0 20px var(--accent-subtle), 0 0 60px var(--accent-border);
-}
-
-/* =====================================================
-   Light Theme
-   ===================================================== */
+/* ---------- MODE: LIGHT ---------- */
 [data-theme="light"] {
   --surface-root: #fafafa;
   --surface-primary: #f5f5f5;
@@ -316,39 +123,103 @@
   --line-default: rgba(0, 0, 0, 0.1);
   --line-strong: rgba(0, 0, 0, 0.2);
 
-  --accent-solid: #6366f1;
-  --accent-hover: #4f46e5;
-  --accent-subtle: rgba(99, 102, 241, 0.1);
-  --accent-text: #6366f1;
-  --accent-border: rgba(99, 102, 241, 0.3);
-  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-
-  /* Severity adjusted for light mode */
   --severity-critical: #dc2626;
   --severity-warning: #d97706;
   --severity-success: #059669;
   --severity-info: #2563eb;
 
-  /* Ambient effects */
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+  --color-info: #2563EB;
+  --color-chart-1: #CA8A04;
+  --color-chart-2: #EA580C;
+  --color-chart-3: #4F46E5;
+  --color-cyan: #0891B2;
+  --color-magenta: #C026D3;
+
   --grid-line: var(--line-default);
   --glow-color: var(--accent-border);
   --shadow-glow: 0 0 20px var(--accent-border), 0 0 40px var(--accent-subtle);
 }
 
-/* =====================================================
-   Backwards-compatibility aliases
-   These ensure all existing code using the old variable
-   names continues to work without any changes.
-   ===================================================== */
+/* ---------- ACCENT: GOLD (default) ----------
+   --accent-contrast is the label color used ON accent-filled surfaces. */
 :root,
-[data-theme="midnight"],
-[data-theme="ocean"],
-[data-theme="sunset"],
-[data-theme="forest"],
-[data-theme="lavender"],
-[data-theme="ember"],
-[data-theme="monochrome"],
-[data-theme="light"] {
+[data-accent="gold"] {
+  --accent-solid: #E8C547;
+  --accent-hover: #EFD06A;
+  --accent-subtle: rgba(232, 197, 71, 0.16);
+  --accent-text: #E8C547;
+  --accent-border: rgba(232, 197, 71, 0.35);
+  --accent-contrast: #1a1505;
+  --accent-gradient: linear-gradient(135deg, #E8C547 0%, #D9A514 50%, #F6E27A 100%);
+}
+
+[data-theme="light"][data-accent="gold"] {
+  --accent-solid: #C9A227;
+  --accent-hover: #B08D1E;
+  --accent-subtle: rgba(201, 162, 39, 0.14);
+  --accent-text: #8A6D0B;
+  --accent-border: rgba(201, 162, 39, 0.4);
+  --accent-contrast: #ffffff;
+}
+
+/* ---------- ACCENT: EMERALD ---------- */
+[data-accent="emerald"] {
+  --accent-solid: #10B981;
+  --accent-hover: #34D399;
+  --accent-subtle: rgba(16, 185, 129, 0.16);
+  --accent-text: #34D399;
+  --accent-border: rgba(16, 185, 129, 0.35);
+  --accent-contrast: #04281c;
+  --accent-gradient: linear-gradient(135deg, #10B981 0%, #059669 50%, #6EE7B7 100%);
+}
+
+[data-theme="light"][data-accent="emerald"] {
+  --accent-hover: #059669;
+  --accent-text: #047857;
+  --accent-contrast: #ffffff;
+}
+
+/* ---------- ACCENT: CORAL ---------- */
+[data-accent="coral"] {
+  --accent-solid: #FF6B6B;
+  --accent-hover: #FF8787;
+  --accent-subtle: rgba(255, 107, 107, 0.16);
+  --accent-text: #FF8787;
+  --accent-border: rgba(255, 107, 107, 0.35);
+  --accent-contrast: #2b0a0a;
+  --accent-gradient: linear-gradient(135deg, #FF6B6B 0%, #F03E3E 50%, #FFA8A8 100%);
+}
+
+[data-theme="light"][data-accent="coral"] {
+  --accent-hover: #F03E3E;
+  --accent-text: #D6403F;
+  --accent-contrast: #ffffff;
+}
+
+/* ---------- ACCENT: VIOLET ---------- */
+[data-accent="violet"] {
+  --accent-solid: #7C3AED;
+  --accent-hover: #8B5CF6;
+  --accent-subtle: rgba(124, 58, 237, 0.18);
+  --accent-text: #A78BFA;
+  --accent-border: rgba(124, 58, 237, 0.4);
+  --accent-contrast: #ffffff;
+  --accent-gradient: linear-gradient(135deg, #7C3AED 0%, #6D28D9 50%, #C4B5FD 100%);
+}
+
+[data-theme="light"][data-accent="violet"] {
+  --accent-hover: #6D28D9;
+  --accent-text: #6D28D9;
+  --accent-contrast: #ffffff;
+}
+
+/* ---------- Backwards-compatibility aliases ----------
+   Old variable names resolve through the new tokens, so
+   existing components keep working untouched. */
+:root {
   --bg-primary: var(--surface-root);
   --bg-secondary: var(--surface-primary);
   --bg-tertiary: var(--surface-elevated);

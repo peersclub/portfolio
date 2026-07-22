@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation/Navigation";
-import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 import "./view-transitions.css";
@@ -60,7 +60,7 @@ export default function RootLayout({
             <head>
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: `(function(){try{var t=localStorage.getItem('theme');var v=['midnight','light'];if(t&&v.indexOf(t)!==-1){document.documentElement.setAttribute('data-theme',t)}else{localStorage.setItem('theme','midnight');document.documentElement.setAttribute('data-theme','midnight')}}catch(e){}})();`,
+                        __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light'){t=(t==='light')?'light':'dark';localStorage.setItem('theme',t)}d.setAttribute('data-theme',t);var a=localStorage.getItem('accent');var va=['gold','emerald','coral','violet'];if(va.indexOf(a)===-1){a='gold';localStorage.setItem('accent',a)}d.setAttribute('data-accent',a)}catch(e){}})();`,
                     }}
                 />
             </head>
