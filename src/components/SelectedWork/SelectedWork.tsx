@@ -1,69 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-import { featuredProjects, moreProjects, type Project } from '@/data/projects';
-
-function CardVisual({ project, large = false }: { project: Project; large?: boolean }) {
-    if (project.cover) {
-        return (
-            <div className="visual">
-                <Image
-                    src={project.cover}
-                    alt={`${project.title} — field photo`}
-                    fill
-                    sizes={large ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 50vw, 25vw'}
-                    className="cover-img"
-                    style={{ objectFit: 'cover' }}
-                />
-                <style jsx>{`
-                    .visual {
-                        position: relative;
-                        width: 100%;
-                        height: 100%;
-                        min-height: ${large ? '280px' : '140px'};
-                        overflow: hidden;
-                    }
-                `}</style>
-            </div>
-        );
-    }
-    return (
-        <div className="visual gradient">
-            {project.logo && (
-                <span className="logo-chip">
-                    {/* Brand SVGs vary in color — the chip guarantees contrast on any theme */}
-                    <img src={project.logo} alt={`${project.title} logo`} width={large ? 56 : 36} height={large ? 56 : 36} />
-                </span>
-            )}
-            <style jsx>{`
-                .visual {
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    min-height: ${large ? '280px' : '140px'};
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background:
-                        radial-gradient(120% 120% at 20% 0%, color-mix(in srgb, ${project.color} 28%, transparent), transparent 60%),
-                        linear-gradient(135deg, color-mix(in srgb, ${project.color} 14%, var(--bg-secondary)), var(--bg-secondary));
-                }
-                .logo-chip {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: ${large ? '20px' : '12px'};
-                    border-radius: 16px;
-                    background: rgba(255, 255, 255, 0.92);
-                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-                }
-            `}</style>
-        </div>
-    );
-}
+import { featuredProjects, moreProjects } from '@/data/projects';
+import ProjectVisual from './ProjectVisual';
 
 export default function SelectedWork() {
     return (
@@ -85,7 +26,7 @@ export default function SelectedWork() {
                         >
                             <Link href={`/projects/${project.slug}`} className="featured-card">
                                 <div className="card-visual">
-                                    <CardVisual project={project} large />
+                                    <ProjectVisual project={project} large />
                                 </div>
                                 <div className="card-body">
                                     <span className="meta">
@@ -116,10 +57,13 @@ export default function SelectedWork() {
                         {moreProjects.map((project) => (
                             <Link key={project.slug} href={`/projects/${project.slug}`} className="more-card">
                                 <div className="more-visual">
-                                    <CardVisual project={project} />
+                                    <ProjectVisual project={project} />
                                 </div>
                                 <div className="more-body">
-                                    <h4>{project.title}</h4>
+                                    <h4>
+                                        {project.title}
+                                        <ArrowUpRight className="arrow" size={15} />
+                                    </h4>
                                     <span className="more-meta">
                                         {project.role} · {project.year}
                                     </span>
@@ -269,7 +213,7 @@ export default function SelectedWork() {
                 }
 
                 .more-visual {
-                    height: 140px;
+                    height: 150px;
                 }
 
                 .more-body {
@@ -277,10 +221,33 @@ export default function SelectedWork() {
                 }
 
                 .more-body h4 {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
                     font-size: 1rem;
                     font-weight: 600;
                     color: var(--text-primary);
                     text-transform: none;
+                }
+
+                .more-body :global(.arrow) {
+                    color: var(--accent);
+                    opacity: 0;
+                    transform: translate(-3px, 3px);
+                    transition: all 0.25s var(--ease-out-expo);
+                }
+
+                .work :global(.more-card:hover) .more-body :global(.arrow) {
+                    opacity: 1;
+                    transform: translate(0, 0);
+                }
+
+                .more-visual {
+                    overflow: hidden;
+                }
+
+                .work :global(.more-card:hover) .more-visual {
+                    border-bottom: 1px solid var(--accent-border);
                 }
 
                 .more-meta {
