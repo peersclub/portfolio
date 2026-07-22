@@ -45,23 +45,13 @@ export default function AssetWorksLayout({ project }: AssetWorksLayoutProps) {
             <section className="h-screen w-full snap-start relative flex flex-col items-center justify-center bg-[#0a0a0f]">
                 <div className="text-center">
                     <p className="text-slate-500 mb-4 font-mono text-sm">Ready to revolutionize your investment workflow?</p>
-                    <a
-                        href="https://assetworks.ai"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Link
+                        href="/contact"
                         className="inline-flex items-center gap-2 px-8 py-3 bg-[#E8C547] text-[#0a0a0f] font-mono font-semibold hover:bg-[#f0d579] transition-all uppercase tracking-widest mb-6"
                     >
-                        <span>Visit AssetWorks.ai</span>
+                        <span>Let&apos;s talk</span>
                         <ExternalLink className="w-4 h-4" />
-                    </a>
-                    <div className="mt-8">
-                        <Link
-                            href="/contact"
-                            className="text-[#E8C547]/70 hover:text-[#E8C547] transition-colors font-mono text-sm underline underline-offset-4"
-                        >
-                            Or get in touch directly
-                        </Link>
-                    </div>
+                    </Link>
                 </div>
             </section>
         </div>

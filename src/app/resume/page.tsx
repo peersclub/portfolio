@@ -25,8 +25,7 @@ interface ExperienceEntry {
 const EXPERIENCE_DATA: ExperienceEntry[] = [
     {
         company: "AssetWorks AI",
-        url: "https://assetworks.ai",
-        logoUrl: "https://logo.clearbit.com/assetworks.ai",
+        logoUrl: "/projects/assetworks-ai/logo.svg",
         description: "AI-native financial analytics platform making sophisticated financial analysis accessible through natural language, built for investment professionals.",
         roles: [
             {
@@ -43,7 +42,7 @@ const EXPERIENCE_DATA: ExperienceEntry[] = [
     {
         company: "Cox & Kings",
         url: "https://www.coxandkings.com",
-        logoUrl: "https://logo.clearbit.com/coxandkings.com",
+        logoUrl: "/projects/cox-and-kings/logo.svg",
         description: "One of the world's oldest travel brands, rebuilding as a modern personalized travel platform.",
         roles: [
             {
@@ -59,7 +58,7 @@ const EXPERIENCE_DATA: ExperienceEntry[] = [
     {
         company: "CaptainFresh",
         url: "https://captainfresh.in",
-        logoUrl: "https://logo.clearbit.com/captainfresh.in",
+
         description: "India's first tech-enabled B2B seafood supply chain platform, connecting fishermen directly with restaurants and retailers for freshness and traceability.",
         roles: [
             {
@@ -76,7 +75,7 @@ const EXPERIENCE_DATA: ExperienceEntry[] = [
     {
         company: "CoinDCX",
         url: "https://coindcx.com",
-        logoUrl: "https://logo.clearbit.com/coindcx.com",
+        logoUrl: "/projects/coindcx/logo.svg",
         description: "India's largest and most trusted crypto exchange, providing access to 500+ cryptocurrencies with a regulated, investor-backed platform.",
         roles: [
             {
@@ -183,7 +182,6 @@ export default function ResumePage() {
                         <div className="flex flex-col gap-6">
                             <ExperienceCard
                                 company="Hopscotch"
-                                logo="https://logo.clearbit.com/hopscotch.in"
                                 url="https://www.hopscotch.in"
                                 description="India's leading online fashion brand for kids, serving millions of parents across the country."
                                 roles={[
@@ -199,7 +197,7 @@ export default function ResumePage() {
                             />
                             <ExperienceCard
                                 company="BabyChakra"
-                                logo="https://logo.clearbit.com/babychakra.com"
+                                logo="/projects/babychakra/logo.svg"
                                 url="https://www.babychakra.com"
                                 description="India's leading parenting platform, connecting millions of parents with pediatricians, child care experts, and trusted products from pregnancy through early childhood."
                                 roles={[
@@ -264,14 +262,6 @@ export default function ResumePage() {
                         <div className="border-l-2 border-[var(--glass-border)] pl-6">
                             <div className="mb-8">
                                 <div className="flex items-center gap-3 mb-2">
-                                    <img
-                                        src="https://logo.clearbit.com/nitk.ac.in"
-                                        alt="NITK logo"
-                                        width={32}
-                                        height={32}
-                                        className="rounded border border-[var(--glass-border)]"
-                                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                                    />
                                     <h3 className="text-xl font-bold text-[var(--text-primary)]">
                                         National Institute of Technology Karnataka
                                     </h3>

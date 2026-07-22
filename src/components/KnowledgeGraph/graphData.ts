@@ -80,10 +80,9 @@ const roles = [
 ];
 
 const companyFollows = [
-  'OpenAI', 'NVIDIA', 'Stripe', 'Cursor', 'Lovable',
-  'n8n', 'McKinsey', 'Netflix', 'J.P. Morgan', 'ChatGPT',
-  'Rubrik', 'Atlabs AI', 'Token Company', 'Wispr Flow',
-  'Potpie AI', 'Fam', 'JioHotstar', 'Mono', 'Cent', 'Sila',
+  'NVIDIA', 'Stripe', 'n8n', 'McKinsey', 'Netflix',
+  'J.P. Morgan', 'Rubrik', 'Token Company', 'Wispr Flow',
+  'Fam', 'JioHotstar', 'Mono', 'Cent', 'Sila',
 ];
 
 const hashtags = [

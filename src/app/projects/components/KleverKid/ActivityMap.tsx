@@ -48,8 +48,15 @@ export default function ActivityMap() {
 
                 {/* Map UI */}
                 <div className="md:col-span-8 relative h-[600px] bg-[#BFDBFE] rounded-[40px] border-8 border-white shadow-2xl overflow-hidden group">
-                    {/* Map Background Pattern */}
-                    <div className="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/city-fields.png')] bg-cover mix-blend-multiply" />
+                    {/* Map Background Pattern — inline grid, no external asset */}
+                    <div
+                        className="absolute inset-0 opacity-30 mix-blend-multiply"
+                        style={{
+                            backgroundImage:
+                                'linear-gradient(#93C5FD 1px, transparent 1px), linear-gradient(90deg, #93C5FD 1px, transparent 1px)',
+                            backgroundSize: '32px 32px',
+                        }}
+                    />
 
                     {/* Streets (Abstract) */}
                     <svg className="absolute inset-0 w-full h-full stroke-white stroke-[8] opacity-50">

@@ -183,7 +183,7 @@ export default function WidgetShowcase() {
                                             />
                                         ))}
                                     </div>
-                                    <span className="text-sm font-mono text-slate-400">Processing with Claude AI...</span>
+                                    <span className="text-sm font-mono text-slate-400">Processing with AI...</span>
                                 </motion.div>
                             )}
                         </AnimatePresence>

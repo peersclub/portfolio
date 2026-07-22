@@ -4,17 +4,17 @@ import { Bot, Server, Smartphone, Zap, Shield, Globe, MessageSquare, Cpu, Databa
 
 const technologies = [
     {
-        name: 'Claude AI',
-        role: 'Primary Intelligence',
-        description: 'Anthropic\'s Claude for natural language understanding and financial analysis',
+        name: 'LLM Intelligence',
+        role: 'Primary Reasoning',
+        description: 'Frontier large language models for natural language understanding and financial analysis',
         icon: Bot,
         color: '#D97757',
         stats: ['Context Understanding', 'Complex Reasoning', 'Safe Outputs'],
     },
     {
-        name: 'OpenAI GPT',
-        role: 'Multi-Model Support',
-        description: 'GPT models for diverse AI capabilities and fallback processing',
+        name: 'Multi-Model Routing',
+        role: 'Resilience & Breadth',
+        description: 'A routed model layer for diverse capabilities and graceful fallback',
         icon: Bot,
         color: '#10B981',
         stats: ['Wide Compatibility', 'Fast Processing', 'Rich APIs'],
@@ -45,7 +45,7 @@ const features = [
 
 const architectureNodes = [
     { id: 'input', label: 'Natural Language', sublabel: 'User Query', icon: MessageSquare, color: '#3B82F6' },
-    { id: 'ai', label: 'AI Processing', sublabel: 'Claude + GPT', icon: Cpu, color: '#E8C547' },
+    { id: 'ai', label: 'AI Processing', sublabel: 'LLMs', icon: Cpu, color: '#E8C547' },
     { id: 'backend', label: 'Rust Backend', sublabel: 'Data Engine', icon: Database, color: '#F97316' },
     { id: 'output', label: 'Financial Widget', sublabel: 'Visualization', icon: BarChart3, color: '#10B981' },
 ];

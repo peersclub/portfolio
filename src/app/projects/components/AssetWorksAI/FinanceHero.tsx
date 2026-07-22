@@ -100,7 +100,7 @@ export default function FinanceHero() {
 
                     <p className="font-mono text-sm md:text-base tracking-wider text-slate-400 mb-10 max-w-xl mx-auto">
                         Create investment widgets using simple natural language.
-                        <br />Powered by Claude AI & OpenAI GPT.
+                        <br />Powered by frontier LLMs.
                     </p>
 
                     {/* Metrics */}

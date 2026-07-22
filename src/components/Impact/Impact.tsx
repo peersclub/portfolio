@@ -59,7 +59,7 @@ const impacts = [
     number: '04',
     metric: 'AI-native',
     description: 'financial analytics with natural language',
-    context: 'Co-founded platform integrating Claude AI & GPT for investment insights',
+    context: 'Co-founded platform integrating frontier LLMs for investment insights',
     company: 'AssetWorks AI',
     icon: Bot,
     accentColor: IMPACT_CARD_PALETTE[3].accent,

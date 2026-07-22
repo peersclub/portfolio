@@ -102,7 +102,7 @@ const chapters: Chapter[] = [
     years: '2024 — Present',
     color: '#FF0080',
     description:
-      'All roads converge here. Co-founding AssetWorks AI, building with Claude & GPT, leading product & tech at the highest level.',
+      'All roads converge here. Co-founding AssetWorks AI, building with frontier LLMs, leading product & tech at the highest level.',
     moments: [
       { year: '2024', label: 'SVP Product & Tech', detail: 'Cox & Kings — personalized travel experience', icon: Briefcase },
       { year: '2025', label: 'Co-Founder', detail: 'AssetWorks AI — AI-powered financial analytics', icon: Sparkles },

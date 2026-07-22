@@ -34,7 +34,8 @@ export const ExperienceCard = ({ company, logo, url, description, roles }: Exper
                             alt={company}
                             width={40}
                             height={40}
-                            className="rounded-lg border border-[var(--glass-border)] bg-white/5 object-contain p-0.5"
+                            // white chip so any brand logo (colored SVG) stays legible on the dark card
+                            className="rounded-lg border border-[var(--glass-border)] bg-white object-contain p-1.5"
                             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                         />
                     )}
