@@ -1,3 +1,20 @@
+import { execSync } from 'node:child_process';
+
+// Build stamp — captured once at build time and inlined into the client bundle.
+// Prefer Vercel's git metadata; fall back to a local `git` call for `npm run build`.
+const buildSha = (
+    process.env.VERCEL_GIT_COMMIT_SHA ||
+    (() => {
+        try {
+            return execSync('git rev-parse HEAD').toString().trim();
+        } catch {
+            return '';
+        }
+    })()
+).slice(0, 7) || 'dev';
+
+const buildTime = new Date().toISOString();
+
 /** @type {import('next').NextConfig} */
 const securityHeaders = [
     { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -7,6 +24,10 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+    env: {
+        NEXT_PUBLIC_BUILD_TIME: buildTime,
+        NEXT_PUBLIC_BUILD_SHA: buildSha,
+    },
     async headers() {
         return [{ source: '/(.*)', headers: securityHeaders }];
     },
