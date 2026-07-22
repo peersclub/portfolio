@@ -206,8 +206,8 @@ export default function AboutPage() {
                         <p className="mt-3 text-[var(--text-secondary)]">I answer fast on WhatsApp and email.</p>
                         <Link
                             href="/contact"
-                            className="mt-6 inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
-                            style={{ background: 'var(--accent)' }}
+                            className="mt-6 inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+                            style={{ background: 'var(--accent)', color: 'var(--bg-primary)' }}
                         >
                             Let&apos;s talk
                         </Link>

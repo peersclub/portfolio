@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { Linkedin, Instagram, Twitter, BookOpen } from 'lucide-react';
 import { MinimalistHero } from '@/components/ui/minimalist-hero';
-import ProofBar from '@/components/ProofBar/ProofBar';
 import SelectedWork from '@/components/SelectedWork/SelectedWork';
+import Impact from '@/components/Impact/Impact';
 import About from '@/components/About/About';
 import Contact from '@/components/Contact/Contact';
 import Footer from '@/components/Footer/Footer';
@@ -33,7 +33,7 @@ export default function Home() {
         socialLinks={socialLinks}
         locationText="Bangalore, India"
       />
-      <ProofBar />
+      <Impact />
       <SelectedWork />
       <About />
       <section className="how-i-work" aria-label="How I work">

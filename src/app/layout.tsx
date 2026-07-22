@@ -60,7 +60,7 @@ export default function RootLayout({
             <head>
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: `(function(){try{var t=localStorage.getItem('theme');var v=['midnight','ocean','sunset','forest','lavender','ember','monochrome','light'];if(t&&v.indexOf(t)!==-1){document.documentElement.setAttribute('data-theme',t)}else{document.documentElement.setAttribute('data-theme','midnight')}}catch(e){}})();`,
+                        __html: `(function(){try{var t=localStorage.getItem('theme');var v=['midnight','light'];if(t&&v.indexOf(t)!==-1){document.documentElement.setAttribute('data-theme',t)}else{localStorage.setItem('theme','midnight');document.documentElement.setAttribute('data-theme','midnight')}}catch(e){}})();`,
                     }}
                 />
             </head>

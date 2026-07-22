@@ -64,7 +64,12 @@ export const MinimalistHero = ({
           <a
             href={ctaHref}
             className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
-            style={{ background: 'var(--accent)', color: '#fff', boxShadow: '0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent)' }}
+            style={{
+              // --bg-primary inverts per theme, so the label stays readable on any accent color
+              background: 'var(--accent)',
+              color: 'var(--bg-primary)',
+              boxShadow: '0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent)',
+            }}
           >
             {ctaText}
           </a>
