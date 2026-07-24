@@ -125,6 +125,7 @@
 .v3-flip {
     perspective: 900px;
     margin: 0;
+    white-space: nowrap;
 }
 .v3-ch {
     display: inline-block;
@@ -583,6 +584,37 @@ body:has(.v3) .noise-overlay {
 }
 
 /* ————— responsive ————— */
+
+@media (max-width: 640px) {
+    .v3-hero {
+        min-height: calc(100svh - 56px);
+        justify-content: flex-end;
+        padding-bottom: 3.5rem;
+    }
+    .v3-hero-line {
+        font-size: 12.4vw;
+    }
+    .v3-hero-row {
+        gap: 3vw;
+    }
+    .v3-hero-sun {
+        width: 9vw;
+        height: 9vw;
+    }
+    .v3-hero-lede {
+        font-size: 1.02rem;
+        margin-top: 1.75rem;
+    }
+    .v3-scrub-stats {
+        gap: 1rem 1.75rem;
+    }
+    .v3-scrub-stat {
+        min-width: 5.5rem;
+    }
+    .v3-contact-line {
+        font-size: 19vw;
+    }
+}
 
 @media (max-width: 860px) {
     .v3-story-grid {
