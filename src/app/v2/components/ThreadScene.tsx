@@ -48,9 +48,10 @@ interface ThreadRigProps extends RigProps {
     states: StateFn[];
     offsets: [number, number, number][];
     scales: number[];
+    dim: number;
 }
 
-function GoldThread({ progressRef, reduced, states, offsets, scales }: ThreadRigProps) {
+function GoldThread({ progressRef, reduced, states, offsets, scales, dim }: ThreadRigProps) {
     const mesh = useRef<THREE.Mesh>(null!);
     const group = useRef<THREE.Group>(null!);
     const damped = useRef(0);
@@ -131,7 +132,9 @@ function GoldThread({ progressRef, reduced, states, offsets, scales }: ThreadRig
                     roughness={0.18}
                     clearcoat={0.6}
                     clearcoatRoughness={0.3}
-                    envMapIntensity={1.35}
+                    envMapIntensity={1.35 * dim}
+                    transparent={dim < 1}
+                    opacity={dim}
                 />
             </mesh>
         </group>
@@ -177,6 +180,9 @@ interface ThreadSceneProps {
     states?: StateFn[];
     offsets?: [number, number, number][];
     scales?: number[];
+    /** backdrop mode: 0..1 — scales material presence, sparkles, and bloom
+        so the thread can sit behind dense text without fighting it */
+    dim?: number;
 }
 
 export default function ThreadScene({
@@ -186,6 +192,7 @@ export default function ThreadScene({
     states = THREAD_SHAPES,
     offsets = DEFAULT_OFFSETS,
     scales = DEFAULT_SCALES,
+    dim = 1,
 }: ThreadSceneProps) {
     return (
         <Canvas
@@ -197,7 +204,7 @@ export default function ThreadScene({
             <color attach="background" args={[BG]} />
             <fog attach="fog" args={[BG, 9, 17]} />
 
-            <GoldThread progressRef={progressRef} reduced={reduced} states={states} offsets={offsets} scales={scales} />
+            <GoldThread progressRef={progressRef} reduced={reduced} states={states} offsets={offsets} scales={scales} dim={dim} />
             <CameraRig progressRef={progressRef} reduced={reduced} />
 
             <Sparkles
@@ -206,7 +213,7 @@ export default function ThreadScene({
                 size={2}
                 speed={reduced ? 0 : 0.25}
                 color={GOLD}
-                opacity={0.35}
+                opacity={0.35 * dim}
             />
 
             {/* Procedural "studio" — softboxes baked into an env map, no HDR fetch */}
@@ -218,7 +225,7 @@ export default function ThreadScene({
             </Environment>
 
             <EffectComposer>
-                <Bloom luminanceThreshold={0.72} luminanceSmoothing={0.4} intensity={0.5} mipmapBlur />
+                <Bloom luminanceThreshold={0.72} luminanceSmoothing={0.4} intensity={0.5 * dim} mipmapBlur />
                 <Vignette offset={0.22} darkness={0.72} />
             </EffectComposer>
         </Canvas>

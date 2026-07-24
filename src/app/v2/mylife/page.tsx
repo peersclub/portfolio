@@ -33,16 +33,16 @@ const LIFE_STATES = [
 
 // act heads alternate left/right — the thread takes the opposite side
 const LIFE_OFFSETS: [number, number, number][] = [
-    [0, -0.2, -3.4],  // hero — deep backdrop behind the scrim
-    [2.6, 0, -0.6],   // craft head left → thread right
-    [-2.6, 0, -0.6],  // emergence head right → thread left
-    [2.6, 0, -0.6],   // rise
-    [-2.4, 0, -0.6],  // frontier
-    [0, 0.2, -3.0],   // philosophy — recedes behind the words
-    [0, 0.5, -2.2],   // metrics
-    [0, 0.9, -0.4],   // end — the line rises behind the headline
+    [0, -0.2, -3.6],  // hero — deep backdrop behind the scrim
+    [3.0, 0, -1.5],   // craft head left → thread right, held back from the cards
+    [-3.0, 0, -1.5],  // emergence head right → thread left
+    [3.0, 0, -1.5],   // rise
+    [-2.8, 0, -1.5],  // frontier
+    [0, 0.2, -3.6],   // philosophy — recedes behind the words
+    [0, 0.5, -2.8],   // metrics
+    [0, 1.0, -0.5],   // end — the line rises behind the headline
 ];
-const LIFE_SCALES = [1.05, 0.75, 0.9, 0.9, 0.85, 0.9, 0.8, 1];
+const LIFE_SCALES = [1.05, 0.7, 0.85, 0.85, 0.8, 0.9, 0.75, 1];
 
 const SECTION_IDS = ['hero', 'craft', 'emergence', 'rise', 'frontier', 'philo', 'metrics', 'end'];
 
@@ -202,6 +202,7 @@ export default function OneLinePage() {
                 states={LIFE_STATES}
                 offsets={LIFE_OFFSETS}
                 scales={LIFE_SCALES}
+                dim={0.85}
                 veil
                 hudLabel={activeAct >= 0 ? `ACT ${acts[activeAct].numeral} — ${acts[activeAct].kicker}` : 'ONE LINE'}
                 hudLabelColor={activeAct >= 0 ? acts[activeAct].color : undefined}

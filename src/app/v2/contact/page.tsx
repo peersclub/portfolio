@@ -11,8 +11,8 @@ import '../v2.css';
 export default function V2ContactPage() {
     return (
         <div className="v2">
-            {/* straight line — the shipped state */}
-            <ThreadStage progress={1} />
+            {/* straight line, floated above the headline instead of through it */}
+            <ThreadStage progress={1} dim={0.75} offset={[0, 1.6, -1.2]} />
             <V2Nav />
 
             <section className="v2-section v2-contact v2-contact-page">

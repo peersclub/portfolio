@@ -24,8 +24,8 @@ const MORE: [string, string][] = [
 export default function V2AboutPage() {
     return (
         <div className="v2">
-            {/* knot state, thread poses right of the narrative */}
-            <ThreadStage progress={1 / 7} />
+            {/* knot, small and dimmed in the upper right — decoration, not competition */}
+            <ThreadStage progress={1 / 7} dim={0.55} offset={[3.2, 0.5, -1.8]} poseScale={0.65} />
             <V2Nav />
 
             <div className="v2-page">

@@ -27,6 +27,12 @@ export interface ThreadStageProps {
     states?: StateFn[];
     offsets?: [number, number, number][];
     scales?: number[];
+    /** backdrop mode 0..1 — dims material/sparkles/bloom for text-heavy pages */
+    dim?: number;
+    /** pinned-pose shorthand: park the thread at one position/scale
+        (only meaningful with a fixed `progress`) */
+    offset?: [number, number, number];
+    poseScale?: number;
     /** show the "pulling the thread…" veil until WebGL is live */
     veil?: boolean;
     /** HUD (bottom bar). Omit all three to render no HUD. */
@@ -49,6 +55,9 @@ export default function ThreadStage({
     states,
     offsets,
     scales,
+    dim,
+    offset,
+    poseScale,
     veil = false,
     hudLabel,
     hudLabelColor,
@@ -76,6 +85,10 @@ export default function ThreadStage({
 
     const hasHud = Boolean(hudLabel || hudProgress || ticks?.length);
 
+    const n = states?.length ?? 8;
+    const offsetsProp = offset ? Array.from({ length: n }, () => offset) : offsets;
+    const scalesProp = poseScale !== undefined ? Array.from({ length: n }, () => poseScale) : scales;
+
     return createPortal(
         <>
             <div className="v2-canvas" aria-hidden="true">
@@ -84,8 +97,9 @@ export default function ThreadStage({
                     reduced={reduced}
                     onReady={() => setReady(true)}
                     states={states}
-                    offsets={offsets}
-                    scales={scales}
+                    offsets={offsetsProp}
+                    scales={scalesProp}
+                    dim={dim}
                 />
             </div>
 
