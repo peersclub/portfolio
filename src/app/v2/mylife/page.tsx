@@ -29,7 +29,7 @@ import './mylife.css';
 
 const VBH = 9000; // viewBox height; y positions are px/wrapHeight * VBH
 
-const PALETTE = ['#FF6B6B', '#FFB800', '#00F0FF', '#7B2FFF', '#10B981', '#F472B6'];
+const PALETTE = ['#8A6D1A', '#B9922E', '#D9A514', '#E8C547', '#EFD06A', '#F6E27A'];
 
 interface Geom {
     d: string;
@@ -130,22 +130,22 @@ function buildGeom(wrapH: number): Geom | null {
 
     const midFrac = (i: number) => (bounds[i].top + bounds[i].h / 2) / wrapH;
     const stops = [
-        { off: 0, color: '#3A342C' },
+        { off: 0, color: '#6B5410' },
         { off: midFrac(0), color: acts[0].color },
         { off: midFrac(1), color: acts[1].color },
         { off: midFrac(2), color: acts[2].color },
         { off: midFrac(3), color: acts[3].color },
-        { off: Math.min(1, philo.top / wrapH + 0.06), color: '#8F6E1A' },
-        { off: 1, color: '#8F6E1A' },
+        { off: Math.min(1, philo.top / wrapH + 0.06), color: '#F6E27A' },
+        { off: 1, color: '#F6E27A' },
     ];
 
     const penStops: [number, string][] = [
-        [bounds[0].top / wrapH, '#3A342C'],
+        [bounds[0].top / wrapH, '#B9922E'],
         [bounds[1].top / wrapH, acts[0].color],
         [bounds[2].top / wrapH, acts[1].color],
         [bounds[3].top / wrapH, acts[2].color],
         [philo.top / wrapH, acts[3].color],
-        [2, '#8F6E1A'],
+        [2, '#F6E27A'],
     ];
 
     return { d: seg.join(' '), stops, kite, dabs, nodes, mesh, bars, neurons, synapses, arrowY, penStops };
@@ -479,7 +479,7 @@ export default function OneLinePage() {
                                 ))}
                             </linearGradient>
                             <filter id="v2ml-glow" x="-50%" y="-50%" width="200%" height="200%">
-                                <feGaussianBlur stdDeviation="5" />
+                                <feGaussianBlur stdDeviation="7" />
                             </filter>
                         </defs>
 
@@ -488,11 +488,11 @@ export default function OneLinePage() {
                             d={geom.d}
                             fill="none"
                             stroke="url(#v2ml-ink)"
-                            strokeWidth={9}
+                            strokeWidth={11}
                             strokeLinecap="round"
                             vectorEffect="non-scaling-stroke"
                             filter="url(#v2ml-glow)"
-                            opacity={0.16}
+                            opacity={0.5}
                             style={{ pathLength: reduced ? 1 : drawn }}
                         />
                         <motion.path
@@ -653,7 +653,7 @@ export default function OneLinePage() {
                         <motion.path
                             d={`M 455 ${geom.arrowY - 55} L 500 ${geom.arrowY} L 545 ${geom.arrowY - 55}`}
                             fill="none"
-                            stroke="#8F6E1A"
+                            stroke="#E8C547"
                             strokeWidth={3}
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -692,7 +692,7 @@ export default function OneLinePage() {
                         <motion.svg className="v2ml-flourish" viewBox="0 0 260 28" fill="none" variants={{}} aria-hidden="true">
                             <motion.path
                                 d="M 6 20 C 60 4, 92 26, 132 14 S 202 5, 254 16"
-                                stroke="#8F6E1A"
+                                stroke="#E8C547"
                                 strokeWidth={2.2}
                                 strokeLinecap="round"
                                 variants={{

@@ -37,7 +37,7 @@ export const acts: Act[] = [
         kicker: 'Childhood Craft',
         title: 'The line learns to curve.',
         years: '1992 — 2009',
-        color: '#2E7E8F',
+        color: '#D9A514',
         intro:
             'Before products, there was paper. Everything I know about building things started as a hobby nobody graded.',
         moments: [
@@ -55,7 +55,7 @@ export const acts: Act[] = [
         kicker: 'The Emergence',
         title: 'The line meets other lines.',
         years: '2009 — 2015',
-        color: '#47518F',
+        color: '#E8C547',
         intro:
             'College. The first time my line tangled with hundreds of others — and got stronger for it.',
         moments: [
@@ -72,7 +72,7 @@ export const acts: Act[] = [
         kicker: 'Professional Rise',
         title: 'The line learns to climb.',
         years: '2015 — 2024',
-        color: '#B07C1E',
+        color: '#EFD06A',
         intro:
             'The hobby became a job title. Four companies, one repeating pattern: find the knot, pull gently, ship.',
         moments: [
@@ -89,7 +89,7 @@ export const acts: Act[] = [
         kicker: 'AI Frontier',
         title: 'The line learns to think.',
         years: '2024 — Present',
-        color: '#A0435C',
+        color: '#F6E27A',
         intro:
             'Now the pen writes back. I’m building AI products — where taste matters more than ever.',
         moments: [
