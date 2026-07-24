@@ -1,0 +1,329 @@
+/* V2 "One Line" — /v2/mylife. Builds on v2.css; classes prefixed v2ml-. */
+
+.v2ml {
+    background: #0a0a0a;
+}
+
+.v2ml-wrap {
+    position: relative;
+}
+
+/* the drawn line spans the whole story */
+.v2ml-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* the pen tip riding the stroke */
+.v2ml-pen {
+    --pen: #e8c547;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--pen);
+    box-shadow:
+        0 0 12px var(--pen),
+        0 0 42px var(--pen);
+    z-index: 2;
+    pointer-events: none;
+    transition: background 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* act-reactive aura (portaled to body, behind <main>) */
+.v2ml-aura {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.9s ease;
+}
+
+/* rail of act numerals in the HUD */
+.v2ml-hud {
+    pointer-events: none;
+}
+.v2ml-rail {
+    display: flex;
+    gap: 0.6rem;
+    pointer-events: auto;
+}
+.v2ml-tick {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.v2ml-tick:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+.v2ml-tick--on {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* ————— sections ————— */
+
+.v2ml-hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--nav-height, 60px) clamp(1.5rem, 6vw, 6rem) 0;
+}
+
+.v2ml-act {
+    position: relative;
+    z-index: 1;
+    min-height: 150vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3rem;
+    padding: 6rem clamp(1.5rem, 8vw, 10rem);
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.v2ml-numeral {
+    position: absolute;
+    top: 8%;
+    right: 2%;
+    /* serif face — Inter's sans capital I under text-stroke reads as an
+       empty rectangle; a Roman numeral needs its serifs */
+    font-family: 'Playfair Display', 'Times New Roman', Georgia, serif;
+    font-size: clamp(10rem, 24vw, 22rem);
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px color-mix(in srgb, var(--act) 26%, transparent);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+}
+.v2ml-act--flip .v2ml-numeral {
+    right: auto;
+    left: 2%;
+}
+
+.v2ml-act-head {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.v2ml-act--flip .v2ml-act-head {
+    align-self: flex-end;
+    text-align: right;
+    align-items: flex-end;
+}
+.v2ml-act-label {
+    color: var(--act);
+}
+.v2ml-act-title {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin: 0;
+    text-shadow: 0 2px 30px rgba(10, 10, 10, 0.9);
+}
+.v2ml-act-desc {
+    max-width: 480px;
+}
+
+/* moments — small glass slips alternating around the line */
+.v2ml-moments {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+.v2ml-moment {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    max-width: 380px;
+    padding: 1rem 1.2rem;
+    background: rgba(10, 10, 10, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 2px solid color-mix(in srgb, var(--act) 60%, transparent);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.v2ml-moment:nth-child(even) {
+    align-self: flex-end;
+}
+.v2ml-act--flip .v2ml-moment {
+    align-self: flex-end;
+}
+.v2ml-act--flip .v2ml-moment:nth-child(even) {
+    align-self: flex-start;
+}
+.v2ml-moment-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: none;
+    border-radius: 10px;
+    color: var(--act);
+    background: color-mix(in srgb, var(--act) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--act) 30%, transparent);
+}
+.v2ml-moment-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    text-align: left;
+}
+.v2ml-moment-year {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--act);
+}
+.v2ml-moment-label {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+.v2ml-moment-detail {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.v2ml-quote {
+    position: relative;
+    z-index: 1;
+    align-self: center;
+    max-width: 620px;
+    margin: 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+    line-height: 1.5;
+    text-align: center;
+    color: color-mix(in srgb, var(--act) 75%, #ffffff);
+    text-shadow: 0 2px 30px rgba(10, 10, 10, 0.9);
+}
+
+/* ————— philosophy ————— */
+
+.v2ml-philo-section {
+    position: relative;
+    z-index: 1;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 4rem clamp(1.5rem, 8vw, 10rem);
+    text-align: center;
+}
+.v2ml-philosophy {
+    max-width: 820px;
+    margin: 0;
+    font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+}
+.v2ml-word {
+    display: inline-block;
+}
+
+/* ————— metrics ————— */
+
+.v2ml-metrics {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    padding: 4rem clamp(1.5rem, 6vw, 6rem) 6rem;
+}
+.v2ml-metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+}
+.v2ml-metric-value {
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    background: linear-gradient(135deg, #ffffff 25%, #e8c547 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ————— end ————— */
+
+.v2ml-end {
+    position: relative;
+    z-index: 1;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 clamp(1.5rem, 6vw, 6rem) 8rem;
+}
+
+@media (max-width: 768px) {
+    .v2ml-act {
+        min-height: auto;
+        padding: 5rem 1.25rem;
+    }
+    .v2ml-moment,
+    .v2ml-moment:nth-child(even),
+    .v2ml-act--flip .v2ml-moment,
+    .v2ml-act--flip .v2ml-moment:nth-child(even) {
+        align-self: stretch;
+        max-width: none;
+    }
+    .v2ml-act--flip .v2ml-act-head {
+        align-self: flex-start;
+        text-align: left;
+        align-items: flex-start;
+    }
+    .v2ml-numeral {
+        font-size: 9rem;
+        opacity: 0.7;
+    }
+    .v2ml-rail {
+        display: none;
+    }
+}
