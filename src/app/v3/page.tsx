@@ -4,14 +4,14 @@ import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { projects } from '@/data/projects';
 import { ClipWindow, Converge, Curtain, Flip, Lines, Marquee } from './components/kinetic';
-import TypeTester from './components/TypeTester';
+import TimeScrub from './components/TimeScrub';
 import './v3.css';
 
 const NAV: [string, string][] = [
     ['#intro', 'Intro'],
     ['#story', 'Story'],
     ['#work', 'Work'],
-    ['#play', 'Test'],
+    ['#play', 'Timeline'],
     ['#contact', 'Contact'],
 ];
 
@@ -120,14 +120,14 @@ export default function V3Page() {
 
             {/* ————— PLAYGROUND ————— */}
             <section id="play" className="v3-section">
-                <span className="v3-label">03 — Test the specimen</span>
-                <Converge left="Try me" right="on." as="h2" className="v3-h2" />
+                <span className="v3-label">03 — Scrub the timeline</span>
+                <Converge left="Thirty-three years," right="one drag." as="h2" className="v3-h2" />
                 <Lines
                     as="p"
                     className="v3-story-body v3-play-note"
-                    text="Every typeface ships with a tester. So does every product leader. Adjust the axes — the specimen adapts. (So do I.)"
+                    text="Drag through the years — from a kid with a pencil to a co-founder shipping AI. The type gets bolder as the story does."
                 />
-                <TypeTester />
+                <TimeScrub />
             </section>
 
             {/* ————— CONTACT ————— */}
