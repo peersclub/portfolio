@@ -1,5 +1,6 @@
-// V2 "One Line" — life story data, adapted from /mylife.
-// The career pages tell the work; this page tells the person.
+// V2 "One Line" — life story data, written in first person.
+// Each moment is a concrete story; the product lesson lives in a
+// handwritten margin note, the way a real sketchbook annotates itself.
 
 import {
     Pencil, Palette, Wind, Feather, Camera,
@@ -11,17 +12,20 @@ import {
 export interface Moment {
     year: string;
     label: string;
-    detail: string;
+    story: string;
+    /** the margin note — what it taught, in the artist's hand */
+    note: string;
     icon: LucideIcon;
 }
 
 export interface Act {
     id: string;
     numeral: string;
-    title: string;
+    kicker: string;   // the original chapter name, kept as the label line
+    title: string;    // the narrative spine — what the line learns
     years: string;
     color: string;
-    description: string;
+    intro: string;
     moments: Moment[];
     quote: string;
 }
@@ -30,64 +34,68 @@ export const acts: Act[] = [
     {
         id: 'craft',
         numeral: 'I',
-        title: 'Childhood Craft',
+        kicker: 'Childhood Craft',
+        title: 'The line learns to curve.',
         years: '1992 — 2009',
         color: '#2E7E8F',
-        description:
-            'Where curiosity became craft. Drawing, painting, flying kites, calligraphy, photography — each hobby quietly wiring the brain for product thinking.',
+        intro:
+            'Before products, there was paper. Everything I know about building things started as a hobby nobody graded.',
         moments: [
-            { year: '1995', label: 'Visual Foundations', detail: 'Drawing — memorizing shapes, replicating reality', icon: Pencil },
-            { year: '2002', label: 'Creative Analysis', detail: 'Painting — love for colors, attention to detailing', icon: Palette },
-            { year: '2004', label: 'Adaptive Strategy', detail: 'Flying kites — reading the wind, never giving up', icon: Wind },
-            { year: '2007', label: 'Design Precision', detail: 'Calligraphy — typography & pattern recognition', icon: Feather },
-            { year: '2010', label: 'Perspective Shift', detail: 'Photography — framing moments, composition', icon: Camera },
+            { year: '1995', label: 'Drawing', story: 'I drew before I wrote — copying shapes until my hand knew them by heart.', note: 'pattern recognition', icon: Pencil },
+            { year: '2002', label: 'Painting', story: 'Paint taught me that color is a decision — every detail chosen, or it’s noise.', note: 'sweat the details', icon: Palette },
+            { year: '2004', label: 'Kites', story: 'Crosswind flying: read the pull, give slack, never let go.', note: 'strategy is feel', icon: Wind },
+            { year: '2007', label: 'Calligraphy', story: 'The same letters, drawn slowly, a thousand times over.', note: 'craft is repetition', icon: Feather },
+            { year: '2010', label: 'Photography', story: 'A camera taught me framing — what you leave out is the picture.', note: 'scope is framing', icon: Camera },
         ],
         quote: 'The line that became the roadmap.',
     },
     {
         id: 'emergence',
         numeral: 'II',
-        title: 'The Emergence',
+        kicker: 'The Emergence',
+        title: 'The line meets other lines.',
         years: '2009 — 2015',
         color: '#47518F',
-        description:
-            'Skills finding each other. Team play, leadership at NITK Surathkal, organizing ENGINEER fest, and traveling shaped the mindset for building at scale.',
+        intro:
+            'College. The first time my line tangled with hundreds of others — and got stronger for it.',
         moments: [
-            { year: '2010', label: 'Synergy', detail: 'Team player — empathy, learning from others', icon: Users },
-            { year: '2012', label: 'Orchestration', detail: 'ENGINEER Fest — guiding vision, taking ownership', icon: Crown },
-            { year: '2013', label: 'NITK Surathkal', detail: 'B.Tech — building the engineering mindset', icon: GraduationCap },
-            { year: '2014', label: 'Global Context', detail: 'Traveling — global mindset, cultural intelligence', icon: Globe },
+            { year: '2010', label: 'The team', story: 'I learned to pass the pen. Empathy turned out to be a team sport.', note: 'listen first', icon: Users },
+            { year: '2012', label: 'ENGINEER Fest', story: 'My first real launch: a college fest with a hard deadline and no undo button.', note: 'take ownership', icon: Crown },
+            { year: '2013', label: 'NITK Surathkal', story: 'Engineering gave my curves a grammar — systems, constraints, trade-offs.', note: 'think in systems', icon: GraduationCap },
+            { year: '2014', label: 'Traveling', story: 'Every border crossed redrew my idea of what “normal” means.', note: 'context matters', icon: Globe },
         ],
-        quote: "The conductor doesn't play an instrument — and that's the point.",
+        quote: 'The conductor doesn’t play an instrument — and that’s the point.',
     },
     {
         id: 'rise',
         numeral: 'III',
-        title: 'Professional Rise',
+        kicker: 'Professional Rise',
+        title: 'The line learns to climb.',
         years: '2015 — 2024',
         color: '#B07C1E',
-        description:
-            'The craft becoming a career. From first PM role to leading products at CoinDCX and CaptainFresh — building teams and products that scaled to millions.',
+        intro:
+            'The hobby became a job title. Four companies, one repeating pattern: find the knot, pull gently, ship.',
         moments: [
-            { year: '2015', label: 'Product Strategy', detail: 'KleverKid — first PM role, user research', icon: Rocket },
-            { year: '2017', label: 'Growth Engine', detail: 'BabyChakra — 42% retention increase in 8 months', icon: Zap },
-            { year: '2019', label: 'Scale & Impact', detail: "CoinDCX — India's largest crypto exchange, 1M+ users", icon: Briefcase },
-            { year: '2021', label: 'Industry First', detail: 'CaptainFresh — supply chain platform from scratch', icon: Trophy },
+            { year: '2015', label: 'KleverKid', story: 'First PM role. Users can’t read your mind — you draw it out loud for them.', note: 'talk to users', icon: Rocket },
+            { year: '2017', label: 'BabyChakra', story: 'Retention up 42% in eight months — by drawing the loop parents wanted to re-enter.', note: 'loops beat funnels', icon: Zap },
+            { year: '2019', label: 'CoinDCX', story: 'A million traders on India’s largest crypto exchange. At that scale, every pixel is a promise.', note: 'scale = trust', icon: Briefcase },
+            { year: '2021', label: 'CaptainFresh', story: 'Software for a century-old seafood trade — first in the industry, mud on my boots.', note: 'go to the harbor', icon: Trophy },
         ],
         quote: 'Every user story started as a drawn one.',
     },
     {
         id: 'frontier',
         numeral: 'IV',
-        title: 'AI Frontier',
+        kicker: 'AI Frontier',
+        title: 'The line learns to think.',
         years: '2024 — Present',
         color: '#A0435C',
-        description:
-            'All roads converge here. Co-founding AssetWorks AI, building with frontier LLMs, leading product & tech at the highest level.',
+        intro:
+            'Now the pen writes back. I’m building AI products — where taste matters more than ever.',
         moments: [
-            { year: '2024', label: 'SVP Product & Tech', detail: 'Cox & Kings — personalized travel experience', icon: Briefcase },
-            { year: '2025', label: 'Co-Founder', detail: 'AssetWorks AI — AI-powered financial analytics', icon: Sparkles },
-            { year: 'Now', label: 'Future Systems', detail: 'LLM integration, AI strategy, what comes next', icon: Sparkles },
+            { year: '2024', label: 'Cox & Kings', story: 'Teaching one of travel’s oldest brands to feel personal, as SVP of Product & Tech.', note: 'old brand, new line', icon: Briefcase },
+            { year: '2025', label: 'AssetWorks AI', story: 'Co-founder & CPO. Plain language in, investment insight out.', note: 'the brush thinks', icon: Sparkles },
+            { year: 'Now', label: 'What’s next', story: 'Still drawing. The medium changes; the line doesn’t.', note: 'keep drawing', icon: Pencil },
         ],
         quote: 'The canvas was always infinite. Now the brush thinks.',
     },

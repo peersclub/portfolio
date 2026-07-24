@@ -12,11 +12,12 @@ import {
     useScroll,
     useSpring,
     useTransform,
+    useVelocity,
     type MotionValue,
     type Variants,
 } from 'framer-motion';
 import V2Nav from '../components/V2Nav';
-import { acts, metrics, philosophy } from './data';
+import { acts, metrics, philosophy, type Act } from './data';
 import '../v2.css';
 import './mylife.css';
 
@@ -61,7 +62,6 @@ function buildGeom(wrapH: number): Geom | null {
 
     const vb = (px: number) => (px / wrapH) * VBH;
     const seg: string[] = [];
-    // cubic through an act region: fractions of [y0, y1]
     const C = (y0: number, y1: number, pts: [number, number, number, number, number, number]) => {
         const m = (f: number) => y0 + (y1 - y0) * f;
         seg.push(`C ${pts[0]} ${m(pts[1])} ${pts[2]} ${m(pts[3])} ${pts[4]} ${m(pts[5])}`);
@@ -128,7 +128,6 @@ function buildGeom(wrapH: number): Geom | null {
     const arrowY = vb(end.top + end.h * 0.72);
     seg.push(`L 500 ${vb(end.top)}`, `L 500 ${arrowY}`);
 
-    /* gradient stops pinned to measured act midpoints */
     const midFrac = (i: number) => (bounds[i].top + bounds[i].h / 2) / wrapH;
     const stops = [
         { off: 0, color: '#3A342C' },
@@ -152,14 +151,22 @@ function buildGeom(wrapH: number): Geom | null {
     return { d: seg.join(' '), stops, kite, dabs, nodes, mesh, bars, neurons, synapses, arrowY, penStops };
 }
 
+/* ————— motion vocabulary ————— */
+
 const rise: Variants = {
     hidden: { opacity: 0, y: 40 },
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } },
 };
 
 const wordUp: Variants = {
-    hidden: { y: '115%' },
-    show: { y: '0%', transition: { duration: 0.85, ease: [0.19, 1, 0.22, 1] } },
+    hidden: { y: '115%', rotate: 2 },
+    show: { y: '0%', rotate: 0, transition: { duration: 0.85, ease: [0.19, 1, 0.22, 1] } },
+};
+
+// a pen-stroke wipe, left to right
+const wipe: Variants = {
+    hidden: { clipPath: 'inset(0 100% 0 0)', opacity: 1 },
+    show: { clipPath: 'inset(0 0% 0 0)', transition: { duration: 0.9, ease: [0.65, 0, 0.35, 1] } },
 };
 
 const Word = ({ children }: { children: ReactNode }) => (
@@ -208,6 +215,103 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
     );
 }
 
+/* an act of the story: parallax numeral, pen-wipe title with hand-drawn
+   underline, index cards that land on the desk, margin notes whose arrows
+   draw themselves, a quote that writes on */
+function ActSection({ act, index }: { act: Act; index: number }) {
+    const ref = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+    const numY = useTransform(scrollYProgress, [0, 1], [90, -90]);
+
+    return (
+        <section
+            ref={ref}
+            id={`v2ml-${act.id}`}
+            className={`v2ml-act ${index % 2 ? 'v2ml-act--flip' : ''}`}
+            style={{ '--act': act.color } as CSSProperties}
+        >
+            <motion.span className="v2ml-numeral" style={{ y: numY }} aria-hidden="true">
+                {act.numeral}
+            </motion.span>
+
+            <motion.header
+                className="v2ml-act-head"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-15%' }}
+                variants={{ show: { transition: { staggerChildren: 0.12 } } }}
+            >
+                <motion.span className="v2-label v2ml-act-label" variants={rise}>
+                    Act {act.numeral} · {act.years} · {act.kicker}
+                </motion.span>
+                <motion.h2 className="v2ml-act-title" variants={wipe}>{act.title}</motion.h2>
+                <motion.svg className="v2ml-underline" viewBox="0 0 220 14" fill="none" variants={{}}>
+                    <motion.path
+                        d="M 3 9 C 60 3, 120 13, 217 6"
+                        stroke={act.color}
+                        strokeWidth={2.5}
+                        strokeLinecap="round"
+                        variants={{
+                            hidden: { pathLength: 0 },
+                            show: { pathLength: 1, transition: { duration: 0.7, ease: 'easeOut', delay: 0.35 } },
+                        }}
+                    />
+                </motion.svg>
+                <motion.p className="v2-body v2ml-act-desc" variants={rise}>{act.intro}</motion.p>
+            </motion.header>
+
+            <div className="v2ml-moments">
+                {act.moments.map((m, j) => {
+                    const tilt = (j % 2 ? -1 : 1) * (0.6 + ((j * 7 + index * 3) % 5) * 0.18);
+                    return (
+                        <motion.div
+                            key={m.year + m.label}
+                            className="v2ml-moment"
+                            style={{ '--tilt': `${tilt}deg` } as CSSProperties}
+                            initial={{ opacity: 0, y: 46, rotate: tilt * 4 }}
+                            whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                            viewport={{ once: true, margin: '-12%' }}
+                            transition={{ type: 'spring', stiffness: 120, damping: 17, delay: (j % 3) * 0.09 }}
+                        >
+                            <span className="v2ml-moment-icon"><m.icon size={17} strokeWidth={1.8} /></span>
+                            <div className="v2ml-moment-text">
+                                <span className="v2ml-moment-year">{m.year} · {m.label}</span>
+                                <span className="v2ml-moment-story">{m.story}</span>
+                                <span className="v2ml-note">
+                                    <motion.svg viewBox="0 0 30 18" fill="none" aria-hidden="true">
+                                        <motion.path
+                                            d="M 3 3 C 8 13, 16 16, 27 12 M 21 8 L 27 12 L 21 16"
+                                            stroke="currentColor"
+                                            strokeWidth={1.6}
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            initial={{ pathLength: 0 }}
+                                            whileInView={{ pathLength: 1 }}
+                                            viewport={{ once: true, margin: '-12%' }}
+                                            transition={{ duration: 0.55, delay: 0.45 + (j % 3) * 0.09 }}
+                                        />
+                                    </motion.svg>
+                                    {m.note}
+                                </span>
+                            </div>
+                        </motion.div>
+                    );
+                })}
+            </div>
+
+            <motion.blockquote
+                className="v2ml-quote"
+                initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0.6 }}
+                whileInView={{ clipPath: 'inset(0 -8% 0 0)', opacity: 1 }}
+                viewport={{ once: true, margin: '-15%' }}
+                transition={{ duration: 1.4, ease: 'easeInOut' }}
+            >
+                “{act.quote}”
+            </motion.blockquote>
+        </section>
+    );
+}
+
 export default function OneLinePage() {
     const wrapRef = useRef<HTMLDivElement>(null);
     const pathRef = useRef<SVGPathElement>(null);
@@ -247,9 +351,8 @@ export default function OneLinePage() {
         };
     }, []);
 
-    // Arc-length reparametrization: sample the generated path, build a
-    // monotonic y(length) table, invert it — the drawn tip tracks the
-    // reader's viewport instead of lagging where the ink is dense.
+    // Arc-length reparametrization: invert y(length) so the drawn tip
+    // tracks the reader's viewport instead of lagging where ink is dense.
     const LOOKUP_N = 256;
     const yTable = useRef<number[] | null>(null);
     useEffect(() => {
@@ -269,7 +372,7 @@ export default function OneLinePage() {
 
     const drawTarget = useTransform(scrollYProgress, (v) => {
         const ys = yTable.current;
-        const target = Math.min(1, v + 0.07); // slight lead: the reader pulls the pen
+        const target = Math.min(1, v + 0.07);
         if (!ys) return target;
         let lo = 0;
         let hi = LOOKUP_N;
@@ -286,8 +389,9 @@ export default function OneLinePage() {
         return (lo - 1 + f) / LOOKUP_N;
     });
     const drawn = useSpring(drawTarget, { stiffness: 55, damping: 18, restDelta: 0.0005 });
+    const drawnVelocity = useVelocity(drawn);
 
-    // active act → HUD + aura
+    // active act → HUD
     useEffect(() => {
         const els = acts.map((a) => document.getElementById(`v2ml-${a.id}`)).filter(Boolean) as HTMLElement[];
         const io = new IntersectionObserver(
@@ -302,7 +406,7 @@ export default function OneLinePage() {
         return () => io.disconnect();
     }, []);
 
-    // the pen tip rides the tip of the drawn stroke
+    // the pen tip rides the drawn stroke; ink flows faster when you scroll faster
     useAnimationFrame(() => {
         const path = pathRef.current;
         const wrap = wrapRef.current;
@@ -313,7 +417,8 @@ export default function OneLinePage() {
         const pt = path.getPointAtLength(p * totalLen.current);
         const x = (pt.x / 1000) * wrap.offsetWidth;
         const y = (pt.y / VBH) * wrap.offsetHeight;
-        pen.style.transform = `translate(${x}px, ${y}px)`;
+        const flow = 1 + Math.min(1.1, Math.abs(drawnVelocity.get()) * 7);
+        pen.style.transform = `translate(${x}px, ${y}px) scale(${flow})`;
         const yFrac = pt.y / VBH;
         let color = g.penStops[g.penStops.length - 1][1];
         for (const [stop, c] of g.penStops) {
@@ -331,30 +436,28 @@ export default function OneLinePage() {
         <div className="v2 v2ml">
             {mounted &&
                 createPortal(
-                    <>
-                        {/* act rail */}
-                        <div className="v2-hud v2ml-hud" aria-hidden="true">
-                            <span className="v2-hud-label" style={{ color: activeAct >= 0 ? acts[activeAct].color : undefined }}>
-                                {activeAct >= 0 ? `ACT ${acts[activeAct].numeral} — ${acts[activeAct].title}` : 'ONE LINE'}
-                            </span>
-                            <div className="v2-hud-track">
-                                <motion.div className="v2-hud-bar" style={{ scaleX: scrollYProgress }} />
-                            </div>
-                            <div className="v2ml-rail">
-                                {acts.map((a, i) => (
-                                    <button
-                                        key={a.id}
-                                        className={`v2ml-tick ${activeAct === i ? 'v2ml-tick--on' : ''}`}
-                                        style={activeAct === i ? { color: a.color, borderColor: a.color } : undefined}
-                                        onClick={() => jumpTo(`v2ml-${a.id}`)}
-                                        aria-label={`Go to act ${a.numeral} — ${a.title}`}
-                                    >
-                                        {a.numeral}
-                                    </button>
-                                ))}
-                            </div>
+                    <div className="v2-hud v2ml-hud" aria-hidden="true">
+                        <span className="v2-hud-label" style={{ color: activeAct >= 0 ? acts[activeAct].color : undefined }}>
+                            {activeAct >= 0 ? `ACT ${acts[activeAct].numeral} — ${acts[activeAct].kicker}` : 'ONE LINE'}
+                        </span>
+                        <div className="v2-hud-track">
+                            <motion.div className="v2-hud-bar" style={{ scaleX: scrollYProgress }} />
                         </div>
-                    </>,
+                        <div className="v2ml-rail">
+                            {acts.map((a, i) => (
+                                <button
+                                    key={a.id}
+                                    className={`v2ml-tick ${activeAct === i ? 'v2ml-tick--on' : ''}`}
+                                    style={activeAct === i ? { color: a.color, borderColor: a.color } : undefined}
+                                    data-act={a.kicker}
+                                    onClick={() => jumpTo(`v2ml-${a.id}`)}
+                                    aria-label={`Go to act ${a.numeral} — ${a.kicker}`}
+                                >
+                                    {a.numeral}
+                                </button>
+                            ))}
+                        </div>
+                    </div>,
                     document.body,
                 )}
 
@@ -380,7 +483,7 @@ export default function OneLinePage() {
                             </filter>
                         </defs>
 
-                        {/* glow underlay + ink stroke, both drawn by scroll */}
+                        {/* watercolor bleed + ink stroke, both drawn by scroll */}
                         <motion.path
                             d={geom.d}
                             fill="none"
@@ -403,21 +506,26 @@ export default function OneLinePage() {
                             style={{ pathLength: reduced ? 1 : drawn }}
                         />
 
-                        {/* Act I — the kite the line once flew + paint dabs */}
+                        {/* Act I — the kite, bobbing on its string */}
                         <motion.g
                             initial={{ opacity: 0, y: 18 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: '-20%' }}
                             transition={{ duration: 1.2 }}
                         >
-                            <path
-                                d={`M ${geom.kite.x} ${geom.kite.y - 60} L ${geom.kite.x + 46} ${geom.kite.y} L ${geom.kite.x} ${geom.kite.y + 60} L ${geom.kite.x - 46} ${geom.kite.y} Z M ${geom.kite.x} ${geom.kite.y - 60} L ${geom.kite.x} ${geom.kite.y + 60} M ${geom.kite.x - 46} ${geom.kite.y} L ${geom.kite.x + 46} ${geom.kite.y}`}
-                                fill="none"
-                                stroke={acts[0].color}
-                                strokeWidth={1.8}
-                                vectorEffect="non-scaling-stroke"
-                                opacity={0.75}
-                            />
+                            <motion.g
+                                animate={reduced ? undefined : { y: [0, -16, 0], x: [0, 8, 0] }}
+                                transition={{ repeat: Infinity, duration: 5.5, ease: 'easeInOut' }}
+                            >
+                                <path
+                                    d={`M ${geom.kite.x} ${geom.kite.y - 60} L ${geom.kite.x + 46} ${geom.kite.y} L ${geom.kite.x} ${geom.kite.y + 60} L ${geom.kite.x - 46} ${geom.kite.y} Z M ${geom.kite.x} ${geom.kite.y - 60} L ${geom.kite.x} ${geom.kite.y + 60} M ${geom.kite.x - 46} ${geom.kite.y} L ${geom.kite.x + 46} ${geom.kite.y}`}
+                                    fill="none"
+                                    stroke={acts[0].color}
+                                    strokeWidth={1.8}
+                                    vectorEffect="non-scaling-stroke"
+                                    opacity={0.75}
+                                />
+                            </motion.g>
                             <path
                                 d={`M ${geom.kite.x} ${geom.kite.y + 60} C ${geom.kite.x - 24} ${geom.kite.y + 120} ${geom.kite.x + 18} ${geom.kite.y + 160} ${geom.kite.x - 12} ${geom.kite.y + 210}`}
                                 fill="none"
@@ -437,7 +545,7 @@ export default function OneLinePage() {
                                 fill={d.c}
                                 initial={popIn.initial}
                                 style={popIn.style}
-                                whileInView={{ scale: 1, opacity: 0.85 }}
+                                whileInView={{ scale: 1, opacity: 0.8 }}
                                 viewport={{ once: true, margin: '-25%' }}
                                 transition={{ duration: 0.5, delay: i * 0.09, ease: 'backOut' }}
                             />
@@ -470,7 +578,7 @@ export default function OneLinePage() {
                                 fill={acts[1].color}
                                 initial={popIn.initial}
                                 style={popIn.style}
-                                whileInView={{ scale: 1, opacity: 0.9 }}
+                                whileInView={{ scale: 1, opacity: 0.85 }}
                                 viewport={{ once: true, margin: '-25%' }}
                                 transition={{ duration: 0.5, delay: i * 0.12, ease: 'backOut' }}
                             />
@@ -488,13 +596,13 @@ export default function OneLinePage() {
                                 strokeLinecap="round"
                                 vectorEffect="non-scaling-stroke"
                                 initial={{ y2: b.base, opacity: 0 }}
-                                whileInView={{ y2: b.base - b.h, opacity: 0.75 }}
+                                whileInView={{ y2: b.base - b.h, opacity: 0.6 }}
                                 viewport={{ once: true, margin: '-25%' }}
                                 transition={{ duration: 0.7, delay: i * 0.12, ease: 'backOut' }}
                             />
                         ))}
 
-                        {/* Act IV — neurons + synapses along the wave */}
+                        {/* Act IV — neurons that breathe + synapses */}
                         {geom.synapses.map(([a, b], i) => (
                             <motion.line
                                 key={`syn-${i}`}
@@ -507,7 +615,7 @@ export default function OneLinePage() {
                                 strokeDasharray="4 7"
                                 vectorEffect="non-scaling-stroke"
                                 initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 0.28 }}
+                                whileInView={{ opacity: 0.26 }}
                                 viewport={{ once: true, margin: '-25%' }}
                                 transition={{ duration: 1.1, delay: 0.2 + i * 0.12 }}
                             />
@@ -517,15 +625,15 @@ export default function OneLinePage() {
                                 <motion.circle
                                     cx={n.x}
                                     cy={n.y}
-                                    r={16}
                                     fill="none"
                                     stroke={acts[3].color}
                                     strokeWidth={1.5}
                                     vectorEffect="non-scaling-stroke"
-                                    initial={{ opacity: 0 }}
+                                    initial={{ opacity: 0, r: 16 }}
                                     whileInView={{ opacity: 0.5 }}
                                     viewport={{ once: true, margin: '-25%' }}
-                                    transition={{ duration: 0.9, delay: i * 0.14 }}
+                                    animate={reduced ? undefined : { r: [16, 20, 16] }}
+                                    transition={{ opacity: { duration: 0.9, delay: i * 0.14 }, r: { repeat: Infinity, duration: 3.2, ease: 'easeInOut', delay: i * 0.5 } }}
                                 />
                                 <motion.circle
                                     cx={n.x}
@@ -534,7 +642,7 @@ export default function OneLinePage() {
                                     fill={acts[3].color}
                                     initial={popIn.initial}
                                     style={popIn.style}
-                                    whileInView={{ scale: 1, opacity: 0.9 }}
+                                    whileInView={{ scale: 1, opacity: 0.85 }}
                                     viewport={{ once: true, margin: '-25%' }}
                                     transition={{ duration: 0.5, delay: 0.2 + i * 0.14, ease: 'backOut' }}
                                 />
@@ -580,71 +688,33 @@ export default function OneLinePage() {
                             <br />
                             <Word>with</Word> <Word>a</Word> <Word><em>line.</em></Word>
                         </motion.h1>
+                        {/* the signature stroke, signing the page */}
+                        <motion.svg className="v2ml-flourish" viewBox="0 0 260 28" fill="none" variants={{}} aria-hidden="true">
+                            <motion.path
+                                d="M 6 20 C 60 4, 92 26, 132 14 S 202 5, 254 16"
+                                stroke="#8F6E1A"
+                                strokeWidth={2.2}
+                                strokeLinecap="round"
+                                variants={{
+                                    hidden: { pathLength: 0, opacity: 0 },
+                                    show: { pathLength: 1, opacity: 1, transition: { duration: 1.1, ease: 'easeInOut', delay: 0.9 } },
+                                }}
+                            />
+                        </motion.svg>
                         <motion.p className="v2-lede" variants={rise}>
-                            Drawing, kites, calligraphy, code, companies — one continuous
-                            stroke from 1992 to now. Scroll to draw it.
+                            I&apos;ve been drawing the same line since 1992 — through sketchbooks,
+                            classrooms, trading screens, and AI models. Scroll to draw it with me.
                         </motion.p>
                         <motion.div className="v2-scroll-cue" variants={rise}>
                             <span className="v2-scroll-line" />
-                            <span>draw</span>
+                            <span>scroll to draw</span>
                         </motion.div>
                     </motion.div>
                 </section>
 
                 {/* ————— ACTS ————— */}
                 {acts.map((act, i) => (
-                    <section
-                        key={act.id}
-                        id={`v2ml-${act.id}`}
-                        className={`v2ml-act ${i % 2 ? 'v2ml-act--flip' : ''}`}
-                        style={{ '--act': act.color } as CSSProperties}
-                    >
-                        <span className="v2ml-numeral" aria-hidden="true">{act.numeral}</span>
-
-                        <motion.header
-                            className="v2ml-act-head"
-                            initial="hidden"
-                            whileInView="show"
-                            viewport={{ once: true, margin: '-15%' }}
-                            variants={{ show: { transition: { staggerChildren: 0.1 } } }}
-                        >
-                            <motion.span className="v2-label v2ml-act-label" variants={rise}>
-                                Act {act.numeral} · {act.years}
-                            </motion.span>
-                            <motion.h2 className="v2ml-act-title" variants={rise}>{act.title}</motion.h2>
-                            <motion.p className="v2-body v2ml-act-desc" variants={rise}>{act.description}</motion.p>
-                        </motion.header>
-
-                        <div className="v2ml-moments">
-                            {act.moments.map((m, j) => (
-                                <motion.div
-                                    key={m.year + m.label}
-                                    className="v2ml-moment"
-                                    initial={{ opacity: 0, y: 36 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: '-12%' }}
-                                    transition={{ duration: 0.7, delay: (j % 3) * 0.08, ease: [0.19, 1, 0.22, 1] }}
-                                >
-                                    <span className="v2ml-moment-icon"><m.icon size={17} strokeWidth={1.8} /></span>
-                                    <div className="v2ml-moment-text">
-                                        <span className="v2ml-moment-year">{m.year}</span>
-                                        <span className="v2ml-moment-label">{m.label}</span>
-                                        <span className="v2ml-moment-detail">{m.detail}</span>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        <motion.blockquote
-                            className="v2ml-quote"
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true, margin: '-15%' }}
-                            transition={{ duration: 1.1 }}
-                        >
-                            “{act.quote}”
-                        </motion.blockquote>
-                    </section>
+                    <ActSection key={act.id} act={act} index={i} />
                 ))}
 
                 {/* ————— PHILOSOPHY ————— */}
@@ -655,11 +725,18 @@ export default function OneLinePage() {
 
                 {/* ————— METRICS ————— */}
                 <section id="v2ml-metrics" className="v2ml-metrics">
-                    {metrics.map((m) => (
-                        <div key={m.label} className="v2ml-metric">
+                    {metrics.map((m, i) => (
+                        <motion.div
+                            key={m.label}
+                            className="v2ml-metric"
+                            initial={{ opacity: 0, scale: 1.3, rotate: -2 }}
+                            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                            viewport={{ once: true, margin: '-15%' }}
+                            transition={{ type: 'spring', stiffness: 190, damping: 15, delay: i * 0.08 }}
+                        >
                             <Counter value={m.value} suffix={m.suffix} />
                             <span className="v2-metric-label">{m.label}</span>
-                        </div>
+                        </motion.div>
                     ))}
                 </section>
 
@@ -677,9 +754,15 @@ export default function OneLinePage() {
                             The line <em>continues.</em>
                         </motion.h2>
                         <motion.div className="v2-cta-row" variants={rise}>
-                            <Link href="/v2" className="v2-cta v2-cta--solid">Follow the thread</Link>
-                            <Link href="/v2/contact" className="v2-cta">Say hello</Link>
-                            <Link href="/mylife" className="v2-cta v2-cta--ghost">Classic story →</Link>
+                            {[
+                                { href: '/v2', label: 'Follow the thread', cls: 'v2-cta v2-cta--solid' },
+                                { href: '/v2/contact', label: 'Say hello', cls: 'v2-cta' },
+                                { href: '/mylife', label: 'Classic story →', cls: 'v2-cta v2-cta--ghost' },
+                            ].map((b) => (
+                                <motion.div key={b.href} whileHover={{ scale: 1.045 }} whileTap={{ scale: 0.96 }} style={{ display: 'inline-block' }}>
+                                    <Link href={b.href} className={b.cls}>{b.label}</Link>
+                                </motion.div>
+                            ))}
                         </motion.div>
                     </motion.div>
                 </section>

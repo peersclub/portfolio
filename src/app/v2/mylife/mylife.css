@@ -284,16 +284,35 @@
     gap: 1.1rem;
 }
 .v2ml-moment {
+    --tilt: 0deg;
     display: flex;
     align-items: flex-start;
     gap: 0.9rem;
-    max-width: 380px;
-    padding: 1rem 1.2rem;
+    max-width: 400px;
+    padding: 1.05rem 1.25rem;
     background: var(--paper-raised);
     border: 1px solid rgba(70, 55, 30, 0.14);
     border-left: 2px solid color-mix(in srgb, var(--act) 65%, transparent);
     border-radius: 12px;
     box-shadow: 0 8px 26px rgba(80, 60, 30, 0.12);
+    /* CSS rotate/translate compose with framer's transform — the card keeps
+       its pinned tilt, straightens and lifts under the cursor */
+    rotate: var(--tilt);
+    transition: rotate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        translate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s ease;
+}
+.v2ml-moment:hover {
+    rotate: 0deg;
+    translate: 0 -5px;
+    box-shadow: 0 16px 38px rgba(80, 60, 30, 0.2);
+}
+.v2ml-moment:hover .v2ml-moment-icon {
+    rotate: -10deg;
+    scale: 1.08;
+}
+.v2ml-moment:hover .v2ml-moment-year {
+    background-size: 100% 1.5px;
 }
 .v2ml-moment:nth-child(even) {
     align-self: flex-end;
@@ -305,6 +324,7 @@
     align-self: flex-start;
 }
 .v2ml-moment-icon {
+    transition: rotate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), scale 0.35s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -324,19 +344,36 @@
 }
 .v2ml-moment-year {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--act);
+    align-self: flex-start;
+    background: linear-gradient(var(--act), var(--act)) no-repeat left bottom / 0% 1.5px;
+    padding-bottom: 2px;
+    transition: background-size 0.4s ease;
 }
-.v2ml-moment-label {
+.v2ml-moment-story {
     font-size: 0.98rem;
-    font-weight: 600;
+    line-height: 1.6;
     color: var(--ink);
 }
-.v2ml-moment-detail {
-    font-size: 0.85rem;
-    line-height: 1.55;
-    color: var(--ink-soft);
+/* the margin note — the lesson, in the artist's hand */
+.v2ml-note {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+    font-family: var(--font-caveat), 'Caveat', cursive;
+    font-size: 1.15rem;
+    line-height: 1;
+    color: color-mix(in srgb, var(--act) 80%, var(--ink));
+    rotate: -1.5deg;
+}
+.v2ml-note svg {
+    width: 26px;
+    height: 16px;
+    flex: none;
 }
 
 /* quotes — handwritten margin notes */
@@ -455,4 +492,86 @@
 body:has(.v2ml) .atmospheric-glow,
 body:has(.v2ml) .blueprint-grid {
     display: none;
+}
+
+/* ————— motion & microinteraction extras ————— */
+
+/* hero signature stroke */
+.v2ml-flourish {
+    width: 220px;
+    height: 24px;
+    margin-top: -0.5rem;
+}
+
+/* hand-drawn underline beneath act titles */
+.v2ml-underline {
+    width: 190px;
+    height: 12px;
+    margin-top: -0.4rem;
+}
+.v2ml-act--flip .v2ml-underline {
+    align-self: flex-end;
+}
+
+/* nav links: draw-on underline */
+.v2ml .v2-nav-link {
+    position: relative;
+}
+.v2ml .v2-nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.v2ml .v2-nav-link:hover::after {
+    transform: scaleX(1);
+}
+
+/* act-rail ticks: grow + paper tooltip with the act name */
+.v2ml-tick {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.v2ml-tick:hover {
+    scale: 1.18;
+}
+.v2ml-tick::after {
+    content: attr(data-act);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: -4px;
+    translate: 0 4px;
+    white-space: nowrap;
+    /* portaled outside the font-variable scope — use the global mono */
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #2b2620;
+    background: #fffdf6;
+    border: 1px solid rgba(70, 55, 30, 0.18);
+    border-radius: 8px;
+    padding: 0.2rem 0.6rem;
+    box-shadow: 0 6px 18px rgba(80, 60, 30, 0.16);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, translate 0.25s ease;
+}
+.v2ml-tick:hover::after {
+    opacity: 1;
+    translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .v2ml-moment,
+    .v2ml-moment-icon,
+    .v2ml-tick {
+        transition: none;
+    }
 }
