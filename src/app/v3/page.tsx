@@ -125,7 +125,7 @@ export default function V3Page() {
                 <Lines
                     as="p"
                     className="v3-story-body v3-play-note"
-                    text="Drag through the years — from a kid with a pencil to a co-founder shipping AI. The type gets bolder as the story does."
+                    text="Drag through the years — every chapter, with the numbers that mattered."
                 />
                 <TimeScrub />
             </section>
