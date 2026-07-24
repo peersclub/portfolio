@@ -32,7 +32,7 @@ export const acts: Act[] = [
         numeral: 'I',
         title: 'Childhood Craft',
         years: '1992 — 2009',
-        color: '#00F0FF',
+        color: '#2E7E8F',
         description:
             'Where curiosity became craft. Drawing, painting, flying kites, calligraphy, photography — each hobby quietly wiring the brain for product thinking.',
         moments: [
@@ -49,7 +49,7 @@ export const acts: Act[] = [
         numeral: 'II',
         title: 'The Emergence',
         years: '2009 — 2015',
-        color: '#7B2FFF',
+        color: '#47518F',
         description:
             'Skills finding each other. Team play, leadership at NITK Surathkal, organizing ENGINEER fest, and traveling shaped the mindset for building at scale.',
         moments: [
@@ -65,7 +65,7 @@ export const acts: Act[] = [
         numeral: 'III',
         title: 'Professional Rise',
         years: '2015 — 2024',
-        color: '#FFB800',
+        color: '#B07C1E',
         description:
             'The craft becoming a career. From first PM role to leading products at CoinDCX and CaptainFresh — building teams and products that scaled to millions.',
         moments: [
@@ -81,7 +81,7 @@ export const acts: Act[] = [
         numeral: 'IV',
         title: 'AI Frontier',
         years: '2024 — Present',
-        color: '#FF0080',
+        color: '#A0435C',
         description:
             'All roads converge here. Co-founding AssetWorks AI, building with frontier LLMs, leading product & tech at the highest level.',
         moments: [

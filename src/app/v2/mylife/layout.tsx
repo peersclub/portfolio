@@ -1,4 +1,20 @@
 import type { Metadata } from 'next';
+import { Caveat, Playfair_Display } from 'next/font/google';
+
+const playfair = Playfair_Display({
+    subsets: ['latin'],
+    weight: ['500', '600', '700'],
+    style: ['normal', 'italic'],
+    variable: '--font-playfair',
+    display: 'swap',
+});
+
+const caveat = Caveat({
+    subsets: ['latin'],
+    weight: ['500', '600'],
+    variable: '--font-caveat',
+    display: 'swap',
+});
 
 export const metadata: Metadata = {
     title: 'Suresh Victor — One Line',
@@ -11,5 +27,9 @@ export const metadata: Metadata = {
 };
 
 export default function OneLineLayout({ children }: { children: React.ReactNode }) {
-    return children;
+    return (
+        <div className={`${playfair.variable} ${caveat.variable}`} style={{ display: 'contents' }}>
+            {children}
+        </div>
+    );
 }

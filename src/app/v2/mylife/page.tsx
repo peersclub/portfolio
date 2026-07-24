@@ -131,22 +131,22 @@ function buildGeom(wrapH: number): Geom | null {
     /* gradient stops pinned to measured act midpoints */
     const midFrac = (i: number) => (bounds[i].top + bounds[i].h / 2) / wrapH;
     const stops = [
-        { off: 0, color: '#E8C547' },
+        { off: 0, color: '#3A342C' },
         { off: midFrac(0), color: acts[0].color },
         { off: midFrac(1), color: acts[1].color },
         { off: midFrac(2), color: acts[2].color },
         { off: midFrac(3), color: acts[3].color },
-        { off: Math.min(1, philo.top / wrapH + 0.06), color: '#E8C547' },
-        { off: 1, color: '#E8C547' },
+        { off: Math.min(1, philo.top / wrapH + 0.06), color: '#8F6E1A' },
+        { off: 1, color: '#8F6E1A' },
     ];
 
     const penStops: [number, string][] = [
-        [bounds[0].top / wrapH, '#E8C547'],
+        [bounds[0].top / wrapH, '#3A342C'],
         [bounds[1].top / wrapH, acts[0].color],
         [bounds[2].top / wrapH, acts[1].color],
         [bounds[3].top / wrapH, acts[2].color],
         [philo.top / wrapH, acts[3].color],
-        [2, '#E8C547'],
+        [2, '#8F6E1A'],
     ];
 
     return { d: seg.join(' '), stops, kite, dabs, nodes, mesh, bars, neurons, synapses, arrowY, penStops };
@@ -332,18 +332,6 @@ export default function OneLinePage() {
             {mounted &&
                 createPortal(
                     <>
-                        {/* act-reactive aura, crossfading behind everything */}
-                        {acts.map((a, i) => (
-                            <div
-                                key={a.id}
-                                className="v2ml-aura"
-                                style={{
-                                    opacity: activeAct === i ? 1 : 0,
-                                    background: `radial-gradient(ellipse 60% 50% at ${i % 2 ? '25%' : '75%'} 45%, color-mix(in srgb, ${a.color} 11%, transparent), transparent 70%)`,
-                                }}
-                                aria-hidden="true"
-                            />
-                        ))}
                         {/* act rail */}
                         <div className="v2-hud v2ml-hud" aria-hidden="true">
                             <span className="v2-hud-label" style={{ color: activeAct >= 0 ? acts[activeAct].color : undefined }}>
@@ -388,7 +376,7 @@ export default function OneLinePage() {
                                 ))}
                             </linearGradient>
                             <filter id="v2ml-glow" x="-50%" y="-50%" width="200%" height="200%">
-                                <feGaussianBlur stdDeviation="7" />
+                                <feGaussianBlur stdDeviation="5" />
                             </filter>
                         </defs>
 
@@ -397,11 +385,11 @@ export default function OneLinePage() {
                             d={geom.d}
                             fill="none"
                             stroke="url(#v2ml-ink)"
-                            strokeWidth={11}
+                            strokeWidth={9}
                             strokeLinecap="round"
                             vectorEffect="non-scaling-stroke"
                             filter="url(#v2ml-glow)"
-                            opacity={0.55}
+                            opacity={0.16}
                             style={{ pathLength: reduced ? 1 : drawn }}
                         />
                         <motion.path
@@ -557,7 +545,7 @@ export default function OneLinePage() {
                         <motion.path
                             d={`M 455 ${geom.arrowY - 55} L 500 ${geom.arrowY} L 545 ${geom.arrowY - 55}`}
                             fill="none"
-                            stroke="#E8C547"
+                            stroke="#8F6E1A"
                             strokeWidth={3}
                             strokeLinecap="round"
                             strokeLinejoin="round"
