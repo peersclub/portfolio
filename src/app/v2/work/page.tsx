@@ -2,22 +2,18 @@
 
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import { motion, type Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { projects } from '@/data/projects';
-import Stage from '../components/Stage';
+import ThreadStage from '../components/ThreadStage';
+import { rise } from '../components/motion';
 import V2Nav from '../components/V2Nav';
 import '../v2.css';
-
-const rise: Variants = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } },
-};
 
 export default function V2WorkPage() {
     return (
         <div className="v2">
             {/* tangle, pushed deep — a quiet backdrop for the grid */}
-            <Stage progress={0} />
+            <ThreadStage progress={0} />
             <V2Nav />
 
             <div className="v2-page">

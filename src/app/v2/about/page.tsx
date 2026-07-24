@@ -1,15 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, type Variants } from 'framer-motion';
-import Stage from '../components/Stage';
+import { motion } from 'framer-motion';
+import ThreadStage from '../components/ThreadStage';
+import { rise } from '../components/motion';
 import V2Nav from '../components/V2Nav';
 import '../v2.css';
-
-const rise: Variants = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } },
-};
 
 const DETAILS: [string, string][] = [
     ['Based in', 'Bangalore, India'],
@@ -29,7 +25,7 @@ export default function V2AboutPage() {
     return (
         <div className="v2">
             {/* knot state, thread poses right of the narrative */}
-            <Stage progress={1 / 7} />
+            <ThreadStage progress={1 / 7} />
             <V2Nav />
 
             <div className="v2-page">

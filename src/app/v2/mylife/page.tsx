@@ -1,26 +1,18 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import { createPortal } from 'react-dom';
-import {
-    animate,
-    motion,
-    useInView,
-    useReducedMotion,
-    useScroll,
-    useTransform,
-    type MotionValue,
-    type Variants,
-} from 'framer-motion';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import Counter from '../components/Counter';
+import ScrubText from '../components/ScrubText';
+import ThreadStage from '../components/ThreadStage';
 import V2Nav from '../components/V2Nav';
+import Word from '../components/Word';
+import { rise, stagger, wipe } from '../components/motion';
 import { THREAD_SHAPES } from '../components/threadShapes';
 import { acts, metrics, philosophy, type Act } from './data';
 import '../v2.css';
 import './mylife.css';
-
-const ThreadScene = dynamic(() => import('../components/ThreadScene'), { ssr: false });
 
 /* ————— the SAME gold thread as /v2, posed for a life —————
    One shared 3D string across the whole v2 world; this page only chooses
@@ -54,65 +46,6 @@ const LIFE_SCALES = [1.05, 0.75, 0.9, 0.9, 0.85, 0.9, 0.8, 1];
 
 const SECTION_IDS = ['hero', 'craft', 'emergence', 'rise', 'frontier', 'philo', 'metrics', 'end'];
 
-/* ————— motion vocabulary ————— */
-
-const rise: Variants = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } },
-};
-
-const wordUp: Variants = {
-    hidden: { y: '115%', rotate: 2 },
-    show: { y: '0%', rotate: 0, transition: { duration: 0.85, ease: [0.19, 1, 0.22, 1] } },
-};
-
-// a pen-stroke wipe, left to right
-const wipe: Variants = {
-    hidden: { clipPath: 'inset(0 100% 0 0)', opacity: 1 },
-    show: { clipPath: 'inset(0 0% 0 0)', transition: { duration: 0.9, ease: [0.65, 0, 0.35, 1] } },
-};
-
-const Word = ({ children }: { children: ReactNode }) => (
-    <span className="v2-w">
-        <motion.span className="v2-wi" variants={wordUp}>{children}</motion.span>
-    </span>
-);
-
-/* philosophy text — each word brightens as the reader passes it */
-function ScrubWord({ word, progress, range }: { word: string; progress: MotionValue<number>; range: [number, number] }) {
-    const opacity = useTransform(progress, range, [0.15, 1]);
-    return <motion.span className="v2ml-word" style={{ opacity }}>{word}&nbsp;</motion.span>;
-}
-
-function ScrubText({ text }: { text: string }) {
-    const ref = useRef<HTMLParagraphElement>(null);
-    const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.4'] });
-    const words = text.split(' ');
-    return (
-        <p ref={ref} className="v2ml-philosophy">
-            {words.map((w, i) => (
-                <ScrubWord key={i} word={w} progress={scrollYProgress} range={[i / words.length, (i + 1) / words.length]} />
-            ))}
-        </p>
-    );
-}
-
-function Counter({ value, suffix }: { value: number; suffix: string }) {
-    const ref = useRef<HTMLSpanElement>(null);
-    const inView = useInView(ref, { once: true, margin: '-15%' });
-    const [n, setN] = useState(0);
-    useEffect(() => {
-        if (!inView) return;
-        const c = animate(0, value, { duration: 1.6, ease: [0.19, 1, 0.22, 1], onUpdate: (v) => setN(Math.round(v)) });
-        return () => c.stop();
-    }, [inView, value]);
-    return (
-        <span ref={ref} className="v2ml-metric-value">
-            {n}{suffix}
-        </span>
-    );
-}
-
 /* an act: parallax numeral, pen-wipe title, glass cards that land like
    pinned notes, margin lessons whose arrows draw themselves, write-on quote */
 function ActSection({ act, index }: { act: Act; index: number }) {
@@ -136,7 +69,7 @@ function ActSection({ act, index }: { act: Act; index: number }) {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, margin: '-15%' }}
-                variants={{ show: { transition: { staggerChildren: 0.12 } } }}
+                variants={stagger()}
             >
                 <motion.span className="v2-label v2ml-act-label" variants={rise}>
                     Act {act.numeral} · {act.years} · {act.kicker}
@@ -201,21 +134,8 @@ export default function OneLinePage() {
     const wrapRef = useRef<HTMLDivElement>(null);
     const progressRef = useRef(0);
     const anchorsRef = useRef<number[] | null>(null);
-    const [mounted, setMounted] = useState(false);
-    const [ready, setReady] = useState(false);
     const [activeAct, setActiveAct] = useState(-1);
-    const reduced = useReducedMotion() ?? false;
     const { scrollYProgress } = useScroll();
-
-    useEffect(() => setMounted(true), []);
-
-    // Failsafe: never leave the veil up if WebGL can't start.
-    useEffect(() => {
-        const t = setTimeout(() => setReady(true), 4000);
-        return () => clearTimeout(t);
-    }, []);
-
-    const onSceneReady = useCallback(() => setReady(true), []);
 
     // Section-center anchors: the thread reaches pose k exactly when
     // section k's center crosses the viewport center. Measured, not assumed —
@@ -277,54 +197,24 @@ export default function OneLinePage() {
 
     return (
         <div className="v2 v2ml">
-            {/* Fixed layers portaled to <body> — template.tsx's filter wrapper
-                would otherwise pin position:fixed to the page, not the viewport */}
-            {mounted &&
-                createPortal(
-                    <>
-                        {/* THE gold thread — same scene as /v2, life choreography */}
-                        <div className="v2-canvas" aria-hidden="true">
-                            <ThreadScene
-                                progressRef={progressRef}
-                                reduced={reduced}
-                                onReady={onSceneReady}
-                                states={LIFE_STATES}
-                                offsets={LIFE_OFFSETS}
-                                scales={LIFE_SCALES}
-                            />
-                        </div>
-
-                        {/* Loading veil, fades once WebGL is live */}
-                        <div className={`v2-veil ${ready ? 'v2-veil--done' : ''}`} aria-hidden="true">
-                            <span className="v2-veil-mark">pulling the thread…</span>
-                        </div>
-
-                        {/* HUD — act label, progress hairline, act rail */}
-                        <div className="v2-hud v2ml-hud" aria-hidden="true">
-                            <span className="v2-hud-label" style={{ color: activeAct >= 0 ? acts[activeAct].color : undefined }}>
-                                {activeAct >= 0 ? `ACT ${acts[activeAct].numeral} — ${acts[activeAct].kicker}` : 'ONE LINE'}
-                            </span>
-                            <div className="v2-hud-track">
-                                <motion.div className="v2-hud-bar" style={{ scaleX: scrollYProgress }} />
-                            </div>
-                            <div className="v2ml-rail">
-                                {acts.map((a, i) => (
-                                    <button
-                                        key={a.id}
-                                        className={`v2ml-tick ${activeAct === i ? 'v2ml-tick--on' : ''}`}
-                                        style={activeAct === i ? { color: a.color, borderColor: a.color } : undefined}
-                                        data-act={a.kicker}
-                                        onClick={() => jumpTo(`v2ml-${a.id}`)}
-                                        aria-label={`Go to act ${a.numeral} — ${a.kicker}`}
-                                    >
-                                        {a.numeral}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </>,
-                    document.body,
-                )}
+            <ThreadStage
+                progressRef={progressRef}
+                states={LIFE_STATES}
+                offsets={LIFE_OFFSETS}
+                scales={LIFE_SCALES}
+                veil
+                hudLabel={activeAct >= 0 ? `ACT ${acts[activeAct].numeral} — ${acts[activeAct].kicker}` : 'ONE LINE'}
+                hudLabelColor={activeAct >= 0 ? acts[activeAct].color : undefined}
+                hudProgress={scrollYProgress}
+                ticks={acts.map((a, i) => ({
+                    id: a.id,
+                    numeral: a.numeral,
+                    title: a.kicker,
+                    active: activeAct === i,
+                    color: a.color,
+                    onClick: () => jumpTo(`v2ml-${a.id}`),
+                }))}
+            />
 
             <V2Nav />
 
@@ -335,14 +225,14 @@ export default function OneLinePage() {
                         className="v2-hero-inner"
                         initial="hidden"
                         animate="show"
-                        variants={{ show: { transition: { staggerChildren: 0.12, delayChildren: 0.3 } } }}
+                        variants={stagger(0.12, 0.3)}
                     >
                         <motion.span className="v2-label" variants={rise}>
                             Suresh Victor — My Life, Redrawn
                         </motion.span>
                         <motion.h1
                             className="v2-title"
-                            variants={{ show: { transition: { staggerChildren: 0.08 } } }}
+                            variants={stagger(0.08)}
                         >
                             <Word>It</Word> <Word>all</Word> <Word>started</Word>
                             <br />
@@ -368,7 +258,7 @@ export default function OneLinePage() {
                 {/* ————— PHILOSOPHY ————— */}
                 <section id="v2ml-philo" className="v2ml-philo-section">
                     <span className="v2-label">Philosophy</span>
-                    <ScrubText text={philosophy} />
+                    <ScrubText text={philosophy} className="v2ml-philosophy" />
                 </section>
 
                 {/* ————— METRICS ————— */}
@@ -382,7 +272,7 @@ export default function OneLinePage() {
                             viewport={{ once: true, margin: '-15%' }}
                             transition={{ type: 'spring', stiffness: 190, damping: 15, delay: i * 0.08 }}
                         >
-                            <Counter value={m.value} suffix={m.suffix} />
+                            <Counter value={m.value} suffix={m.suffix} className="v2ml-metric-value" />
                             <span className="v2-metric-label">{m.label}</span>
                         </motion.div>
                     ))}
@@ -395,7 +285,7 @@ export default function OneLinePage() {
                         initial="hidden"
                         whileInView="show"
                         viewport={{ once: true, margin: '-20%' }}
-                        variants={{ show: { transition: { staggerChildren: 0.12 } } }}
+                        variants={stagger()}
                     >
                         <motion.span className="v2-label" variants={rise}>And now</motion.span>
                         <motion.h2 className="v2-contact-h" variants={rise}>
