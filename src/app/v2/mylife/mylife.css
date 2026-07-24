@@ -3,40 +3,13 @@
    line (dim antique gold at birth, full shine at "now"), glass cards,
    mono labels. The drawn life-line IS the gold string of the main page. */
 
+/* transparent — the shared WebGL gold thread behind <main> is the backdrop */
 .v2ml {
-    background: #0a0a0a;
+    position: relative;
 }
 
 .v2ml-wrap {
     position: relative;
-}
-
-/* the drawn line spans the whole story */
-.v2ml-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* the pen tip — a bead of molten gold riding the stroke */
-.v2ml-pen {
-    --pen: #e8c547;
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--pen);
-    box-shadow:
-        0 0 12px var(--pen),
-        0 0 42px var(--pen);
-    z-index: 2;
-    pointer-events: none;
-    transition: background 0.5s ease, box-shadow 0.5s ease;
 }
 
 /* ————— HUD (portaled to body) ————— */
@@ -113,13 +86,6 @@
     justify-content: center;
     text-align: center;
     padding: var(--nav-height, 60px) clamp(1.5rem, 6vw, 6rem) 0;
-}
-
-/* hero signature stroke */
-.v2ml-flourish {
-    width: 220px;
-    height: 24px;
-    margin-top: -0.5rem;
 }
 
 .v2ml-act {
@@ -200,15 +166,6 @@
     margin: 0;
     color: #ffffff;
     text-shadow: 0 2px 30px rgba(10, 10, 10, 0.9);
-}
-/* hand-drawn underline beneath act titles */
-.v2ml-underline {
-    width: 190px;
-    height: 12px;
-    margin-top: -0.4rem;
-}
-.v2ml-act--flip .v2ml-underline {
-    align-self: flex-end;
 }
 .v2ml-act-desc {
     max-width: 480px;

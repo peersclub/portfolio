@@ -5,6 +5,9 @@ import { Environment, Lightformer, Sparkles } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import { useEffect, useMemo, useRef, type MutableRefObject } from 'react';
 import * as THREE from 'three';
+import { THREAD_SHAPES, type StateFn } from './threadShapes';
+
+export { THREAD_SHAPES, type StateFn };
 
 const GOLD = '#E8C547';
 const BG = '#0a0a0a';
@@ -15,73 +18,11 @@ const RADIAL_SEGMENTS = 12;
 const TUBE_RADIUS = 0.07;
 const TAU = Math.PI * 2;
 
-type StateFn = (t: number) => [number, number, number];
-
-// One parametric curve per scroll state. All are sampled at the same t values
-// so control points correspond 1:1 and blend cleanly between neighbours.
-// Narrative: tangle → knot → loop → spiral → coil → helix → wave → line.
-const STATES: StateFn[] = [
-    // TANGLE — raw ideas, no structure
-    (t) => [
-        Math.sin(t * TAU * 2.0) * 2.1 + Math.sin(t * TAU * 5.3) * 0.9,
-        Math.cos(t * TAU * 3.1) * 1.5 + Math.sin(t * TAU * 7.7) * 0.55,
-        Math.sin(t * TAU * 4.2) * 1.5 + Math.cos(t * TAU * 6.1) * 0.6,
-    ],
-    // KNOT — trefoil: first structure, first craft
-    (t) => {
-        const a = t * TAU;
-        return [
-            (Math.sin(a) + 2 * Math.sin(2 * a)) * 0.85,
-            (Math.cos(a) - 2 * Math.cos(2 * a)) * 0.85,
-            -Math.sin(3 * a) * 0.9,
-        ];
-    },
-    // LOOP — closed orbit, users coming back
-    (t) => {
-        const a = t * TAU;
-        return [
-            (2.1 + 0.5 * Math.cos(3 * a)) * Math.cos(a),
-            0.5 * Math.sin(3 * a) + Math.sin(a * 2) * 0.35,
-            (2.1 + 0.5 * Math.cos(3 * a)) * Math.sin(a),
-        ];
-    },
-    // SPIRAL — compounding growth
-    (t) => {
-        const a = t * TAU * 3;
-        const r = 0.35 + t * 2.3;
-        return [r * Math.cos(a), (t - 0.5) * 1.4, r * Math.sin(a)];
-    },
-    // COIL — tight operational order
-    (t) => {
-        const a = t * TAU * 6;
-        return [Math.cos(a) * 1.35, (t - 0.5) * 3.6, Math.sin(a) * 1.35];
-    },
-    // HELIX — two strands of product & tech
-    (t) => {
-        const a = t * TAU * 4;
-        return [
-            Math.cos(a) * (1.7 - Math.abs(t - 0.5) * 1.2),
-            (t - 0.5) * 4.4,
-            Math.sin(a) * (1.7 - Math.abs(t - 0.5) * 1.2),
-        ];
-    },
-    // WAVE — signal out of noise
-    (t) => [
-        (t - 0.5) * 6.8,
-        Math.sin(t * TAU * 2) * 1.15,
-        Math.cos(t * TAU * 1.5) * 0.45,
-    ],
-    // LINE — shipped: a clean rising answer
-    (t) => [(t - 0.5) * 7.2, (t - 0.5) * 3.0 + Math.sin(t * Math.PI) * 0.2, 0],
-];
-
-const STATE_COUNT = STATES.length;
-
 // Screen blocking per state: the thread yields space to the copy instead of
 // sitting behind it. Chapters alternate cards left/right, so the thread takes
 // the opposite side; hero pushes deep behind the scrim; contact floats high.
 // [x, y, z] in world units — x is scaled down on narrow viewports.
-const OFFSETS: [number, number, number][] = [
+const DEFAULT_OFFSETS: [number, number, number][] = [
     [0, -0.2, -3.4],  // TANGLE  — hero backdrop, pushed away
     [2.6, 0, -0.6],   // KNOT    — card left, thread right
     [-2.6, 0, -0.6],  // LOOP    — card right, thread left
@@ -91,7 +32,7 @@ const OFFSETS: [number, number, number][] = [
     [-2.4, 0, -0.6],  // WAVE
     [0, 0.9, -0.4],   // LINE    — contact, rises behind the headline
 ];
-const SCALES = [1.05, 0.9, 0.75, 0.85, 0.95, 0.9, 0.85, 1];
+const DEFAULT_SCALES = [1.05, 0.9, 0.75, 0.85, 0.95, 0.9, 0.85, 1];
 
 function buildTube(points: THREE.Vector3[]): THREE.TubeGeometry {
     const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5);
@@ -103,22 +44,29 @@ interface RigProps {
     reduced: boolean;
 }
 
-function GoldThread({ progressRef, reduced }: RigProps) {
+interface ThreadRigProps extends RigProps {
+    states: StateFn[];
+    offsets: [number, number, number][];
+    scales: number[];
+}
+
+function GoldThread({ progressRef, reduced, states, offsets, scales }: ThreadRigProps) {
     const mesh = useRef<THREE.Mesh>(null!);
     const group = useRef<THREE.Group>(null!);
     const damped = useRef(0);
     const lastBuilt = useRef(-1);
+    const STATE_COUNT = states.length;
 
     const samples = useMemo(
         () =>
-            STATES.map((fn) => {
+            states.map((fn) => {
                 const pts: THREE.Vector3[] = [];
                 for (let i = 0; i < CONTROL_POINTS; i++) {
                     pts.push(new THREE.Vector3(...fn(i / (CONTROL_POINTS - 1))));
                 }
                 return pts;
             }),
-        [],
+        [states],
     );
     const work = useMemo(
         () => Array.from({ length: CONTROL_POINTS }, () => new THREE.Vector3()),
@@ -156,15 +104,15 @@ function GoldThread({ progressRef, reduced }: RigProps) {
         // Blocking: blend position/scale between states so the thread frames
         // the copy instead of colliding with it. x compresses on narrow
         // viewports where the cards sit centered.
-        const oa = OFFSETS[i0];
-        const ob = OFFSETS[i0 + 1];
+        const oa = offsets[i0];
+        const ob = offsets[i0 + 1];
         const xFactor = Math.min(1, state.viewport.width / 10);
         group.current.position.set(
             THREE.MathUtils.lerp(oa[0], ob[0], f) * xFactor,
             THREE.MathUtils.lerp(oa[1], ob[1], f),
             THREE.MathUtils.lerp(oa[2], ob[2], f),
         );
-        group.current.scale.setScalar(THREE.MathUtils.lerp(SCALES[i0], SCALES[i0 + 1], f));
+        group.current.scale.setScalar(THREE.MathUtils.lerp(scales[i0], scales[i0 + 1], f));
 
         // Idle drift fades out with progress; the scroll-coupled term is one
         // full revolution, so at p=1 the closing line always faces the camera
@@ -224,9 +172,21 @@ interface ThreadSceneProps {
     progressRef: MutableRefObject<number>;
     reduced: boolean;
     onReady: () => void;
+    /** Optional page-specific choreography — defaults to the /v2 home journey.
+        All v2 pages share the same thread; only its sequence of poses changes. */
+    states?: StateFn[];
+    offsets?: [number, number, number][];
+    scales?: number[];
 }
 
-export default function ThreadScene({ progressRef, reduced, onReady }: ThreadSceneProps) {
+export default function ThreadScene({
+    progressRef,
+    reduced,
+    onReady,
+    states = THREAD_SHAPES,
+    offsets = DEFAULT_OFFSETS,
+    scales = DEFAULT_SCALES,
+}: ThreadSceneProps) {
     return (
         <Canvas
             dpr={[1, 2]}
@@ -237,7 +197,7 @@ export default function ThreadScene({ progressRef, reduced, onReady }: ThreadSce
             <color attach="background" args={[BG]} />
             <fog attach="fog" args={[BG, 9, 17]} />
 
-            <GoldThread progressRef={progressRef} reduced={reduced} />
+            <GoldThread progressRef={progressRef} reduced={reduced} states={states} offsets={offsets} scales={scales} />
             <CameraRig progressRef={progressRef} reduced={reduced} />
 
             <Sparkles
