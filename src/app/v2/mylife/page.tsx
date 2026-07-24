@@ -21,54 +21,136 @@ import '../v2.css';
 import './mylife.css';
 
 /* ————— the line —————
-   One path through a 1000×9000 viewBox, stretched over the whole story
-   (preserveAspectRatio="none" + non-scaling stroke). Each act changes the
-   stroke's character: pencil curls → network zigzag → chart steps → neural
-   wave → straight gold line. */
+   The path is GENERATED from the measured DOM layout: each act's gesture
+   (pencil curls / network zigzag / chart staircase / neural wave) spans
+   exactly that act's real pixels, so the ink and the content can never
+   drift out of sync — the geometry is rebuilt on mount and on resize. */
 
-const VBH = 9000;
+const VBH = 9000; // viewBox height; y positions are px/wrapHeight * VBH
 
-const LINE_D = [
-    'M 500 60',
-    // hero — a first, curious stroke
-    'C 620 250 380 420 500 640',
-    'C 640 780 360 820 500 900',
-    // Act I — childhood: playful pencil curls
-    'C 820 1060 180 1160 420 1360',
-    'C 660 1560 840 1700 560 1780',
-    'C 280 1860 320 2040 520 2100',
-    'C 700 2160 560 2280 500 2340',
-    // Act II — emergence: sharp lines connecting people
-    'L 770 2560 L 250 2800 L 740 3040 L 280 3280 L 640 3500 L 500 3780',
-    // Act III — rise: chart staircase, then the growth curve
-    'L 340 3920 L 340 4080 L 560 4080 L 560 4260 L 730 4260 L 730 4440',
-    'C 780 4760 220 4960 500 5220',
-    // Act IV — frontier: smooth neural wave, converging
-    'C 840 5460 160 5680 500 5920',
-    'C 800 6140 240 6360 500 6560',
-    'C 540 6600 480 6630 500 6660',
-    // philosophy — almost still
-    'C 545 6960 455 7260 500 7560',
-    // metrics + end — resolved, straight
-    'L 500 8100 L 500 8720',
-].join(' ');
+const PALETTE = ['#FF6B6B', '#FFB800', '#00F0FF', '#7B2FFF', '#10B981', '#F472B6'];
 
-const NODE_POINTS: [number, number][] = [
-    [770, 2560], [250, 2800], [740, 3040], [280, 3280], [640, 3500],
-];
-const NEURAL_POINTS: [number, number][] = [
-    [840, 5460], [160, 5680], [800, 6140], [240, 6360],
-];
+interface Geom {
+    d: string;
+    stops: { off: number; color: string }[];
+    kite: { x: number; y: number };
+    dabs: { x: number; y: number; c: string }[];
+    nodes: { x: number; y: number }[];
+    mesh: [number, number][];
+    bars: { x: number; base: number; h: number }[];
+    neurons: { x: number; y: number }[];
+    synapses: [number, number][];
+    arrowY: number;
+    /** y-fraction thresholds (px/wrapH) → pen tip color */
+    penStops: [number, string][];
+}
 
-// progress boundaries of each act along the page (approx.) → pen-tip color
-const PEN_STOPS: [number, string][] = [
-    [0.1, '#E8C547'],
-    [0.26, '#00F0FF'],
-    [0.42, '#7B2FFF'],
-    [0.58, '#FFB800'],
-    [0.74, '#FF0080'],
-    [1.01, '#E8C547'],
-];
+function buildGeom(wrapH: number): Geom | null {
+    if (!wrapH) return null;
+    const get = (id: string) => {
+        const el = document.getElementById(id);
+        return el ? { top: el.offsetTop, h: el.offsetHeight } : null;
+    };
+    const hero = get('v2ml-hero');
+    const philo = get('v2ml-philo');
+    const met = get('v2ml-metrics');
+    const end = get('v2ml-end');
+    const actB = acts.map((a) => get(`v2ml-${a.id}`));
+    if (!hero || !philo || !met || !end || actB.some((x) => !x)) return null;
+    const bounds = actB as { top: number; h: number }[];
+
+    const vb = (px: number) => (px / wrapH) * VBH;
+    const seg: string[] = [];
+    // cubic through an act region: fractions of [y0, y1]
+    const C = (y0: number, y1: number, pts: [number, number, number, number, number, number]) => {
+        const m = (f: number) => y0 + (y1 - y0) * f;
+        seg.push(`C ${pts[0]} ${m(pts[1])} ${pts[2]} ${m(pts[3])} ${pts[4]} ${m(pts[5])}`);
+    };
+
+    /* hero — a first curious stroke */
+    const h0 = vb(hero.top + 100);
+    const h1 = vb(bounds[0].top);
+    seg.push(`M 500 ${h0}`);
+    C(h0, h1, [620, 0.3, 380, 0.55, 500, 0.78]);
+    C(h0, h1, [640, 0.86, 380, 0.95, 500, 1]);
+
+    /* Act I — pencil curls */
+    const a0 = vb(bounds[0].top);
+    const a1 = vb(bounds[1].top);
+    C(a0, a1, [820, 0.12, 180, 0.2, 420, 0.33]);
+    C(a0, a1, [660, 0.45, 840, 0.55, 560, 0.62]);
+    C(a0, a1, [280, 0.68, 320, 0.8, 520, 0.86]);
+    C(a0, a1, [700, 0.91, 560, 0.96, 500, 1]);
+    const kite = { x: 830, y: a0 + (a1 - a0) * 0.09 };
+    const dabs = PALETTE.map((c, i) => ({
+        x: 250 + i * 62,
+        y: a0 + (a1 - a0) * 0.72 + Math.sin(i * 1.7) * 14,
+        c,
+    }));
+
+    /* Act II — zigzag through people */
+    const b0 = vb(bounds[1].top);
+    const b1 = vb(bounds[2].top);
+    const nodeFr: [number, number][] = [
+        [760, 0.12], [240, 0.3], [760, 0.48], [240, 0.66], [640, 0.82],
+    ];
+    const nodes = nodeFr.map(([x, f]) => ({ x, y: b0 + (b1 - b0) * f }));
+    nodes.forEach((n) => seg.push(`L ${n.x} ${n.y}`));
+    seg.push(`L 500 ${b1}`);
+    const mesh: [number, number][] = [[0, 2], [1, 3], [2, 4]];
+
+    /* Act III — chart staircase, then the growth curve */
+    const c0 = vb(bounds[2].top);
+    const c1 = vb(bounds[3].top);
+    const cm = (f: number) => c0 + (c1 - c0) * f;
+    seg.push(`L 340 ${cm(0.08)}`, `L 340 ${cm(0.2)}`, `L 560 ${cm(0.2)}`, `L 560 ${cm(0.33)}`, `L 730 ${cm(0.33)}`, `L 730 ${cm(0.46)}`);
+    C(c0, c1, [810, 0.66, 220, 0.84, 500, 1]);
+    const bars = [0, 1, 2, 3].map((i) => ({
+        x: 764 + i * 52,
+        base: cm(0.9),
+        h: (c1 - c0) * (0.045 + i * 0.032),
+    }));
+
+    /* Act IV — neural wave */
+    const d0 = vb(bounds[3].top);
+    const d1 = vb(philo.top);
+    C(d0, d1, [840, 0.17, 160, 0.34, 500, 0.5]);
+    C(d0, d1, [800, 0.62, 240, 0.78, 500, 0.88]);
+    C(d0, d1, [540, 0.93, 480, 0.97, 500, 1]);
+    const neuronFr: [number, number][] = [[820, 0.14], [180, 0.33], [760, 0.6], [240, 0.76]];
+    const neurons = neuronFr.map(([x, f]) => ({ x, y: d0 + (d1 - d0) * f }));
+    const synapses: [number, number][] = [[0, 1], [1, 2], [2, 3], [0, 2], [1, 3]];
+
+    /* philosophy — almost still; metrics + end — resolved */
+    const p0 = vb(philo.top);
+    const p1 = vb(met.top);
+    C(p0, p1, [545, 0.33, 455, 0.66, 500, 1]);
+    const arrowY = vb(end.top + end.h * 0.72);
+    seg.push(`L 500 ${vb(end.top)}`, `L 500 ${arrowY}`);
+
+    /* gradient stops pinned to measured act midpoints */
+    const midFrac = (i: number) => (bounds[i].top + bounds[i].h / 2) / wrapH;
+    const stops = [
+        { off: 0, color: '#E8C547' },
+        { off: midFrac(0), color: acts[0].color },
+        { off: midFrac(1), color: acts[1].color },
+        { off: midFrac(2), color: acts[2].color },
+        { off: midFrac(3), color: acts[3].color },
+        { off: Math.min(1, philo.top / wrapH + 0.06), color: '#E8C547' },
+        { off: 1, color: '#E8C547' },
+    ];
+
+    const penStops: [number, string][] = [
+        [bounds[0].top / wrapH, '#E8C547'],
+        [bounds[1].top / wrapH, acts[0].color],
+        [bounds[2].top / wrapH, acts[1].color],
+        [bounds[3].top / wrapH, acts[2].color],
+        [philo.top / wrapH, acts[3].color],
+        [2, '#E8C547'],
+    ];
+
+    return { d: seg.join(' '), stops, kite, dabs, nodes, mesh, bars, neurons, synapses, arrowY, penStops };
+}
 
 const rise: Variants = {
     hidden: { opacity: 0, y: 40 },
@@ -85,6 +167,11 @@ const Word = ({ children }: { children: ReactNode }) => (
         <motion.span className="v2-wi" variants={wordUp}>{children}</motion.span>
     </span>
 );
+
+const popIn = {
+    initial: { scale: 0, opacity: 0 },
+    style: { transformBox: 'fill-box', transformOrigin: 'center' } as CSSProperties,
+};
 
 /* philosophy text — each word brightens as the reader passes it */
 function ScrubWord({ word, progress, range }: { word: string; progress: MotionValue<number>; range: [number, number] }) {
@@ -126,20 +213,47 @@ export default function OneLinePage() {
     const pathRef = useRef<SVGPathElement>(null);
     const penRef = useRef<HTMLDivElement>(null);
     const totalLen = useRef(0);
+    const geomRef = useRef<Geom | null>(null);
+    const [geom, setGeom] = useState<Geom | null>(null);
     const [mounted, setMounted] = useState(false);
     const [activeAct, setActiveAct] = useState(-1);
     const reduced = useReducedMotion() ?? false;
 
     const { scrollYProgress } = useScroll({ target: wrapRef, offset: ['start start', 'end end'] });
 
-    // Arc-length reparametrization: pathLength is linear in stroke length, but
-    // the loopy early acts consume far more length per vertical unit than the
-    // straight finale. Sample the path once, build a monotonic y(length) table,
-    // and invert it so the drawn tip tracks the reader's viewport instead of
-    // lagging a whole act behind by the end.
+    useEffect(() => setMounted(true), []);
+
+    // measure layout → generate the line (and regenerate on resize)
+    useEffect(() => {
+        const wrap = wrapRef.current;
+        if (!wrap) return;
+        let frame = 0;
+        const build = () => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => {
+                const g = buildGeom(wrap.offsetHeight);
+                if (g) {
+                    geomRef.current = g;
+                    setGeom(g);
+                }
+            });
+        };
+        build();
+        const ro = new ResizeObserver(build);
+        ro.observe(wrap);
+        return () => {
+            cancelAnimationFrame(frame);
+            ro.disconnect();
+        };
+    }, []);
+
+    // Arc-length reparametrization: sample the generated path, build a
+    // monotonic y(length) table, invert it — the drawn tip tracks the
+    // reader's viewport instead of lagging where the ink is dense.
     const LOOKUP_N = 256;
     const yTable = useRef<number[] | null>(null);
     useEffect(() => {
+        if (!geom) return;
         const path = pathRef.current;
         if (!path) return;
         const L = path.getTotalLength();
@@ -151,7 +265,7 @@ export default function OneLinePage() {
             ys.push(maxY);
         }
         yTable.current = ys;
-    }, []);
+    }, [geom]);
 
     const drawTarget = useTransform(scrollYProgress, (v) => {
         const ys = yTable.current;
@@ -173,8 +287,6 @@ export default function OneLinePage() {
     });
     const drawn = useSpring(drawTarget, { stiffness: 55, damping: 18, restDelta: 0.0005 });
 
-    useEffect(() => setMounted(true), []);
-
     // active act → HUD + aura
     useEffect(() => {
         const els = acts.map((a) => document.getElementById(`v2ml-${a.id}`)).filter(Boolean) as HTMLElement[];
@@ -195,16 +307,17 @@ export default function OneLinePage() {
         const path = pathRef.current;
         const wrap = wrapRef.current;
         const pen = penRef.current;
-        if (!path || !wrap || !pen || reduced) return;
-        if (!totalLen.current) totalLen.current = path.getTotalLength();
+        const g = geomRef.current;
+        if (!path || !wrap || !pen || !g || reduced || !totalLen.current) return;
         const p = Math.min(Math.max(drawn.get(), 0), 1);
         const pt = path.getPointAtLength(p * totalLen.current);
         const x = (pt.x / 1000) * wrap.offsetWidth;
         const y = (pt.y / VBH) * wrap.offsetHeight;
         pen.style.transform = `translate(${x}px, ${y}px)`;
-        let color = PEN_STOPS[PEN_STOPS.length - 1][1];
-        for (const [stop, c] of PEN_STOPS) {
-            if (p < stop) { color = c; break; }
+        const yFrac = pt.y / VBH;
+        let color = g.penStops[g.penStops.length - 1][1];
+        for (const [stop, c] of g.penStops) {
+            if (yFrac < stop) { color = c; break; }
         }
         pen.style.setProperty('--pen', color);
     });
@@ -261,116 +374,207 @@ export default function OneLinePage() {
 
             <div className="v2ml-wrap" ref={wrapRef}>
                 {/* ————— THE LINE ————— */}
-                <svg
-                    className="v2ml-svg"
-                    viewBox={`0 0 1000 ${VBH}`}
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                >
-                    <defs>
-                        <linearGradient id="v2ml-ink" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={VBH}>
-                            <stop offset="0" stopColor="#E8C547" />
-                            <stop offset="0.12" stopColor="#00F0FF" />
-                            <stop offset="0.3" stopColor="#7B2FFF" />
-                            <stop offset="0.48" stopColor="#FFB800" />
-                            <stop offset="0.66" stopColor="#FF0080" />
-                            <stop offset="0.85" stopColor="#E8C547" />
-                            <stop offset="1" stopColor="#E8C547" />
-                        </linearGradient>
-                        <filter id="v2ml-glow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="7" />
-                        </filter>
-                    </defs>
-
-                    {/* glow underlay + ink stroke, both drawn by scroll */}
-                    <motion.path
-                        d={LINE_D}
-                        fill="none"
-                        stroke="url(#v2ml-ink)"
-                        strokeWidth={11}
-                        strokeLinecap="round"
-                        vectorEffect="non-scaling-stroke"
-                        filter="url(#v2ml-glow)"
-                        opacity={0.55}
-                        style={{ pathLength: reduced ? 1 : drawn }}
-                    />
-                    <motion.path
-                        ref={pathRef}
-                        d={LINE_D}
-                        fill="none"
-                        stroke="url(#v2ml-ink)"
-                        strokeWidth={3}
-                        strokeLinecap="round"
-                        vectorEffect="non-scaling-stroke"
-                        style={{ pathLength: reduced ? 1 : drawn }}
-                    />
-
-                    {/* Act I — the kite the line once flew */}
-                    <motion.g
-                        className="v2ml-deco"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true, margin: '-20%' }}
-                        transition={{ duration: 1.2 }}
+                {geom && (
+                    <svg
+                        className="v2ml-svg"
+                        viewBox={`0 0 1000 ${VBH}`}
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
                     >
-                        <path d="M 830 940 L 878 1000 L 830 1060 L 782 1000 Z" fill="none" stroke="#00F0FF" strokeWidth={2} vectorEffect="non-scaling-stroke" opacity={0.7} />
-                        <path d="M 830 1060 C 810 1110 850 1140 820 1180" fill="none" stroke="#00F0FF" strokeWidth={1.5} strokeDasharray="6 7" vectorEffect="non-scaling-stroke" opacity={0.5} />
-                    </motion.g>
+                        <defs>
+                            <linearGradient id="v2ml-ink" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={VBH}>
+                                {geom.stops.map((s, i) => (
+                                    <stop key={i} offset={s.off} stopColor={s.color} />
+                                ))}
+                            </linearGradient>
+                            <filter id="v2ml-glow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="7" />
+                            </filter>
+                        </defs>
 
-                    {/* Act II — people as nodes the line connects */}
-                    {NODE_POINTS.map(([x, y], i) => (
-                        <motion.circle
-                            key={i}
-                            cx={x}
-                            cy={y}
-                            r={8}
-                            fill="#7B2FFF"
-                            initial={{ scale: 0, opacity: 0 }}
-                            whileInView={{ scale: 1, opacity: 0.9 }}
-                            viewport={{ once: true, margin: '-30%' }}
-                            transition={{ duration: 0.5, delay: i * 0.12, ease: 'backOut' }}
-                        />
-                    ))}
-
-                    {/* Act IV — faint neural halo */}
-                    {NEURAL_POINTS.map(([x, y], i) => (
-                        <motion.circle
-                            key={i}
-                            cx={x}
-                            cy={y}
-                            r={16}
+                        {/* glow underlay + ink stroke, both drawn by scroll */}
+                        <motion.path
+                            d={geom.d}
                             fill="none"
-                            stroke="#FF0080"
-                            strokeWidth={1.5}
+                            stroke="url(#v2ml-ink)"
+                            strokeWidth={11}
+                            strokeLinecap="round"
+                            vectorEffect="non-scaling-stroke"
+                            filter="url(#v2ml-glow)"
+                            opacity={0.55}
+                            style={{ pathLength: reduced ? 1 : drawn }}
+                        />
+                        <motion.path
+                            ref={pathRef}
+                            d={geom.d}
+                            fill="none"
+                            stroke="url(#v2ml-ink)"
+                            strokeWidth={3}
+                            strokeLinecap="round"
+                            vectorEffect="non-scaling-stroke"
+                            style={{ pathLength: reduced ? 1 : drawn }}
+                        />
+
+                        {/* Act I — the kite the line once flew + paint dabs */}
+                        <motion.g
+                            initial={{ opacity: 0, y: 18 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: '-20%' }}
+                            transition={{ duration: 1.2 }}
+                        >
+                            <path
+                                d={`M ${geom.kite.x} ${geom.kite.y - 60} L ${geom.kite.x + 46} ${geom.kite.y} L ${geom.kite.x} ${geom.kite.y + 60} L ${geom.kite.x - 46} ${geom.kite.y} Z M ${geom.kite.x} ${geom.kite.y - 60} L ${geom.kite.x} ${geom.kite.y + 60} M ${geom.kite.x - 46} ${geom.kite.y} L ${geom.kite.x + 46} ${geom.kite.y}`}
+                                fill="none"
+                                stroke={acts[0].color}
+                                strokeWidth={1.8}
+                                vectorEffect="non-scaling-stroke"
+                                opacity={0.75}
+                            />
+                            <path
+                                d={`M ${geom.kite.x} ${geom.kite.y + 60} C ${geom.kite.x - 24} ${geom.kite.y + 120} ${geom.kite.x + 18} ${geom.kite.y + 160} ${geom.kite.x - 12} ${geom.kite.y + 210}`}
+                                fill="none"
+                                stroke={acts[0].color}
+                                strokeWidth={1.4}
+                                strokeDasharray="6 7"
+                                vectorEffect="non-scaling-stroke"
+                                opacity={0.5}
+                            />
+                        </motion.g>
+                        {geom.dabs.map((d, i) => (
+                            <motion.circle
+                                key={`dab-${i}`}
+                                cx={d.x}
+                                cy={d.y}
+                                r={7}
+                                fill={d.c}
+                                initial={popIn.initial}
+                                style={popIn.style}
+                                whileInView={{ scale: 1, opacity: 0.85 }}
+                                viewport={{ once: true, margin: '-25%' }}
+                                transition={{ duration: 0.5, delay: i * 0.09, ease: 'backOut' }}
+                            />
+                        ))}
+
+                        {/* Act II — people as nodes + the mesh between them */}
+                        {geom.mesh.map(([a, b], i) => (
+                            <motion.line
+                                key={`mesh-${i}`}
+                                x1={geom.nodes[a].x}
+                                y1={geom.nodes[a].y}
+                                x2={geom.nodes[b].x}
+                                y2={geom.nodes[b].y}
+                                stroke={acts[1].color}
+                                strokeWidth={1}
+                                strokeDasharray="5 6"
+                                vectorEffect="non-scaling-stroke"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 0.3 }}
+                                viewport={{ once: true, margin: '-25%' }}
+                                transition={{ duration: 1, delay: 0.3 + i * 0.15 }}
+                            />
+                        ))}
+                        {geom.nodes.map((n, i) => (
+                            <motion.circle
+                                key={`node-${i}`}
+                                cx={n.x}
+                                cy={n.y}
+                                r={8}
+                                fill={acts[1].color}
+                                initial={popIn.initial}
+                                style={popIn.style}
+                                whileInView={{ scale: 1, opacity: 0.9 }}
+                                viewport={{ once: true, margin: '-25%' }}
+                                transition={{ duration: 0.5, delay: i * 0.12, ease: 'backOut' }}
+                            />
+                        ))}
+
+                        {/* Act III — the bars the staircase implies */}
+                        {geom.bars.map((b, i) => (
+                            <motion.line
+                                key={`bar-${i}`}
+                                x1={b.x}
+                                x2={b.x}
+                                y1={b.base}
+                                stroke={acts[2].color}
+                                strokeWidth={16}
+                                strokeLinecap="round"
+                                vectorEffect="non-scaling-stroke"
+                                initial={{ y2: b.base, opacity: 0 }}
+                                whileInView={{ y2: b.base - b.h, opacity: 0.75 }}
+                                viewport={{ once: true, margin: '-25%' }}
+                                transition={{ duration: 0.7, delay: i * 0.12, ease: 'backOut' }}
+                            />
+                        ))}
+
+                        {/* Act IV — neurons + synapses along the wave */}
+                        {geom.synapses.map(([a, b], i) => (
+                            <motion.line
+                                key={`syn-${i}`}
+                                x1={geom.neurons[a].x}
+                                y1={geom.neurons[a].y}
+                                x2={geom.neurons[b].x}
+                                y2={geom.neurons[b].y}
+                                stroke={acts[3].color}
+                                strokeWidth={1}
+                                strokeDasharray="4 7"
+                                vectorEffect="non-scaling-stroke"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 0.28 }}
+                                viewport={{ once: true, margin: '-25%' }}
+                                transition={{ duration: 1.1, delay: 0.2 + i * 0.12 }}
+                            />
+                        ))}
+                        {geom.neurons.map((n, i) => (
+                            <motion.g key={`neu-${i}`}>
+                                <motion.circle
+                                    cx={n.x}
+                                    cy={n.y}
+                                    r={16}
+                                    fill="none"
+                                    stroke={acts[3].color}
+                                    strokeWidth={1.5}
+                                    vectorEffect="non-scaling-stroke"
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 0.5 }}
+                                    viewport={{ once: true, margin: '-25%' }}
+                                    transition={{ duration: 0.9, delay: i * 0.14 }}
+                                />
+                                <motion.circle
+                                    cx={n.x}
+                                    cy={n.y}
+                                    r={5}
+                                    fill={acts[3].color}
+                                    initial={popIn.initial}
+                                    style={popIn.style}
+                                    whileInView={{ scale: 1, opacity: 0.9 }}
+                                    viewport={{ once: true, margin: '-25%' }}
+                                    transition={{ duration: 0.5, delay: 0.2 + i * 0.14, ease: 'backOut' }}
+                                />
+                            </motion.g>
+                        ))}
+
+                        {/* the arrow the line becomes */}
+                        <motion.path
+                            d={`M 455 ${geom.arrowY - 55} L 500 ${geom.arrowY} L 545 ${geom.arrowY - 55}`}
+                            fill="none"
+                            stroke="#E8C547"
+                            strokeWidth={3}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             vectorEffect="non-scaling-stroke"
                             initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 0.45 }}
-                            viewport={{ once: true, margin: '-30%' }}
-                            transition={{ duration: 1, delay: i * 0.15 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true, margin: '-10%' }}
+                            transition={{ duration: 0.8 }}
                         />
-                    ))}
-
-                    {/* the arrow the line becomes */}
-                    <motion.path
-                        d="M 455 8660 L 500 8720 L 545 8660"
-                        fill="none"
-                        stroke="#E8C547"
-                        strokeWidth={3}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        vectorEffect="non-scaling-stroke"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true, margin: '-10%' }}
-                        transition={{ duration: 0.8 }}
-                    />
-                </svg>
+                    </svg>
+                )}
 
                 {/* the pen tip */}
                 {!reduced && <div className="v2ml-pen" ref={penRef} aria-hidden="true" />}
 
                 {/* ————— HERO ————— */}
-                <section className="v2ml-hero">
+                <section id="v2ml-hero" className="v2ml-hero">
                     <motion.div
                         className="v2-hero-inner"
                         initial="hidden"
@@ -456,13 +660,13 @@ export default function OneLinePage() {
                 ))}
 
                 {/* ————— PHILOSOPHY ————— */}
-                <section className="v2ml-philo-section">
+                <section id="v2ml-philo" className="v2ml-philo-section">
                     <span className="v2-label">Philosophy</span>
                     <ScrubText text={philosophy} />
                 </section>
 
                 {/* ————— METRICS ————— */}
-                <section className="v2ml-metrics">
+                <section id="v2ml-metrics" className="v2ml-metrics">
                     {metrics.map((m) => (
                         <div key={m.label} className="v2ml-metric">
                             <Counter value={m.value} suffix={m.suffix} />
@@ -472,7 +676,7 @@ export default function OneLinePage() {
                 </section>
 
                 {/* ————— END ————— */}
-                <section className="v2ml-end">
+                <section id="v2ml-end" className="v2ml-end">
                     <motion.div
                         className="v2-hero-inner v2-contact-inner"
                         initial="hidden"
