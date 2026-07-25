@@ -274,6 +274,26 @@ html[data-v2-theme='porcelain'] {
     background: color-mix(in srgb, var(--v2-accent) 10%, transparent);
 }
 
+/* reading shield — a soft fixed pool of stage color behind dense text
+   pages so the thread reads as a corner signature, not a backdrop */
+.v2-page--shield::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(
+        ellipse 62% 75% at 42% 55%,
+        color-mix(in srgb, var(--v2-bg) 78%, transparent) 0%,
+        color-mix(in srgb, var(--v2-bg) 45%, transparent) 55%,
+        transparent 82%
+    );
+    pointer-events: none;
+}
+.v2-page--shield > * {
+    position: relative;
+    z-index: 1;
+}
+
 /* ——— sections ——— *//* ——— sections ——— */
 
 .v2-section {

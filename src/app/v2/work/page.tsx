@@ -12,11 +12,12 @@ import '../v2.css';
 export default function V2WorkPage() {
     return (
         <div className="v2">
-            {/* distant, dimmed tangle — pure atmosphere behind the index */}
-            <ThreadStage progress={0} dim={0.45} offset={[0, 0.2, -4.4]} poseScale={1.2} />
+            {/* small dim tangle signing the top-right corner — the index is
+                a reading page; the thread stays out of the text column */}
+            <ThreadStage progress={0} dim={0.3} offset={[4.3, 1.9, -2.6]} poseScale={0.72} />
             <V2Nav />
 
-            <div className="v2-page">
+            <div className="v2-page v2-page--shield">
                 <motion.header
                     className="v2-page-head v2-page-head--left"
                     initial="hidden"
