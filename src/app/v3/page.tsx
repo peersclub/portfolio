@@ -2,48 +2,19 @@
 
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import { projects } from '@/data/projects';
+import { featuredProjects } from '@/data/projects';
 import { ClipWindow, Converge, Curtain, Flip, Lines, Marquee } from './components/kinetic';
-import TimeScrub from './components/TimeScrub';
+import V3Nav from './components/V3Nav';
 import './v3.css';
-
-const NAV: [string, string][] = [
-    ['#intro', 'Intro'],
-    ['#story', 'Story'],
-    ['#work', 'Work'],
-    ['#play', 'Timeline'],
-    ['#contact', 'Contact'],
-];
-
-const STATS: [string, string][] = [
-    ['10+', 'years building products'],
-    ['1M+', 'users on one exchange'],
-    ['6', 'companies shaped'],
-    ['2', 'founder chapters'],
-];
 
 export default function V3Page() {
     return (
         <div className="v3">
             <Curtain />
-
-            {/* ————— NAV ————— */}
-            <nav className="v3-nav" aria-label="V3 navigation">
-                <span className="v3-mark">SV·III</span>
-                <div className="v3-nav-links">
-                    {NAV.map(([href, label]) => (
-                        <a key={href} href={href} className="v3-nav-link">
-                            {label}
-                        </a>
-                    ))}
-                </div>
-                <Link href="/v2" className="v3-nav-link v3-nav-link--dim">
-                    ← v2
-                </Link>
-            </nav>
+            <V3Nav />
 
             {/* ————— INTRO ————— */}
-            <section id="intro" className="v3-hero">
+            <section className="v3-hero">
                 <span className="v3-label v3-hero-kicker">Suresh Victor — Third Edition</span>
                 <Flip text="PRODUCT" as="h1" className="v3-hero-line" delay={0.7} />
                 <div className="v3-hero-row">
@@ -62,8 +33,8 @@ export default function V3Page() {
                 AssetWorks AI · Cox &amp; Kings · CaptainFresh · CoinDCX · BabyChakra · KleverKid ·&nbsp;
             </Marquee>
 
-            {/* ————— STORY ————— */}
-            <section id="story" className="v3-section">
+            {/* ————— BRIEF TEASER ————— */}
+            <section className="v3-section">
                 <span className="v3-label">01 — Story</span>
                 <Converge left="The" right="brief." as="h2" className="v3-h2" />
                 <div className="v3-story-grid">
@@ -72,19 +43,16 @@ export default function V3Page() {
                         className="v3-story-lead"
                         text="I'm driven by a simple mission: build high-quality, scalable products that people genuinely love to use."
                     />
-                    <Lines
-                        as="p"
-                        className="v3-story-body"
-                        text="From scaling India's largest crypto exchange to pioneering AI-powered financial tools, I turn complex ideas into intuitive experiences that serve millions. Currently co-founding AssetWorks AI — sophisticated financial analysis, in plain language."
-                    />
-                </div>
-                <div className="v3-stats">
-                    {STATS.map(([value, label], i) => (
-                        <div className="v3-stat" key={label}>
-                            <Flip text={value} as="span" className="v3-stat-value" delay={i * 0.1} />
-                            <span className="v3-label">{label}</span>
-                        </div>
-                    ))}
+                    <div className="v3-teaser-more">
+                        <Lines
+                            as="p"
+                            className="v3-story-body"
+                            text="Ten years, six companies, two founder chapters — and one repeating pattern: find the knot, pull gently, ship."
+                        />
+                        <Link href="/v3/about" className="v3-cta">
+                            Read the full brief →
+                        </Link>
+                    </div>
                 </div>
             </section>
 
@@ -94,12 +62,12 @@ export default function V3Page() {
                 <Flip text="ONE CRAFT" as="span" className="v3-divider-line v3-divider-line--accent" scrub />
             </ClipWindow>
 
-            {/* ————— WORK ————— */}
-            <section id="work" className="v3-section">
-                <span className="v3-label">02 — Work</span>
-                <Converge left="Selected" right="chapters." as="h2" className="v3-h2" />
+            {/* ————— FEATURED WORK ————— */}
+            <section className="v3-section">
+                <span className="v3-label">02 — Featured work</span>
+                <Converge left="Three" right="chapters." as="h2" className="v3-h2" />
                 <div className="v3-index">
-                    {projects.map((p, i) => (
+                    {featuredProjects.map((p, i) => (
                         <Link
                             key={p.slug}
                             href={`/projects/${p.slug}`}
@@ -116,43 +84,27 @@ export default function V3Page() {
                         </Link>
                     ))}
                 </div>
+                <div className="v3-index-more">
+                    <Link href="/v3/work" className="v3-cta">
+                        All six chapters →
+                    </Link>
+                    <Link href="/v3/timeline" className="v3-cta v3-cta--dim">
+                        Or scrub the timeline
+                    </Link>
+                </div>
             </section>
 
-            {/* ————— PLAYGROUND ————— */}
-            <section id="play" className="v3-section">
-                <span className="v3-label">03 — Scrub the timeline</span>
-                <Converge left="Thirty-three years," right="one drag." as="h2" className="v3-h2" />
-                <Lines
-                    as="p"
-                    className="v3-story-body v3-play-note"
-                    text="Drag through the years — every chapter, with the numbers that mattered."
-                />
-                <TimeScrub />
-            </section>
-
-            {/* ————— CONTACT ————— */}
-            <section id="contact" className="v3-contact">
-                <span className="v3-label">04 — Contact</span>
-                <Flip text="LET'S" as="h2" className="v3-contact-line" />
-                <Flip text="TALK." as="h2" className="v3-contact-line v3-contact-line--accent" />
-                <div className="v3-cta-row">
-                    <a href="mailto:sureshthejosephite@gmail.com" className="v3-cta v3-cta--solid">
-                        Start the conversation
-                    </a>
-                    <a href="https://www.linkedin.com/in/sureshvictor/" target="_blank" rel="noopener noreferrer" className="v3-cta">
-                        LinkedIn
-                    </a>
-                    <Link href="/v2" className="v3-cta">
-                        The gold thread →
+            {/* ————— CONTACT STRIP ————— */}
+            <section className="v3-strip v3-strip--tall">
+                <Converge left="A knot to" right="untangle?" as="h2" className="v3-h2 v3-strip-h" />
+                <div className="v3-strip-links">
+                    <Link href="/v3/contact" className="v3-cta v3-cta--solid">
+                        Let&apos;s talk
                     </Link>
                     <Link href="/" className="v3-cta v3-cta--dim">
                         Classic site
                     </Link>
                 </div>
-                <footer className="v3-footer">
-                    <span className="v3-label">Suresh Victor · Bangalore · GMT+5:30</span>
-                    <span className="v3-label">Set in Bricolage Grotesque · Edition III</span>
-                </footer>
             </section>
         </div>
     );

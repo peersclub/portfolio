@@ -656,3 +656,109 @@ body:has(.v3) .scroll-progress,
 body:has(.v3) .switcher {
     display: none;
 }
+
+/* ————— multi-page edition ————— */
+
+.v3-nav-link--active {
+    color: var(--ink);
+}
+.v3-nav-link--active::after {
+    transform: scaleX(1);
+}
+.v3-mark {
+    text-decoration: none;
+    color: var(--ink);
+}
+
+/* teaser + index footers */
+.v3-teaser-more {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+.v3-index-more {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+/* cross-page footer strip */
+.v3-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem clamp(1.25rem, 4vw, 3rem) 4rem;
+    border-top: 1px solid var(--ink-faint);
+}
+.v3-strip--tall {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 5rem;
+    padding-bottom: 6rem;
+}
+.v3-strip-h {
+    margin-bottom: 0.5rem;
+}
+.v3-strip-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* marquee at page foot */
+.v3-marquee-foot {
+    margin-top: 4rem;
+}
+
+/* about: principles + details */
+.v3-principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 3vw, 3rem);
+}
+.v3-principle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    border-top: 2px solid var(--ink);
+    padding-top: 1.2rem;
+}
+.v3-principle-title {
+    font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin: 0;
+}
+.v3-details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+    border-top: 1px solid var(--ink-faint);
+    padding-top: 2rem;
+}
+.v3-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.v3-detail-value {
+    font-weight: 700;
+    font-size: 1.02rem;
+}
+
+@media (max-width: 860px) {
+    .v3-principles {
+        grid-template-columns: 1fr;
+    }
+    .v3-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
