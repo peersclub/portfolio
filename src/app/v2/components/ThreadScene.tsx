@@ -13,7 +13,6 @@ export { THREAD_SHAPES, type StateFn };
 const CONTROL_POINTS = 28;
 const TUBE_SEGMENTS = 240;
 const RADIAL_SEGMENTS = 12;
-const TUBE_RADIUS = 0.07;
 const TAU = Math.PI * 2;
 
 // Screen blocking per state: the thread yields space to the copy instead of
@@ -31,10 +30,11 @@ const DEFAULT_OFFSETS: [number, number, number][] = [
     [0, 0.9, -0.4],   // LINE    — contact, rises behind the headline
 ];
 const DEFAULT_SCALES = [1.05, 0.9, 0.75, 0.85, 0.95, 0.9, 0.85, 1];
+const DEFAULT_RADII = [0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07];
 
-function buildTube(points: THREE.Vector3[]): THREE.TubeGeometry {
+function buildTube(points: THREE.Vector3[], radius: number): THREE.TubeGeometry {
     const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5);
-    return new THREE.TubeGeometry(curve, TUBE_SEGMENTS, TUBE_RADIUS, RADIAL_SEGMENTS, false);
+    return new THREE.TubeGeometry(curve, TUBE_SEGMENTS, radius, RADIAL_SEGMENTS, false);
 }
 
 interface RigProps {
@@ -46,11 +46,13 @@ interface ThreadRigProps extends RigProps {
     states: StateFn[];
     offsets: [number, number, number][];
     scales: number[];
+    radii: number[];
+    yaws?: number[];
     dim: number;
     palette: V2Palette;
 }
 
-function GoldThread({ progressRef, reduced, states, offsets, scales, dim, palette }: ThreadRigProps) {
+function GoldThread({ progressRef, reduced, states, offsets, scales, radii, yaws, dim, palette }: ThreadRigProps) {
     const mesh = useRef<THREE.Mesh>(null!);
     const group = useRef<THREE.Group>(null!);
     const damped = useRef(0);
@@ -72,7 +74,7 @@ function GoldThread({ progressRef, reduced, states, offsets, scales, dim, palett
         () => Array.from({ length: CONTROL_POINTS }, () => new THREE.Vector3()),
         [],
     );
-    const initialGeometry = useMemo(() => buildTube(samples[0]), [samples]);
+    const initialGeometry = useMemo(() => buildTube(samples[0], radii[0]), [samples, radii]);
 
     useEffect(() => {
         const m = mesh.current;
@@ -96,7 +98,8 @@ function GoldThread({ progressRef, reduced, states, offsets, scales, dim, palett
             for (let i = 0; i < CONTROL_POINTS; i++) {
                 work[i].lerpVectors(a[i], b[i], f);
             }
-            const next = buildTube(work);
+            const radius = THREE.MathUtils.lerp(radii[i0], radii[i0 + 1], f);
+            const next = buildTube(work, radius);
             mesh.current.geometry.dispose();
             mesh.current.geometry = next;
         }
@@ -114,11 +117,14 @@ function GoldThread({ progressRef, reduced, states, offsets, scales, dim, palett
         );
         group.current.scale.setScalar(THREE.MathUtils.lerp(scales[i0], scales[i0 + 1], f));
 
-        // Idle drift fades out with progress; the scroll-coupled term is one
-        // full revolution, so at p=1 the closing line always faces the camera
-        // regardless of how long the page has been open.
+        // Idle drift fades out with progress. Yaw: by default one full
+        // revolution across the journey; pages with planar, drawing-like
+        // shapes pass explicit per-pose yaws so each pose faces the camera.
         const drift = reduced ? 0 : state.clock.elapsedTime * 0.05;
-        group.current.rotation.y = drift * (1 - p) + p * TAU;
+        const yaw = yaws
+            ? THREE.MathUtils.lerp(yaws[i0], yaws[i0 + 1], f)
+            : p * TAU;
+        group.current.rotation.y = drift * (1 - p) + yaw;
         group.current.rotation.x = Math.sin(p * Math.PI) * 0.22;
     });
 
@@ -179,6 +185,10 @@ interface ThreadSceneProps {
     states?: StateFn[];
     offsets?: [number, number, number][];
     scales?: number[];
+    /** per-pose tube thickness — e.g. a thin early line that gains weight */
+    radii?: number[];
+    /** per-pose y-rotation; omit for the default one-revolution journey */
+    yaws?: number[];
     /** backdrop mode: 0..1 — scales material presence, sparkles, and bloom
         so the thread can sit behind dense text without fighting it */
     dim?: number;
@@ -193,6 +203,8 @@ export default function ThreadScene({
     states = THREAD_SHAPES,
     offsets = DEFAULT_OFFSETS,
     scales = DEFAULT_SCALES,
+    radii = DEFAULT_RADII,
+    yaws,
     dim = 1,
     palette = V2_THEMES.gold,
 }: ThreadSceneProps) {
@@ -206,7 +218,7 @@ export default function ThreadScene({
             <color attach="background" args={[palette.bg]} />
             <fog attach="fog" args={[palette.bg, 9, 17]} />
 
-            <GoldThread progressRef={progressRef} reduced={reduced} states={states} offsets={offsets} scales={scales} dim={dim} palette={palette} />
+            <GoldThread progressRef={progressRef} reduced={reduced} states={states} offsets={offsets} scales={scales} radii={radii} yaws={yaws} dim={dim} palette={palette} />
             <CameraRig progressRef={progressRef} reduced={reduced} />
 
             <Sparkles

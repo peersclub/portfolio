@@ -29,6 +29,10 @@ export interface ThreadStageProps {
     states?: StateFn[];
     offsets?: [number, number, number][];
     scales?: number[];
+    /** per-pose tube thickness */
+    radii?: number[];
+    /** per-pose y-rotation */
+    yaws?: number[];
     /** backdrop mode 0..1 — dims material/sparkles/bloom for text-heavy pages */
     dim?: number;
     /** pinned-pose shorthand: park the thread at one position/scale
@@ -57,6 +61,8 @@ export default function ThreadStage({
     states,
     offsets,
     scales,
+    radii,
+    yaws,
     dim,
     offset,
     poseScale,
@@ -103,6 +109,8 @@ export default function ThreadStage({
                     states={states}
                     offsets={offsetsProp}
                     scales={scalesProp}
+                    radii={radii}
+                    yaws={yaws}
                     dim={dim}
                     palette={palette}
                 />

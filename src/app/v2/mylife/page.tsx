@@ -9,7 +9,7 @@ import ThreadStage from '../components/ThreadStage';
 import V2Nav from '../components/V2Nav';
 import Word from '../components/Word';
 import { rise, stagger, wipe } from '../components/motion';
-import { THREAD_SHAPES } from '../components/threadShapes';
+import { LIFE_SHAPES } from '../components/threadShapes';
 import { V2_THEMES, type V2Palette } from '../components/themes';
 import { useV2Theme } from '../components/useV2Theme';
 import { acts, metrics, philosophy, type Act } from './data';
@@ -21,17 +21,10 @@ import './mylife.css';
    its sequence of poses. Section-center anchors warp scroll → progress so
    each pose lands exactly when its act is on screen. */
 
-// shape vocabulary indices: [tangle, knot, loop, spiral, coil, helix, wave, line]
-const LIFE_STATES = [
-    THREAD_SHAPES[0], // hero       — TANGLE: a life before structure
-    THREAD_SHAPES[2], // craft      — LOOP:   the line learns to curve
-    THREAD_SHAPES[1], // emergence  — KNOT:   the line meets other lines
-    THREAD_SHAPES[5], // rise       — HELIX:  the line learns to climb
-    THREAD_SHAPES[6], // frontier   — WAVE:   the line learns to think
-    THREAD_SHAPES[3], // philosophy — SPIRAL: moments compounding
-    THREAD_SHAPES[4], // metrics    — COIL:   the record, wound tight
-    THREAD_SHAPES[7], // end        — LINE:   and it continues
-];
+// life vocabulary: first stroke → scribble → braid → climb → pulse →
+// meander → coil → line. The thread also GAINS THICKNESS through life —
+// a thin pencil stroke at 1992, a full rope by now (see LIFE_RADII).
+const LIFE_STATES = LIFE_SHAPES;
 
 // act heads alternate left/right — the thread takes the opposite side
 const LIFE_OFFSETS: [number, number, number][] = [
@@ -44,7 +37,12 @@ const LIFE_OFFSETS: [number, number, number][] = [
     [0, 0.5, -2.8],   // metrics
     [0, 1.0, -0.5],   // end — the line rises behind the headline
 ];
-const LIFE_SCALES = [1.05, 0.7, 0.85, 0.85, 0.8, 0.9, 0.75, 1];
+const LIFE_SCALES = [1.0, 0.8, 0.8, 0.85, 0.85, 0.9, 0.75, 1];
+const LIFE_RADII = [0.032, 0.04, 0.05, 0.058, 0.065, 0.072, 0.078, 0.088];
+// one full revolution between acts, landing FACE-ON at every pose — these
+// shapes are drawings (scribble, staircase, brainwave) and read planar
+const TAU = Math.PI * 2;
+const LIFE_YAWS = [0, 1, 2, 3, 4, 5, 6, 7].map((k) => k * TAU);
 
 const SECTION_IDS = ['hero', 'craft', 'emergence', 'rise', 'frontier', 'philo', 'metrics', 'end'];
 
@@ -207,6 +205,8 @@ export default function OneLinePage() {
                 states={LIFE_STATES}
                 offsets={LIFE_OFFSETS}
                 scales={LIFE_SCALES}
+                radii={LIFE_RADII}
+                yaws={LIFE_YAWS}
                 dim={0.85}
                 veil
                 hudLabel={activeAct >= 0 ? `ACT ${acts[activeAct].numeral} — ${acts[activeAct].kicker}` : 'ONE LINE'}

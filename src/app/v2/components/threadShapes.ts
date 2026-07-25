@@ -62,3 +62,51 @@ export const THREAD_SHAPES: StateFn[] = [
     // LINE — shipped: a clean rising answer
     (t) => [(t - 0.5) * 7.2, (t - 0.5) * 3.0 + Math.sin(t * Math.PI) * 0.2, 0],
 ];
+
+// ————— Life vocabulary — /v2/mylife —————
+// The career shapes tell a product story; these tell a life. Ordered:
+// first stroke → scribble → braid → climb → pulse → meander → coil → line.
+export const LIFE_SHAPES: StateFn[] = [
+    // FIRST STROKE — a child's wobbly, almost-straight line
+    (t) => [
+        (t - 0.5) * 6.4,
+        Math.sin(t * Math.PI * 1.6) * 0.35 + (t - 0.5) * 0.5,
+        Math.cos(t * Math.PI * 2.2) * 0.18,
+    ],
+    // SCRIBBLE — cursive practice loops marching across the page
+    (t) => [
+        (t - 0.5) * 4.6 + Math.sin(t * TAU * 4) * 0.45,
+        Math.cos(t * TAU * 4) * 0.95 + Math.sin(t * TAU * 1.5) * 0.3,
+        Math.sin(t * TAU * 2) * 0.4,
+    ],
+    // BRAID — two paths interweaving (lissajous weave)
+    (t) => {
+        const a = t * TAU;
+        return [Math.sin(2 * a) * 1.9, Math.sin(3 * a) * 1.15, Math.cos(2 * a) * 0.85];
+    },
+    // CLIMB — a rising zigzag staircase
+    (t) => [
+        (t - 0.5) * 4.4 + Math.sin(t * TAU * 5) * 0.28,
+        (t - 0.5) * 3.8 + Math.cos(t * TAU * 5) * 0.22,
+        Math.sin(t * TAU * 2.5) * 0.35,
+    ],
+    // PULSE — a thinking wave-packet, calm → busy → calm
+    (t) => {
+        const env = Math.sin(t * Math.PI);
+        return [
+            (t - 0.5) * 6.6,
+            Math.sin(t * TAU * 7) * 1.05 * env * env + Math.sin(t * TAU) * 0.15,
+            Math.cos(t * TAU * 3) * 0.3 * env,
+        ];
+    },
+    // MEANDER — slow, breathing S-curves
+    (t) => [
+        (t - 0.5) * 6.2,
+        Math.sin(t * TAU * 1.2) * 1.05,
+        Math.cos(t * TAU * 0.8) * 0.5,
+    ],
+    // COIL — the record, wound tight (shared with the career journey)
+    THREAD_SHAPES[4],
+    // LINE — and it continues (same finale as the career thread)
+    THREAD_SHAPES[7],
+];
