@@ -12,6 +12,7 @@
    Both are fine-pointer only and disabled under prefers-reduced-motion. */
 
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 
@@ -95,14 +96,18 @@ export function V3Cursor() {
     }, [on]);
 
     if (!on) return null;
-    return (
+    // Portal to <body>: app/template.tsx keeps a filter/will-change wrapper
+    // on every page, which hijacks position:fixed — rendered inline, the
+    // cursor pins to the PAGE and scrolls out of view.
+    return createPortal(
         <>
             <div ref={ringRef} className="v3-cursor-ring" aria-hidden="true">
                 <span className="v3-cursor-glyph v3-cursor-glyph--view">↗</span>
                 <span className="v3-cursor-glyph v3-cursor-glyph--drag">◂&nbsp;&nbsp;▸</span>
             </div>
             <div ref={dotRef} className="v3-cursor-dot" aria-hidden="true" />
-        </>
+        </>,
+        document.body,
     );
 }
 
