@@ -5,6 +5,10 @@
    with the career (visitors feel it, we don't explain it). */
 
 import { useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
+import {
+    Pencil, Wind, GraduationCap, Rocket, Zap, Briefcase, Trophy, Plane, Sparkles, Infinity as InfinityIcon,
+    type LucideIcon,
+} from 'lucide-react';
 
 interface Stat {
     value: string;
@@ -16,19 +20,20 @@ interface Milestone {
     title: string;
     detail: string;
     stats: Stat[];
+    icon: LucideIcon;
 }
 
 const MILESTONES: Milestone[] = [
-    { year: 1992, title: 'A pencil', detail: 'Drawing shapes until the hand knows them by heart — the first product spec.', stats: [{ value: 'Day 1', label: 'curiosity compounds' }] },
-    { year: 2004, title: 'Kites over Bangalore', detail: 'Crosswind flying: read the pull, give slack, never let go.', stats: [{ value: '∞', label: 'iterations to liftoff' }] },
-    { year: 2013, title: 'NITK Surathkal', detail: 'Engineering gives the curves a grammar — systems, constraints, trade-offs.', stats: [{ value: 'B.Tech', label: 'NIT Karnataka' }] },
-    { year: 2015, title: 'KleverKid', detail: 'First PM role — owning an afterschool marketplace end to end.', stats: [{ value: '2', label: 'apps shipped · iOS + Android' }, { value: '1st', label: 'product role' }] },
-    { year: 2017, title: 'BabyChakra', detail: 'Rebuilt the loop parents wanted to re-enter, then the platform around it.', stats: [{ value: '+42%', label: 'retention · 8 months' }, { value: '+21%', label: 'stickiness' }] },
-    { year: 2019, title: 'CoinDCX', detail: 'Product lead through India’s fastest crypto growth years.', stats: [{ value: '1M+', label: 'traders served' }, { value: '4', label: 'products launched' }, { value: '3', label: 'PMs hired & led' }] },
-    { year: 2021, title: 'CaptainFresh', detail: 'First-in-industry supply chain platform for a century-old seafood trade.', stats: [{ value: '50K+', label: 'downloads' }, { value: '+40%', label: 'fisher income' }, { value: '#1', label: 'industry first' }] },
-    { year: 2024, title: 'Cox & Kings', detail: 'SVP, Product & Tech — teaching one of travel’s oldest brands to feel personal.', stats: [{ value: '267 yrs', label: 'of brand, made personal' }, { value: 'SVP', label: 'product & tech' }] },
-    { year: 2025, title: 'AssetWorks AI', detail: 'Co-founder & CPO. Plain language in, investment insight out.', stats: [{ value: 'CPO', label: 'co-founder' }, { value: 'AI-native', label: 'frontier LLMs in prod' }] },
-    { year: 2026, title: 'Still drawing', detail: 'The medium keeps changing. The line doesn’t.', stats: [{ value: '10+', label: 'years' }, { value: '6', label: 'companies' }, { value: '1M+', label: 'users impacted' }] },
+    { year: 1992, icon: Pencil, title: 'A pencil', detail: 'Drawing shapes until the hand knows them by heart — the first product spec.', stats: [{ value: 'Day 1', label: 'curiosity compounds' }] },
+    { year: 2004, icon: Wind, title: 'Kites over Bangalore', detail: 'Crosswind flying: read the pull, give slack, never let go.', stats: [{ value: '∞', label: 'iterations to liftoff' }] },
+    { year: 2013, icon: GraduationCap, title: 'NITK Surathkal', detail: 'Engineering gives the curves a grammar — systems, constraints, trade-offs.', stats: [{ value: 'B.Tech', label: 'NIT Karnataka' }] },
+    { year: 2015, icon: Rocket, title: 'KleverKid', detail: 'First PM role — owning an afterschool marketplace end to end.', stats: [{ value: '2', label: 'apps shipped · iOS + Android' }, { value: '1st', label: 'product role' }] },
+    { year: 2017, icon: Zap, title: 'BabyChakra', detail: 'Rebuilt the loop parents wanted to re-enter, then the platform around it.', stats: [{ value: '+42%', label: 'retention · 8 months' }, { value: '+21%', label: 'stickiness' }] },
+    { year: 2019, icon: Briefcase, title: 'CoinDCX', detail: 'Product lead through India’s fastest crypto growth years.', stats: [{ value: '1M+', label: 'traders served' }, { value: '4', label: 'products launched' }, { value: '3', label: 'PMs hired & led' }] },
+    { year: 2021, icon: Trophy, title: 'CaptainFresh', detail: 'First-in-industry supply chain platform for a century-old seafood trade.', stats: [{ value: '50K+', label: 'downloads' }, { value: '+40%', label: 'fisher income' }, { value: '#1', label: 'industry first' }] },
+    { year: 2024, icon: Plane, title: 'Cox & Kings', detail: 'SVP, Product & Tech — teaching one of travel’s oldest brands to feel personal.', stats: [{ value: '267 yrs', label: 'of brand, made personal' }, { value: 'SVP', label: 'product & tech' }] },
+    { year: 2025, icon: Sparkles, title: 'AssetWorks AI', detail: 'Co-founder & CPO. Plain language in, investment insight out.', stats: [{ value: 'CPO', label: 'co-founder' }, { value: 'AI-native', label: 'frontier LLMs in prod' }] },
+    { year: 2026, icon: InfinityIcon, title: 'Still drawing', detail: 'The medium keeps changing. The line doesn’t.', stats: [{ value: '10+', label: 'years' }, { value: '6', label: 'companies' }, { value: '1M+', label: 'users impacted' }] },
 ];
 
 const MIN = MILESTONES[0].year;
@@ -83,20 +88,26 @@ export default function TimeScrub() {
                     {year}
                 </span>
                 <div className="v3-scrub-info" key={active.year}>
+                    <span className="v3-scrub-icon" aria-hidden="true">
+                        <active.icon size={26} strokeWidth={2} />
+                    </span>
                     <span className="v3-scrub-title" style={{ fontVariationSettings: `'wght' ${Math.max(500, weight)}` }}>
                         {active.title}
                     </span>
                     <span className="v3-scrub-detail">{active.detail}</span>
                     <div className="v3-scrub-stats">
-                        {active.stats.map((s) => (
-                            <div className="v3-scrub-stat" key={s.label}>
+                        {active.stats.map((s, i) => (
+                            <div className="v3-scrub-stat" key={s.label} style={{ animationDelay: `${0.08 + i * 0.09}s` }}>
                                 <span className="v3-scrub-stat-value">{s.value}</span>
                                 <span className="v3-scrub-stat-label">{s.label}</span>
                             </div>
                         ))}
                     </div>
                 </div>
-                <span className="v3-scrub-hint v3-label">◂ drag ▸</span>
+                <span className="v3-scrub-hint v3-label">
+                    <span className="v3-hint-arrow v3-hint-arrow--l">◂</span> drag{' '}
+                    <span className="v3-hint-arrow v3-hint-arrow--r">▸</span>
+                </span>
             </div>
 
             {/* custom track — progress fill + milestone dots */}
