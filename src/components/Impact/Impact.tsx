@@ -13,7 +13,7 @@ import {
 const IMPACT_CARD_PALETTE = [
   { accent: '#FA4A29', gradientFrom: 'rgba(250, 74, 41, 0.2)',  gradientTo: 'rgba(250, 74, 41, 0.05)'  },
   { accent: '#FC88B0', gradientFrom: 'rgba(252, 136, 176, 0.2)', gradientTo: 'rgba(252, 136, 176, 0.05)' },
-  { accent: '#FF6B6B', gradientFrom: 'rgba(255, 107, 107, 0.2)', gradientTo: 'rgba(255, 107, 107, 0.05)' },
+  { accent: '#C4352B', gradientFrom: 'rgba(196, 53, 43, 0.2)',  gradientTo: 'rgba(196, 53, 43, 0.05)'  },
   { accent: '#E8C547', gradientFrom: 'rgba(232, 197, 71, 0.2)',  gradientTo: 'rgba(232, 197, 71, 0.05)'  },
 ] as const;
 

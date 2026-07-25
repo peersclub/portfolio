@@ -33,7 +33,7 @@ export const THREAD_LABELS = [
 export const chapters: Chapter[] = [
     {
         id: 'kleverkid',
-        color: '#60A5FA',
+        color: '#007BFF',
         era: '2015 — 2016',
         company: 'KleverKid',
         role: 'Product Manager',
@@ -72,7 +72,7 @@ export const chapters: Chapter[] = [
     },
     {
         id: 'captain-fresh',
-        color: '#FF6B6B',
+        color: '#C4352B',
         era: '2021 — 2024',
         company: 'CaptainFresh',
         role: 'Product Lead',
