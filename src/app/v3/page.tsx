@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
+import BrandName from '@/components/BrandName';
 import { featuredProjects } from '@/data/projects';
 import { ClipWindow, Converge, Curtain, Flip, HeroScrub, Lines, Marquee } from './components/kinetic';
 import V3Nav from './components/V3Nav';
@@ -77,7 +78,7 @@ export default function V3Page() {
                             style={{ '--ch': p.color } as CSSProperties}
                         >
                             <span className="v3-row-num">{String(i + 1).padStart(2, '0')}</span>
-                            <Lines as="span" className="v3-row-company" text={p.company} />
+                            <span className="v3-row-company"><BrandName name={p.company} /></span>
                             <span className="v3-row-tag">{p.tagline}</span>
                             <span className="v3-row-year">{p.year}</span>
                             <span className="v3-row-arrow" aria-hidden="true">

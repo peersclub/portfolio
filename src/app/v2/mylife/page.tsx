@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import BrandName from '@/components/BrandName';
 import Counter from '../components/Counter';
 import ScrubText from '../components/ScrubText';
 import ThreadStage from '../components/ThreadStage';
@@ -118,7 +119,7 @@ function ActSection({ act, index, color }: { act: Act; index: number; color: str
                         >
                             <span className="v2ml-moment-icon"><m.icon size={17} strokeWidth={1.8} /></span>
                             <div className="v2ml-moment-text">
-                                <span className="v2ml-moment-year">{m.year} · {m.label}</span>
+                                <span className="v2ml-moment-year">{m.year} · <BrandName name={m.label} /></span>
                                 <span className="v2ml-moment-story">{m.story}</span>
                                 <span className="v2ml-note">
                                     <motion.svg viewBox="0 0 30 18" fill="none" aria-hidden="true">

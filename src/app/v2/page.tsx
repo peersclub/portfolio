@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { motion, useScroll } from 'framer-motion';
+import BrandName from '@/components/BrandName';
 import ThreadStage from './components/ThreadStage';
 import V2Nav from './components/V2Nav';
 import Word from './components/Word';
@@ -76,7 +77,7 @@ export default function V2Page() {
                         variants={stagger(0.1)}
                     >
                         <motion.span className="v2-label" variants={reveal}>
-                            {String(i + 1).padStart(2, '0')} · {c.era} · {c.company}
+                            {String(i + 1).padStart(2, '0')} · {c.era} · <BrandName name={c.company} />
                         </motion.span>
                         <motion.div className="v2-metric" variants={reveal}>
                             <span className="v2-metric-value">{c.metric}</span>

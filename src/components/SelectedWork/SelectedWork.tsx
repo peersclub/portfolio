@@ -1,5 +1,6 @@
 'use client';
 
+import BrandName from '@/components/BrandName';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
@@ -33,7 +34,7 @@ export default function SelectedWork() {
                                         {project.category} · {project.year}
                                     </span>
                                     <h3>
-                                        {project.title}
+                                        <BrandName name={project.title} />
                                         <ArrowUpRight className="arrow" size={22} />
                                     </h3>
                                     <p className="tagline">{project.tagline}</p>
@@ -61,7 +62,7 @@ export default function SelectedWork() {
                                 </div>
                                 <div className="more-body">
                                     <h4>
-                                        {project.title}
+                                        <BrandName name={project.title} />
                                         <ArrowUpRight className="arrow" size={15} />
                                     </h4>
                                     <span className="more-meta">

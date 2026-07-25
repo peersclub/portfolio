@@ -1099,7 +1099,6 @@ body:has(.v3) .switcher {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .v3-scrub-icon,
     .v3-scrub-stat,
     .v3-hint-arrow--l,
     .v3-hint-arrow--r {

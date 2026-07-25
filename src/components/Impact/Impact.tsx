@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import BrandName from '@/components/BrandName';
 
 import { motion } from 'framer-motion';
 import { CountUpMetric } from '@/components/CountUpMetric/CountUpMetric';
@@ -273,7 +274,7 @@ export default function Impact() {
                   </div>
                   <div className="card-badge">
                     <span className="badge-number">{item.number}</span>
-                    <span className="badge-company">{item.company}</span>
+                    <span className="badge-company"><BrandName name={item.company} /></span>
                   </div>
                 </div>
 

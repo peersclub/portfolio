@@ -10,6 +10,7 @@ import {
     type LucideIcon,
 } from 'lucide-react';
 import { haptics } from '@/lib/haptics';
+import IconStack from './IconStack';
 
 interface Stat {
     value: string;
@@ -98,10 +99,10 @@ export default function TimeScrub() {
                 >
                     {year}
                 </span>
+                {/* persistent — lives outside the keyed block below so the
+                    remount-per-chapter entrance never kills the 3D rig */}
+                <IconStack icon={active.icon} epoch={active.year} />
                 <div className="v3-scrub-info" key={active.year}>
-                    <span className="v3-scrub-icon" aria-hidden="true">
-                        <active.icon size={26} strokeWidth={2} />
-                    </span>
                     <span className="v3-scrub-title" style={{ fontVariationSettings: `'wght' ${Math.max(500, weight)}` }}>
                         {active.title}
                     </span>

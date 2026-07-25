@@ -19,7 +19,7 @@
  * pointer-events: none throughout: the scrub stage behind it owns the drag.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import gsap from 'gsap';
 import type { LucideIcon } from 'lucide-react';
 
@@ -34,7 +34,6 @@ interface IconStackProps {
 
 export default function IconStack({ icon, epoch }: IconStackProps) {
     const [Shown, setShown] = useState<LucideIcon>(() => icon);
-    const rootRef = useRef<HTMLDivElement>(null);
     const tiltRef = useRef<HTMLDivElement>(null);
     const shadowRef = useRef<HTMLSpanElement>(null);
     const tlRef = useRef<gsap.core.Timeline | null>(null);
@@ -141,12 +140,12 @@ export default function IconStack({ icon, epoch }: IconStackProps) {
     }, [epoch]);
 
     return (
-        <div ref={rootRef} className="v3-is" aria-hidden="true">
+        <div className="v3-is" aria-hidden="true">
             <div ref={tiltRef} className="v3-is-tilt">
                 <span ref={shadowRef} className="v3-is-shadow" />
                 <span className="v3-is-base" />
                 {Array.from({ length: LAYERS }, (_, i) => (
-                    <span className="v3-is-layer" key={i} style={{ '--i': i } as React.CSSProperties}>
+                    <span className="v3-is-layer" key={i} style={{ '--i': i } as CSSProperties}>
                         <span className="v3-is-sway">
                             <Shown strokeWidth={1.75} />
                         </span>

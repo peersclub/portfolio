@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { motion } from 'framer-motion';
+import BrandName from '@/components/BrandName';
 import { projects } from '@/data/projects';
 import ThreadStage from '../components/ThreadStage';
 import V2Nav from '../components/V2Nav';
@@ -51,7 +52,7 @@ export default function V2WorkPage() {
                             >
                                 <span className="v2-index-num">{String(i + 1).padStart(2, '0')}</span>
                                 <span className="v2-index-main">
-                                    <span className="v2-index-company">{p.company}</span>
+                                    <span className="v2-index-company"><BrandName name={p.company} /></span>
                                     <span className="v2-index-tagline">{p.tagline}</span>
                                 </span>
                                 <span className="v2-index-meta">
