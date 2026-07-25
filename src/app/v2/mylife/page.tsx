@@ -10,6 +10,8 @@ import V2Nav from '../components/V2Nav';
 import Word from '../components/Word';
 import { rise, stagger, wipe } from '../components/motion';
 import { THREAD_SHAPES } from '../components/threadShapes';
+import { V2_THEMES, type V2Palette } from '../components/themes';
+import { useV2Theme } from '../components/useV2Theme';
 import { acts, metrics, philosophy, type Act } from './data';
 import '../v2.css';
 import './mylife.css';
@@ -48,7 +50,7 @@ const SECTION_IDS = ['hero', 'craft', 'emergence', 'rise', 'frontier', 'philo', 
 
 /* an act: parallax numeral, pen-wipe title, glass cards that land like
    pinned notes, margin lessons whose arrows draw themselves, write-on quote */
-function ActSection({ act, index }: { act: Act; index: number }) {
+function ActSection({ act, index, color }: { act: Act; index: number; color: string }) {
     const ref = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
     const numY = useTransform(scrollYProgress, [0, 1], [90, -90]);
@@ -58,7 +60,7 @@ function ActSection({ act, index }: { act: Act; index: number }) {
             ref={ref}
             id={`v2ml-${act.id}`}
             className={`v2ml-act ${index % 2 ? 'v2ml-act--flip' : ''}`}
-            style={{ '--act': act.color } as CSSProperties}
+            style={{ '--act': color } as CSSProperties}
         >
             <motion.span className="v2ml-numeral" style={{ y: numY }} aria-hidden="true">
                 {act.numeral}
@@ -136,6 +138,9 @@ export default function OneLinePage() {
     const anchorsRef = useRef<number[] | null>(null);
     const [activeAct, setActiveAct] = useState(-1);
     const { scrollYProgress } = useScroll();
+    const theme = useV2Theme();
+    const palette: V2Palette = V2_THEMES[theme];
+    const actColor = (i: number) => palette.ramp[Math.min(i, palette.ramp.length - 1)];
 
     // Section-center anchors: the thread reaches pose k exactly when
     // section k's center crosses the viewport center. Measured, not assumed —
@@ -205,14 +210,14 @@ export default function OneLinePage() {
                 dim={0.85}
                 veil
                 hudLabel={activeAct >= 0 ? `ACT ${acts[activeAct].numeral} — ${acts[activeAct].kicker}` : 'ONE LINE'}
-                hudLabelColor={activeAct >= 0 ? acts[activeAct].color : undefined}
+                hudLabelColor={activeAct >= 0 ? actColor(activeAct) : undefined}
                 hudProgress={scrollYProgress}
                 ticks={acts.map((a, i) => ({
                     id: a.id,
                     numeral: a.numeral,
                     title: a.kicker,
                     active: activeAct === i,
-                    color: a.color,
+                    color: actColor(i),
                     onClick: () => jumpTo(`v2ml-${a.id}`),
                 }))}
             />
@@ -253,7 +258,7 @@ export default function OneLinePage() {
 
                 {/* ————— ACTS ————— */}
                 {acts.map((act, i) => (
-                    <ActSection key={act.id} act={act} index={i} />
+                    <ActSection key={act.id} act={act} index={i} color={actColor(i)} />
                 ))}
 
                 {/* ————— PHILOSOPHY ————— */}

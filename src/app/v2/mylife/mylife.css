@@ -101,8 +101,8 @@
     letter-spacing: -0.02em;
     line-height: 1.05;
     margin: 0;
-    color: #ffffff;
-    text-shadow: 0 2px 30px rgba(10, 10, 10, 0.9);
+    color: var(--v2-ink);
+    text-shadow: 0 2px 30px color-mix(in srgb, var(--v2-bg) 90%, transparent);
 }
 .v2ml-act-desc {
     max-width: 480px;
@@ -124,8 +124,8 @@
     gap: 0.9rem;
     max-width: 400px;
     padding: 1.05rem 1.25rem;
-    background: rgba(10, 10, 10, 0.62);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: color-mix(in srgb, var(--v2-bg) 62%, transparent);
+    border: 1px solid color-mix(in srgb, var(--v2-ink) 8%, transparent);
     border-left: 2px solid color-mix(in srgb, var(--act) 60%, transparent);
     border-radius: 14px;
     backdrop-filter: blur(14px);
@@ -197,7 +197,7 @@
 .v2ml-moment-story {
     font-size: 0.98rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.88);
+    color: color-mix(in srgb, var(--v2-ink) 88%, transparent);
 }
 /* the margin note — the lesson the moment taught */
 .v2ml-note {
@@ -230,7 +230,7 @@
     line-height: 1.5;
     text-align: center;
     color: color-mix(in srgb, var(--act) 75%, #ffffff);
-    text-shadow: 0 2px 30px rgba(10, 10, 10, 0.9);
+    text-shadow: 0 2px 30px color-mix(in srgb, var(--v2-bg) 90%, transparent);
 }
 
 /* ————— philosophy ————— */
@@ -254,7 +254,7 @@
     font-weight: 600;
     line-height: 1.5;
     letter-spacing: -0.01em;
-    color: #ffffff;
+    color: var(--v2-ink);
 }
 .v2ml-word {
     display: inline-block;
@@ -283,7 +283,7 @@
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1;
-    background: linear-gradient(135deg, #ffffff 25%, #e8c547 100%);
+    background: linear-gradient(135deg, var(--v2-ink) 25%, var(--v2-accent) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;

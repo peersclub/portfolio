@@ -6,11 +6,9 @@ import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import { useEffect, useMemo, useRef, type MutableRefObject } from 'react';
 import * as THREE from 'three';
 import { THREAD_SHAPES, type StateFn } from './threadShapes';
+import { V2_THEMES, type V2Palette } from './themes';
 
 export { THREAD_SHAPES, type StateFn };
-
-const GOLD = '#E8C547';
-const BG = '#0a0a0a';
 
 const CONTROL_POINTS = 28;
 const TUBE_SEGMENTS = 240;
@@ -49,9 +47,10 @@ interface ThreadRigProps extends RigProps {
     offsets: [number, number, number][];
     scales: number[];
     dim: number;
+    palette: V2Palette;
 }
 
-function GoldThread({ progressRef, reduced, states, offsets, scales, dim }: ThreadRigProps) {
+function GoldThread({ progressRef, reduced, states, offsets, scales, dim, palette }: ThreadRigProps) {
     const mesh = useRef<THREE.Mesh>(null!);
     const group = useRef<THREE.Group>(null!);
     const damped = useRef(0);
@@ -127,12 +126,12 @@ function GoldThread({ progressRef, reduced, states, offsets, scales, dim }: Thre
         <group ref={group}>
             <mesh ref={mesh} geometry={initialGeometry}>
                 <meshPhysicalMaterial
-                    color={GOLD}
+                    color={palette.thread}
                     metalness={1}
-                    roughness={0.18}
+                    roughness={palette.roughness}
                     clearcoat={0.6}
                     clearcoatRoughness={0.3}
-                    envMapIntensity={1.35 * dim}
+                    envMapIntensity={palette.envIntensity * dim}
                     transparent={dim < 1}
                     opacity={dim}
                 />
@@ -183,6 +182,8 @@ interface ThreadSceneProps {
     /** backdrop mode: 0..1 — scales material presence, sparkles, and bloom
         so the thread can sit behind dense text without fighting it */
     dim?: number;
+    /** theme palette — drives thread metal, stage, sparkles, bloom */
+    palette?: V2Palette;
 }
 
 export default function ThreadScene({
@@ -193,6 +194,7 @@ export default function ThreadScene({
     offsets = DEFAULT_OFFSETS,
     scales = DEFAULT_SCALES,
     dim = 1,
+    palette = V2_THEMES.gold,
 }: ThreadSceneProps) {
     return (
         <Canvas
@@ -201,10 +203,10 @@ export default function ThreadScene({
             gl={{ antialias: true }}
             onCreated={onReady}
         >
-            <color attach="background" args={[BG]} />
-            <fog attach="fog" args={[BG, 9, 17]} />
+            <color attach="background" args={[palette.bg]} />
+            <fog attach="fog" args={[palette.bg, 9, 17]} />
 
-            <GoldThread progressRef={progressRef} reduced={reduced} states={states} offsets={offsets} scales={scales} dim={dim} />
+            <GoldThread progressRef={progressRef} reduced={reduced} states={states} offsets={offsets} scales={scales} dim={dim} palette={palette} />
             <CameraRig progressRef={progressRef} reduced={reduced} />
 
             <Sparkles
@@ -212,7 +214,7 @@ export default function ThreadScene({
                 scale={[13, 9, 7]}
                 size={2}
                 speed={reduced ? 0 : 0.25}
-                color={GOLD}
+                color={palette.sparkles}
                 opacity={0.35 * dim}
             />
 
@@ -220,13 +222,13 @@ export default function ThreadScene({
             <Environment resolution={256} frames={1}>
                 <Lightformer intensity={4} position={[0, 4, -6]} scale={[8, 4, 1]} color="#fff7e0" />
                 <Lightformer intensity={2.4} position={[-5, 1, 3]} rotation-y={Math.PI / 2.6} scale={[6, 3, 1]} color="#ffffff" />
-                <Lightformer intensity={1.6} position={[5, -1, 2]} rotation-y={-Math.PI / 2.6} scale={[6, 3, 1]} color={GOLD} />
+                <Lightformer intensity={1.6} position={[5, -1, 2]} rotation-y={-Math.PI / 2.6} scale={[6, 3, 1]} color={palette.rim} />
                 <Lightformer form="circle" intensity={1.8} position={[0, -5, 1]} rotation-x={Math.PI / 2} scale={[5, 5, 1]} color="#ffffff" />
             </Environment>
 
             <EffectComposer>
-                <Bloom luminanceThreshold={0.72} luminanceSmoothing={0.4} intensity={0.5 * dim} mipmapBlur />
-                <Vignette offset={0.22} darkness={0.72} />
+                <Bloom luminanceThreshold={0.72} luminanceSmoothing={0.4} intensity={palette.bloom * dim} mipmapBlur />
+                <Vignette offset={0.22} darkness={palette.vignette} />
             </EffectComposer>
         </Canvas>
     );

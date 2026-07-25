@@ -5,6 +5,8 @@ import { useEffect, useRef, useState, type MutableRefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, useReducedMotion, type MotionValue } from 'framer-motion';
 import type { StateFn } from './threadShapes';
+import { V2_THEMES } from './themes';
+import { useV2Theme } from './useV2Theme';
 
 const ThreadScene = dynamic(() => import('./ThreadScene'), { ssr: false });
 
@@ -71,6 +73,8 @@ export default function ThreadStage({
     const [mounted, setMounted] = useState(false);
     const [ready, setReady] = useState(!veil);
     const reduced = useReducedMotion() ?? false;
+    const theme = useV2Theme();
+    const palette = V2_THEMES[theme];
 
     useEffect(() => setMounted(true), []);
 
@@ -100,6 +104,7 @@ export default function ThreadStage({
                     offsets={offsetsProp}
                     scales={scalesProp}
                     dim={dim}
+                    palette={palette}
                 />
             </div>
 
