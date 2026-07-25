@@ -670,22 +670,22 @@ export default function ProjectVisual({ project, large = false }: { project: Pro
     const inner = (() => {
         switch (project.slug) {
             case 'assetworks-ai':
-                return <AssetWorksVignette color={project.color} />;
+                return <AssetWorksVignette color={project.colorOnDark ?? project.color} />;
             case 'coindcx':
-                return <CoinDCXVignette color={project.color} />;
+                return <CoinDCXVignette color={project.colorOnDark ?? project.color} />;
             case 'captain-fresh':
-                return <CaptainFreshVignette color={project.color} />;
+                return <CaptainFreshVignette color={project.colorOnDark ?? project.color} />;
             case 'cox-and-kings':
-                return <CoxVignette color={project.color} />;
+                return <CoxVignette color={project.colorOnDark ?? project.color} />;
             case 'babychakra':
-                return <BabyChakraVignette color={project.color} />;
+                return <BabyChakraVignette color={project.colorOnDark ?? project.color} />;
             case 'kleverkid':
-                return <KleverKidVignette color={project.color} />;
+                return <KleverKidVignette color={project.colorOnDark ?? project.color} />;
             default:
                 // future projects: real photo if provided, plain panel otherwise
                 return project.cover
                     ? <PhotoVignette project={project} large={large} />
-                    : <Panel color={project.color}><span /></Panel>;
+                    : <Panel color={project.colorOnDark ?? project.color}><span /></Panel>;
         }
     })();
 

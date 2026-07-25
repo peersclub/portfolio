@@ -33,7 +33,7 @@ export const THREAD_LABELS = [
 export const chapters: Chapter[] = [
     {
         id: 'kleverkid',
-        color: '#007BFF',
+        color: '#156585',
         era: '2015 — 2016',
         company: 'KleverKid',
         role: 'Product Manager',
@@ -46,7 +46,7 @@ export const chapters: Chapter[] = [
     },
     {
         id: 'babychakra',
-        color: '#FC88B0',
+        color: '#89EBF5',
         era: '2017 — 2018',
         company: 'BabyChakra',
         role: 'Senior Product Manager',
@@ -59,7 +59,7 @@ export const chapters: Chapter[] = [
     },
     {
         id: 'coindcx',
-        color: '#FA4A29',
+        color: '#FA4A2A',
         era: '2019 — 2021',
         company: 'CoinDCX',
         role: 'Product Lead',
@@ -98,7 +98,7 @@ export const chapters: Chapter[] = [
     },
     {
         id: 'assetworks-ai',
-        color: '#E8C547',
+        color: '#FFFFFF',
         era: '2025 — Present',
         company: 'AssetWorks AI',
         role: 'Co-Founder & CPO',

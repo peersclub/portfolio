@@ -70,7 +70,7 @@ export default function CaseStudyBar({ project }: { project: Project }) {
                 }
 
                 .cs-bar :global(.back:hover) {
-                    color: ${project.color};
+                    color: ${project.surface === 'dark' ? (project.colorOnDark ?? project.color) : project.color};
                 }
 
                 .cs-bar :global(.back:hover .back-icon) {
@@ -90,7 +90,7 @@ export default function CaseStudyBar({ project }: { project: Project }) {
                 }
 
                 .sep {
-                    color: ${project.color};
+                    color: ${project.surface === 'dark' ? (project.colorOnDark ?? project.color) : project.color};
                 }
 
                 .cs-bar :global(.wordmark) {
@@ -107,7 +107,7 @@ export default function CaseStudyBar({ project }: { project: Project }) {
                 }
 
                 .dot {
-                    color: ${project.color};
+                    color: ${project.surface === 'dark' ? (project.colorOnDark ?? project.color) : project.color};
                 }
 
                 @media (max-width: 640px) {

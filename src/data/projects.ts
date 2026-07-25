@@ -11,6 +11,8 @@ export interface Project {
     role: string;
     tech: string[];
     color: string;
+    /** readable stand-in on dark surfaces for near-black brand colors */
+    colorOnDark?: string;
     category?: string;
     /** Local photo cover (featured cards); compact cards fall back to gradient + logo */
     cover?: string;
@@ -36,7 +38,8 @@ export const projects: Project[] = [
         ],
         role: 'Co-Founder',
         tech: ['AI & LLMs', 'Rust', 'Flutter', 'SaaS'],
-        color: '#E8C547',
+        color: '#050304',
+        colorOnDark: '#FFFFFF',
         category: 'AI & Fintech',
         logo: '/projects/assetworks-ai/logo.svg',
         featured: true,
@@ -55,7 +58,7 @@ export const projects: Project[] = [
         ],
         role: 'Product Lead',
         tech: ['Product Strategy', 'Mobile', 'Web', 'Fintech'],
-        color: '#FA4A29',
+        color: '#FA4A2A',
         category: 'Crypto Exchange',
         logo: '/projects/coindcx/logo.svg',
         featured: true,
@@ -111,7 +114,7 @@ export const projects: Project[] = [
         ],
         role: 'Senior Product Manager',
         tech: ['Growth', 'Marketplace', 'UX', 'Consumer'],
-        color: '#FC88B0',
+        color: '#89EBF5',
         category: 'Consumer',
         logo: '/projects/babychakra/logo.svg',
     },
@@ -129,7 +132,7 @@ export const projects: Project[] = [
         ],
         role: 'Product Manager',
         tech: ['EdTech', 'Marketplace', 'Mobile', 'Product Mgmt'],
-        color: '#007BFF',
+        color: '#156585',
         category: 'EdTech',
         logo: '/projects/kleverkid/logo.svg',
     },
@@ -137,6 +140,11 @@ export const projects: Project[] = [
 
 export const featuredProjects = projects.filter(p => p.featured);
 export const moreProjects = projects.filter(p => !p.featured);
+
+/** Brand accent readable on the given surface. */
+export function brandAccent(p: Project, surface: 'dark' | 'light' = 'dark'): string {
+    return surface === 'dark' ? (p.colorOnDark ?? p.color) : p.color;
+}
 
 export function getProjectBySlug(slug: string): Project | undefined {
     return projects.find(p => p.slug === slug);

@@ -11,10 +11,10 @@ import {
 // Brand-accurate accents: CoinDCX orange, BabyChakra pink, CaptainFresh
 // fish red, AssetWorks gold — matched to src/data/projects.ts.
 const IMPACT_CARD_PALETTE = [
-  { accent: '#FA4A29', gradientFrom: 'rgba(250, 74, 41, 0.2)',  gradientTo: 'rgba(250, 74, 41, 0.05)'  },
-  { accent: '#FC88B0', gradientFrom: 'rgba(252, 136, 176, 0.2)', gradientTo: 'rgba(252, 136, 176, 0.05)' },
-  { accent: '#C4352B', gradientFrom: 'rgba(196, 53, 43, 0.2)',  gradientTo: 'rgba(196, 53, 43, 0.05)'  },
-  { accent: '#E8C547', gradientFrom: 'rgba(232, 197, 71, 0.2)',  gradientTo: 'rgba(232, 197, 71, 0.05)'  },
+  { accent: '#FA4A2A', gradientFrom: 'rgba(250, 74, 42, 0.2)',   gradientTo: 'rgba(250, 74, 42, 0.05)'   },
+  { accent: '#89EBF5', gradientFrom: 'rgba(137, 235, 245, 0.2)', gradientTo: 'rgba(137, 235, 245, 0.05)' },
+  { accent: '#C4352B', gradientFrom: 'rgba(196, 53, 43, 0.2)',   gradientTo: 'rgba(196, 53, 43, 0.05)'   },
+  { accent: '#FFFFFF', gradientFrom: 'rgba(255, 255, 255, 0.16)', gradientTo: 'rgba(255, 255, 255, 0.04)' },
 ] as const;
 
 const impacts = [
