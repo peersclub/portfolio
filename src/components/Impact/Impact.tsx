@@ -8,11 +8,13 @@ import {
   TrendingUp, Rocket, Target, Bot,
 } from 'lucide-react';
 
+// Brand-accurate accents: CoinDCX orange, BabyChakra pink, CaptainFresh
+// fish red, AssetWorks gold — matched to src/data/projects.ts.
 const IMPACT_CARD_PALETTE = [
-  { accent: '#F97316', gradientFrom: 'rgba(249, 115, 22, 0.2)', gradientTo: 'rgba(249, 115, 22, 0.05)' },
-  { accent: '#F43F5E', gradientFrom: 'rgba(244, 63, 94, 0.2)',  gradientTo: 'rgba(244, 63, 94, 0.05)'  },
-  { accent: '#EF4444', gradientFrom: 'rgba(239, 68, 68, 0.2)',  gradientTo: 'rgba(239, 68, 68, 0.05)'  },
-  { accent: '#94A3B8', gradientFrom: 'rgba(148, 163, 184, 0.2)', gradientTo: 'rgba(148, 163, 184, 0.05)' },
+  { accent: '#FA4A29', gradientFrom: 'rgba(250, 74, 41, 0.2)',  gradientTo: 'rgba(250, 74, 41, 0.05)'  },
+  { accent: '#FC88B0', gradientFrom: 'rgba(252, 136, 176, 0.2)', gradientTo: 'rgba(252, 136, 176, 0.05)' },
+  { accent: '#FF6B6B', gradientFrom: 'rgba(255, 107, 107, 0.2)', gradientTo: 'rgba(255, 107, 107, 0.05)' },
+  { accent: '#E8C547', gradientFrom: 'rgba(232, 197, 71, 0.2)',  gradientTo: 'rgba(232, 197, 71, 0.05)'  },
 ] as const;
 
 const impacts = [

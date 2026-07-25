@@ -46,7 +46,7 @@ export const chapters: Chapter[] = [
     },
     {
         id: 'babychakra',
-        color: '#F472B6',
+        color: '#FC88B0',
         era: '2017 — 2018',
         company: 'BabyChakra',
         role: 'Senior Product Manager',
@@ -59,7 +59,7 @@ export const chapters: Chapter[] = [
     },
     {
         id: 'coindcx',
-        color: '#4ECDC4',
+        color: '#FA4A29',
         era: '2019 — 2021',
         company: 'CoinDCX',
         role: 'Product Lead',
@@ -85,7 +85,7 @@ export const chapters: Chapter[] = [
     },
     {
         id: 'cox-and-kings',
-        color: '#A78BFA',
+        color: '#D96D3E',
         era: '2024 — 2025',
         company: 'Cox & Kings',
         role: 'SVP, Product & Tech',
