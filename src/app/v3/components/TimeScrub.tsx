@@ -9,6 +9,7 @@ import {
     Pencil, Wind, GraduationCap, Rocket, Zap, Briefcase, Trophy, Plane, Sparkles, Infinity as InfinityIcon,
     type LucideIcon,
 } from 'lucide-react';
+import { haptics } from '@/lib/haptics';
 
 interface Stat {
     value: string;
@@ -39,6 +40,12 @@ const MILESTONES: Milestone[] = [
 const MIN = MILESTONES[0].year;
 const MAX = MILESTONES[MILESTONES.length - 1].year;
 
+const milestoneFor = (y: number): Milestone => {
+    let m = MILESTONES[0];
+    for (const ms of MILESTONES) if (ms.year <= y) m = ms;
+    return m;
+};
+
 export default function TimeScrub() {
     const [year, setYear] = useState(2025);
     const stageRef = useRef<HTMLDivElement>(null);
@@ -48,16 +55,20 @@ export default function TimeScrub() {
     const t = (year - MIN) / (MAX - MIN);
     const weight = Math.round(200 + t * 600);
 
-    const active = useMemo(() => {
-        let m = MILESTONES[0];
-        for (const ms of MILESTONES) if (ms.year <= year) m = ms;
-        return m;
-    }, [year]);
+    const active = useMemo(() => milestoneFor(year), [year]);
 
+    const hapticYear = useRef(year);
     const setFromX = (clientX: number, el: HTMLElement) => {
         const rect = el.getBoundingClientRect();
         const f = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-        setYear(Math.round(MIN + f * (MAX - MIN)));
+        const next = Math.round(MIN + f * (MAX - MIN));
+        // crown detents: every year crossed ticks, entering a new chapter taps
+        if (next !== hapticYear.current) {
+            if (milestoneFor(next).year !== milestoneFor(hapticYear.current).year) haptics.tap();
+            else haptics.tick();
+            hapticYear.current = next;
+        }
+        setYear(next);
     };
 
     const drag = (ref: React.RefObject<HTMLDivElement | null>) => ({

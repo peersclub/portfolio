@@ -55,6 +55,17 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* iOS: don't inflate text after orientation change */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* kill the grey flash on tap — we acknowledge touches with motion + haptics instead */
+a,
+button,
+[role='button'],
+[role='slider'] {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {

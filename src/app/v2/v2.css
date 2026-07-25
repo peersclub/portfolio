@@ -306,7 +306,8 @@ html[data-v2-theme='porcelain'] {
 }
 .v2-hero,
 .v2-contact {
-    min-height: 100vh;
+    min-height: 100vh; /* fallback */
+    min-height: 100svh; /* iOS: exclude the URL bar so content isn't pushed off-screen */
     justify-content: center;
     text-align: center;
 }
@@ -564,7 +565,8 @@ html[data-v2-theme='porcelain'] {
         display: none;
     }
     .v2-section {
-        min-height: 105vh;
+        min-height: 105vh; /* fallback */
+        min-height: 105svh;
     }
     .v2-chapter,
     .v2-chapter--right {
@@ -611,7 +613,8 @@ html[data-v2-theme='porcelain'] {
 .v2-page {
     position: relative;
     z-index: 1;
-    min-height: 100vh;
+    min-height: 100vh; /* fallback */
+    min-height: 100svh;
     padding: 3rem clamp(1.5rem, 6vw, 6rem) 7rem;
 }
 
@@ -799,7 +802,8 @@ html[data-v2-theme='porcelain'] {
 
 /* contact page */
 .v2-contact-page {
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - 140px); /* fallback */
+    min-height: calc(100svh - 140px);
 }
 
 @media (max-width: 900px) {
@@ -841,4 +845,59 @@ body:has(.v2) .scroll-progress,
 body:has(.v2) .atmospheric-glow,
 body:has(.v2) .blueprint-grid {
     display: none;
+}
+
+/* ————— social dashboard re-skin (.sc-* under .v2-social) ————— */
+.v2-social .sc-tile,
+.v2-social .sc-card,
+.v2-social .sc-platform {
+    background: color-mix(in srgb, var(--v2-bg) 62%, transparent);
+    border-color: color-mix(in srgb, var(--v2-ink) 8%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: var(--v2-ink);
+}
+.v2-social .sc-tile-value {
+    background: linear-gradient(135deg, var(--v2-ink) 25%, var(--v2-accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+.v2-social .sc-tile-label,
+.v2-social .sc-platform-handle,
+.v2-social .sc-year-label,
+.v2-social .sc-foot,
+.v2-social .sc-live {
+    color: color-mix(in srgb, var(--v2-ink) 45%, transparent);
+}
+.v2-social .sc-card-title,
+.v2-social .sc-platform-name,
+.v2-social .sc-bar-value,
+.v2-social .sc-platform-stats b {
+    color: var(--v2-ink);
+}
+.v2-social .sc-bar-name,
+.v2-social .sc-platform-note,
+.v2-social .sc-essay,
+.v2-social .sc-platform-stats {
+    color: color-mix(in srgb, var(--v2-ink) 70%, transparent);
+}
+.v2-social .sc-essay:hover {
+    color: var(--v2-ink);
+}
+.v2-social .sc-essay,
+.v2-social .sc-track {
+    border-color: color-mix(in srgb, var(--v2-ink) 8%, transparent);
+}
+.v2-social .sc-track {
+    background: color-mix(in srgb, var(--v2-ink) 12%, transparent);
+}
+.v2-social .sc-year-bar {
+    background: var(--v2-accent);
+}
+.v2-social .sc-tag {
+    color: color-mix(in srgb, var(--v2-ink) 55%, transparent);
+    border-color: color-mix(in srgb, var(--v2-ink) 15%, transparent);
+}
+.v2-social .sc-live--on {
+    color: #10b981;
 }

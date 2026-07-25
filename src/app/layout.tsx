@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation/Navigation";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import SmoothScroll from "@/components/SmoothScroll";
+import TouchHaptics from "@/components/TouchHaptics";
 import "./globals.css";
 import "./view-transitions.css";
 
@@ -76,6 +77,7 @@ export default function RootLayout({
                             {children}
                         </main>
                         <ThemeSwitcher />
+                        <TouchHaptics />
                     </SmoothScroll>
                 </ThemeProvider>
             </body>

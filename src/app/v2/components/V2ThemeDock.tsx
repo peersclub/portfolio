@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { V2_THEME_IDS, V2_THEMES } from './themes';
 import { setV2Theme, useV2Theme } from './useV2Theme';
+import { haptics } from '@/lib/haptics';
 
 export default function V2ThemeDock() {
     const theme = useV2Theme();
@@ -40,6 +41,7 @@ export default function V2ThemeDock() {
                             key={id}
                             className={`v2-dock-item ${theme === id ? 'v2-dock-item--on' : ''}`}
                             onClick={() => {
+                                haptics.select();
                                 setV2Theme(id);
                                 setOpen(false);
                             }}
@@ -53,7 +55,10 @@ export default function V2ThemeDock() {
             )}
             <button
                 className="v2-dock-btn"
-                onClick={() => setOpen((o) => !o)}
+                onClick={() => {
+                    haptics.tap();
+                    setOpen((o) => !o);
+                }}
                 aria-expanded={open}
                 aria-label={`Thread theme: ${V2_THEMES[theme].label}`}
             >
