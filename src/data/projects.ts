@@ -96,7 +96,7 @@ export const projects: Project[] = [
         ],
         role: 'SVP Product & Tech',
         tech: ['Personalization', 'Strategy', 'Travel Tech'],
-        color: '#D96D3E',
+        color: '#0B5AB1',
         category: 'Travel Tech',
         logo: '/projects/cox-and-kings/logo.svg',
     },

@@ -85,7 +85,7 @@ export const chapters: Chapter[] = [
     },
     {
         id: 'cox-and-kings',
-        color: '#D96D3E',
+        color: '#0B5AB1',
         era: '2024 — 2025',
         company: 'Cox & Kings',
         role: 'SVP, Product & Tech',
