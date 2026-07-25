@@ -57,6 +57,18 @@ function GoldThread({ progressRef, reduced, states, offsets, scales, radii, yaws
     const group = useRef<THREE.Group>(null!);
     const damped = useRef(0);
     const lastBuilt = useRef(-1);
+    const pointer = useRef({ x: 0, y: 0 });
+    const sway = useRef({ x: 0, y: 0, tilt: 0 });
+
+    useEffect(() => {
+        if (reduced) return;
+        const onMove = (e: PointerEvent) => {
+            pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+            pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+        };
+        window.addEventListener('pointermove', onMove);
+        return () => window.removeEventListener('pointermove', onMove);
+    }, [reduced]);
     const STATE_COUNT = states.length;
 
     const samples = useMemo(
@@ -107,12 +119,18 @@ function GoldThread({ progressRef, reduced, states, offsets, scales, radii, yaws
         // Blocking: blend position/scale between states so the thread frames
         // the copy instead of colliding with it. x compresses on narrow
         // viewports where the cards sit centered.
+        // Cursor response: the string itself leans and drifts toward the
+        // pointer (the camera parallax compounds on top).
+        sway.current.x = THREE.MathUtils.damp(sway.current.x, pointer.current.x * 0.42, 2.2, delta);
+        sway.current.y = THREE.MathUtils.damp(sway.current.y, -pointer.current.y * 0.28, 2.2, delta);
+        sway.current.tilt = THREE.MathUtils.damp(sway.current.tilt, -pointer.current.x * 0.09, 2.2, delta);
+
         const oa = offsets[i0];
         const ob = offsets[i0 + 1];
         const xFactor = Math.min(1, state.viewport.width / 10);
         group.current.position.set(
-            THREE.MathUtils.lerp(oa[0], ob[0], f) * xFactor,
-            THREE.MathUtils.lerp(oa[1], ob[1], f),
+            THREE.MathUtils.lerp(oa[0], ob[0], f) * xFactor + sway.current.x,
+            THREE.MathUtils.lerp(oa[1], ob[1], f) + sway.current.y,
             THREE.MathUtils.lerp(oa[2], ob[2], f),
         );
         group.current.scale.setScalar(THREE.MathUtils.lerp(scales[i0], scales[i0 + 1], f));
@@ -125,7 +143,8 @@ function GoldThread({ progressRef, reduced, states, offsets, scales, radii, yaws
             ? THREE.MathUtils.lerp(yaws[i0], yaws[i0 + 1], f)
             : p * TAU;
         group.current.rotation.y = drift * (1 - p) + yaw;
-        group.current.rotation.x = Math.sin(p * Math.PI) * 0.22;
+        group.current.rotation.x = Math.sin(p * Math.PI) * 0.22 + sway.current.y * 0.3;
+        group.current.rotation.z = sway.current.tilt;
     });
 
     return (

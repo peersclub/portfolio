@@ -21,30 +21,54 @@ import './mylife.css';
    its sequence of poses. Section-center anchors warp scroll → progress so
    each pose lands exactly when its act is on screen. */
 
-// life vocabulary: first stroke → scribble → braid → climb → pulse →
-// meander → coil → line. The thread also GAINS THICKNESS through life —
-// a thin pencil stroke at 1992, a full rope by now (see LIFE_RADII).
-const LIFE_STATES = LIFE_SHAPES;
-
-// act heads alternate left/right — the thread takes the opposite side
-const LIFE_OFFSETS: [number, number, number][] = [
-    [0, -0.2, -3.6],  // hero — deep backdrop behind the scrim
-    [3.0, 0, -1.5],   // craft head left → thread right, held back from the cards
-    [-3.0, 0, -1.5],  // emergence head right → thread left
-    [3.0, 0, -1.5],   // rise
-    [-2.8, 0, -1.5],  // frontier
-    [0, 0.2, -3.6],   // philosophy — recedes behind the words
-    [0, 0.5, -2.8],   // metrics
-    [0, 1.0, -0.5],   // end — the line rises behind the headline
+// Reading-synced choreography: each act contributes TWO keyframes — one
+// anchored to its headline, one to its cards block — so the string meets
+// the reader at the headline's side, then glides across the page with
+// them into the cards. Shape morphs + one revolution happen BETWEEN acts.
+const [FIRST, SCRIBBLE, BRAID, CLIMB, PULSE, MEANDER, COIL, LINE] = LIFE_SHAPES;
+const LIFE_STATES = [
+    FIRST,             // hero
+    SCRIBBLE, SCRIBBLE, // act I  head (left)  → cards (right)
+    BRAID, BRAID,       // act II head (right) → cards (left)
+    CLIMB, CLIMB,       // act III head (left) → cards (right)
+    PULSE, PULSE,       // act IV head (right) → cards (left)
+    MEANDER,           // philosophy
+    COIL,              // metrics
+    LINE,              // end
 ];
-const LIFE_SCALES = [1.0, 0.8, 0.8, 0.85, 0.85, 0.9, 0.75, 1];
-const LIFE_RADII = [0.032, 0.04, 0.05, 0.058, 0.065, 0.072, 0.078, 0.088];
-// one full revolution between acts, landing FACE-ON at every pose — these
-// shapes are drawings (scribble, staircase, brainwave) and read planar
-const TAU = Math.PI * 2;
-const LIFE_YAWS = [0, 1, 2, 3, 4, 5, 6, 7].map((k) => k * TAU);
 
-const SECTION_IDS = ['hero', 'craft', 'emergence', 'rise', 'frontier', 'philo', 'metrics', 'end'];
+// [x, y, z] per keyframe: head poses sit low on the HEADLINE's side
+// (under the words being read), card poses glide to the cards' side.
+const LIFE_OFFSETS: [number, number, number][] = [
+    [0, -0.2, -3.6],     // hero — deep backdrop behind the scrim
+    [-2.45, -1.3, -1.7], // I  head: tucked under the left headline
+    [0.45, 0, -1.3],     //    cards: down the center gutter between them
+    [2.45, -1.3, -1.7],  // II head: under the right headline
+    [-0.45, 0, -1.3],    //    cards: center gutter
+    [-2.45, -1.3, -1.7], // III head: left
+    [0.45, 0, -1.3],     //    cards: gutter
+    [2.45, -1.3, -1.7],  // IV head: right
+    [-0.45, 0, -1.3],    //    cards: gutter
+    [0, 0.2, -3.6],      // philosophy — recedes behind the words
+    [0, 0.5, -2.8],      // metrics
+    [0, 1.0, -0.5],      // end — the line rises behind the headline
+];
+const LIFE_SCALES = [1.0, 0.55, 0.62, 0.6, 0.62, 0.6, 0.66, 0.6, 0.66, 0.9, 0.75, 1];
+const LIFE_RADII = [0.032, 0.042, 0.042, 0.05, 0.05, 0.06, 0.06, 0.068, 0.068, 0.074, 0.08, 0.088];
+// One full revolution BETWEEN acts (the hand-off), frozen WHILE reading an
+// act — planar drawing shapes stay face-on beside the words.
+const TAU = Math.PI * 2;
+const LIFE_YAWS = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 6, 7].map((k) => k * TAU);
+
+// scroll anchors measured per ELEMENT (headline, cards), not per section
+const ANCHOR_IDS = [
+    'hero',
+    'craft-head', 'craft-cards',
+    'emergence-head', 'emergence-cards',
+    'rise-head', 'rise-cards',
+    'frontier-head', 'frontier-cards',
+    'philo', 'metrics', 'end',
+];
 
 /* an act: parallax numeral, pen-wipe title, glass cards that land like
    pinned notes, margin lessons whose arrows draw themselves, write-on quote */
@@ -65,6 +89,7 @@ function ActSection({ act, index, color }: { act: Act; index: number; color: str
             </motion.span>
 
             <motion.header
+                id={`v2ml-${act.id}-head`}
                 className="v2ml-act-head"
                 initial="hidden"
                 whileInView="show"
@@ -78,7 +103,7 @@ function ActSection({ act, index, color }: { act: Act; index: number; color: str
                 <motion.p className="v2-body v2ml-act-desc" variants={rise}>{act.intro}</motion.p>
             </motion.header>
 
-            <div className="v2ml-moments">
+            <div className="v2ml-moments" id={`v2ml-${act.id}-cards`}>
                 {act.moments.map((m, j) => {
                     const tilt = (j % 2 ? -1 : 1) * (0.6 + ((j * 7 + index * 3) % 5) * 0.18);
                     return (
@@ -162,9 +187,13 @@ export default function OneLinePage() {
             progressRef.current = Math.min(1, Math.max(0, p));
         };
         const measure = () => {
-            anchorsRef.current = SECTION_IDS.map((id) => {
+            anchorsRef.current = ANCHOR_IDS.map((id) => {
                 const el = document.getElementById(`v2ml-${id}`);
-                return el ? el.offsetTop + el.offsetHeight / 2 : 0;
+                if (!el) return 0;
+                // rect + scrollY, NOT offsetTop: the head/cards anchors live
+                // inside position:relative sections, so offsetTop is local
+                const r = el.getBoundingClientRect();
+                return r.top + window.scrollY + r.height / 2;
             });
             update();
         };
