@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
+import V2ThemeDock from '@/app/v2/components/V2ThemeDock';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Palette, Moon, Sun, Check } from 'lucide-react';
 import {
@@ -13,8 +15,10 @@ import {
     type Accent,
 } from '@/lib/theme/config';
 
-// Slack-style appearance picker: mode (dark/light) + accent swatches.
+// The one bottom-right theme slot, edition-aware:
+// v1 → mode/accent picker · /v2 → thread-metal dock · /v3 → none (fixed art).
 export default function ThemeSwitcher() {
+    const pathname = usePathname();
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [open, setOpen] = useState(false);
@@ -47,6 +51,8 @@ export default function ThemeSwitcher() {
     }, [open]);
 
     if (!mounted) return null;
+    if (pathname?.startsWith('/v3')) return null;
+    if (pathname?.startsWith('/v2')) return <V2ThemeDock />;
 
     const pickAccent = (a: Accent) => {
         setAccent(a);
