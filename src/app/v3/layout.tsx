@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Bricolage_Grotesque } from 'next/font/google';
+import { MagneticField, V3Cursor } from './components/fx';
 
 const bricolage = Bricolage_Grotesque({
     subsets: ['latin'],
@@ -23,6 +24,8 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className={bricolage.variable} style={{ display: 'contents' }}>
             {children}
+            <V3Cursor />
+            <MagneticField />
         </div>
     );
 }

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { featuredProjects } from '@/data/projects';
-import { ClipWindow, Converge, Curtain, Flip, Lines, Marquee } from './components/kinetic';
+import { ClipWindow, Converge, Curtain, Flip, HeroScrub, Lines, Marquee } from './components/kinetic';
 import V3Nav from './components/V3Nav';
 import './v3.css';
 
@@ -14,7 +14,8 @@ export default function V3Page() {
             <V3Nav />
 
             {/* ————— INTRO ————— */}
-            <section className="v3-hero">
+            <HeroScrub>
+                <section className="v3-hero">
                 <span className="v3-label v3-hero-kicker">Suresh Victor — Third Edition</span>
                 <Flip text="PRODUCT" as="h1" className="v3-hero-line" delay={0.7} />
                 <div className="v3-hero-row">
@@ -22,12 +23,13 @@ export default function V3Page() {
                     <span className="v3-hero-sun" aria-hidden="true" />
                     <Flip text="ITECT" as="span" className="v3-hero-line" delay={1.15} />
                 </div>
-                <Lines
-                    className="v3-hero-lede"
-                    delay={1.6}
-                    text="A career, set in motion. Ten years of untangling fintech, consumer, and AI products — displayed here as a living type specimen."
-                />
-            </section>
+                    <Lines
+                        className="v3-hero-lede"
+                        delay={1.6}
+                        text="A career, set in motion. Ten years of untangling fintech, consumer, and AI products — displayed here as a living type specimen."
+                    />
+                </section>
+            </HeroScrub>
 
             <Marquee className="v3-marquee-hero">
                 AssetWorks AI · Cox &amp; Kings · CaptainFresh · CoinDCX · BabyChakra · KleverKid ·&nbsp;
@@ -57,7 +59,7 @@ export default function V3Page() {
             </section>
 
             {/* ————— CLIP DIVIDER ————— */}
-            <ClipWindow className="v3-divider" innerClassName="v3-divider-inner">
+            <ClipWindow className="v3-divider" innerClassName="v3-divider-inner" sun>
                 <Flip text="TEN YEARS" as="span" className="v3-divider-line" scrub />
                 <Flip text="ONE CRAFT" as="span" className="v3-divider-line v3-divider-line--accent" scrub />
             </ClipWindow>

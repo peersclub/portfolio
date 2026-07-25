@@ -762,3 +762,154 @@ body:has(.v3) .switcher {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* ————— interaction layer ————— */
+
+/* custom cursor — ink dot + gliding ring */
+.v3-has-cursor .v3,
+.v3-has-cursor .v3 * {
+    cursor: none !important;
+}
+.v3-cursor-dot,
+.v3-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 90;
+    pointer-events: none;
+    border-radius: 999px;
+}
+.v3-cursor-dot {
+    width: 7px;
+    height: 7px;
+    margin: -3.5px 0 0 -3.5px;
+    background: var(--ink);
+    transition: opacity 0.2s ease, scale 0.25s ease;
+}
+.v3-cursor-ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 1.5px solid color-mix(in srgb, var(--ink) 55%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        height 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        margin 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.25s ease,
+        border-color 0.25s ease,
+        border-radius 0.25s ease,
+        opacity 0.2s ease;
+}
+.v3-cursor-glyph {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--paper);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+/* link: ring fills sun */
+.v3-cursor-ring[data-state='link'] {
+    width: 46px;
+    height: 46px;
+    margin: -23px 0 0 -23px;
+    background: color-mix(in srgb, var(--sun) 88%, transparent);
+    border-color: transparent;
+}
+.v3-cursor-dot[data-state='link'] {
+    scale: 0;
+}
+/* work row: ↗ */
+.v3-cursor-ring[data-state='view'] {
+    width: 52px;
+    height: 52px;
+    margin: -26px 0 0 -26px;
+    background: var(--ink);
+    border-color: transparent;
+}
+.v3-cursor-ring[data-state='view'] .v3-cursor-glyph--view {
+    opacity: 1;
+}
+.v3-cursor-dot[data-state='view'] {
+    scale: 0;
+}
+/* drag surface: ◂ ▸ pill */
+.v3-cursor-ring[data-state='drag'] {
+    width: 68px;
+    height: 40px;
+    margin: -20px 0 0 -34px;
+    border-radius: 999px;
+    background: var(--ink);
+    border-color: transparent;
+}
+.v3-cursor-ring[data-state='drag'] .v3-cursor-glyph--drag {
+    opacity: 1;
+}
+.v3-cursor-dot[data-state='drag'] {
+    scale: 0;
+}
+.v3-cursor-ring[data-state='gone'],
+.v3-cursor-dot[data-state='gone'] {
+    opacity: 0;
+}
+
+/* reading-weight scrub (Converge + HeroScrub set --wght) */
+.v3-wscrub,
+.v3-wscrub .v3-h2,
+.v3-wscrub .v3-hero-line {
+    font-variation-settings: 'wght' var(--wght, 800), 'opsz' 96;
+}
+
+/* divider sunrise */
+.v3-clip-sun {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: clamp(9rem, 22vw, 19rem);
+    height: clamp(9rem, 22vw, 19rem);
+    margin: calc(clamp(9rem, 22vw, 19rem) / -2) 0 0 calc(clamp(9rem, 22vw, 19rem) / -2);
+    border-radius: 50%;
+    background: var(--sun);
+    filter: blur(1px);
+    opacity: 0.92;
+}
+.v3-divider-inner {
+    position: relative;
+    z-index: 1;
+}
+
+/* work rows: sun-dot bullet slides in on hover (inline-block so the
+   Lines word spacing survives — flex containers eat whitespace nodes) */
+.v3-row-company::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 0.42em;
+    border-radius: 50%;
+    background: var(--sun);
+    opacity: 0;
+    transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), margin-right 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+}
+.v3-row:hover .v3-row-company::before {
+    width: 0.42em;
+    margin-right: 0.35em;
+    opacity: 1;
+}
+
+/* the scrubber thumb is the sun */
+.v3-scrub-thumb {
+    background: var(--sun);
+    border-color: var(--paper);
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+    .v3-cursor-dot,
+    .v3-cursor-ring {
+        display: none;
+    }
+}

@@ -196,7 +196,24 @@ export function Converge({
             { rootMargin: '0% 0% -12% 0%' },
         );
         io.observe(el);
-        return () => io.disconnect();
+
+        // the specimen responds to reading: headings gain weight as they
+        // travel toward reading position (scrubbed variable-font axis)
+        let st: ScrollTrigger | undefined;
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            el.classList.add('v3-wscrub');
+            st = ScrollTrigger.create({
+                trigger: el,
+                start: 'top 96%',
+                end: 'top 38%',
+                scrub: 0.4,
+                animation: gsap.fromTo(el, { '--wght': 340 }, { '--wght': 800, ease: 'none' }),
+            });
+        }
+        return () => {
+            io.disconnect();
+            st?.kill();
+        };
     }, [left, right]);
 
     const T = Tag as 'h2';
@@ -213,10 +230,13 @@ export function ClipWindow({
     children,
     className,
     innerClassName,
+    sun = false,
 }: {
     children: ReactNode;
     className?: string;
     innerClassName?: string;
+    /** scrub an orange sun rising through the window */
+    sun?: boolean;
 }) {
     const outer = useRef<HTMLDivElement>(null);
     const clip = useRef<HTMLDivElement>(null);
@@ -239,6 +259,19 @@ export function ClipWindow({
                     0,
                 )
                 .fromTo(n, { yPercent: -18 }, { yPercent: 18, duration: 1 }, 0);
+            const sunEl = c.querySelector('.v3-clip-sun');
+            if (sunEl) {
+                gsap.fromTo(
+                    sunEl,
+                    { yPercent: 240, scale: 0.7 },
+                    {
+                        yPercent: -30,
+                        scale: 1,
+                        ease: 'none',
+                        scrollTrigger: { trigger: o, start: 'top bottom', end: 'bottom top', scrub: 0.4 },
+                    },
+                );
+            }
         }, o);
         return () => ctx.revert();
     }, []);
@@ -246,6 +279,7 @@ export function ClipWindow({
     return (
         <div ref={outer} className={className}>
             <div ref={clip} className="v3-clip">
+                {sun && <span className="v3-clip-sun" aria-hidden="true" />}
                 <div ref={inner} className={innerClassName}>
                     {children}
                 </div>
@@ -254,14 +288,73 @@ export function ClipWindow({
     );
 }
 
-/** Simple velocity-neutral marquee strip. */
+/** Scroll-velocity-reactive marquee: cruises left, accelerates and skews
+    with scroll speed, reverses direction when you scroll back up. */
 export function Marquee({ children, className }: { children: ReactNode; className?: string }) {
+    const trackRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const track = trackRef.current;
+        if (!track) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        let x = 0;
+        let vel = 0;
+        let lastScroll = window.scrollY;
+        const tick = (_t: number, dtMs: number) => {
+            const dt = Math.min(dtMs, 50) / 1000;
+            const scroll = window.scrollY;
+            const raw = (scroll - lastScroll) / dt;
+            lastScroll = scroll;
+            vel += (raw - vel) * 0.12; // smooth
+            const drive = gsap.utils.clamp(-900, 900, vel);
+            x -= (55 + drive * 0.55) * dt;
+            const half = track.scrollWidth / 2;
+            if (half > 0) {
+                if (x <= -half) x += half;
+                if (x > 0) x -= half;
+            }
+            gsap.set(track, { x, skewX: gsap.utils.clamp(-9, 9, drive * 0.012) });
+        };
+        gsap.ticker.add(tick);
+        return () => gsap.ticker.remove(tick);
+    }, []);
+
     return (
         <div className={`v3-marquee ${className ?? ''}`} aria-hidden="true">
-            <div className="v3-marquee-track">
+            <div className="v3-marquee-track" ref={trackRef}>
                 <span>{children}</span>
                 <span>{children}</span>
             </div>
+        </div>
+    );
+}
+
+/** Hero scroll-out: as the first fold leaves, the wordmark's weight
+    drains, tracking opens, the sun sets, and the lede fades — the page
+    "un-sets" its own type. Wrap the hero section with this. */
+export function HeroScrub({ children, className }: { children: ReactNode; className?: string }) {
+    const ref = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: { trigger: el, start: 'top top', end: 'bottom 12%', scrub: 0.35 },
+                defaults: { ease: 'none' },
+            });
+            tl.fromTo(el, { '--wght': 800 }, { '--wght': 300, duration: 1 }, 0)
+                .to(el.querySelectorAll('.v3-hero-line'), { letterSpacing: '0.05em', duration: 1 }, 0)
+                .to(el.querySelector('.v3-hero-sun'), { yPercent: 190, scale: 0.55, duration: 1 }, 0)
+                .to(el.querySelectorAll('.v3-hero-lede, .v3-hero-kicker'), { autoAlpha: 0, duration: 0.5 }, 0);
+        }, el);
+        return () => ctx.revert();
+    }, []);
+
+    return (
+        <div ref={ref} className={`v3-wscrub ${className ?? ''}`}>
+            {children}
         </div>
     );
 }

@@ -74,7 +74,8 @@ export default function TimeScrub() {
     return (
         <div className="v3-scrub">
             {/* stage — drag anywhere on it */}
-            <div ref={stageRef} className="v3-scrub-stage" {...drag(stageRef)}>
+            <div ref={stageRef} className="v3-scrub-stage"
+                data-cursor="drag" {...drag(stageRef)}>
                 <span
                     className="v3-scrub-year"
                     style={{ fontVariationSettings: `'wght' ${weight}, 'opsz' 96` }}
@@ -109,6 +110,7 @@ export default function TimeScrub() {
                     aria-valuemax={MAX}
                     aria-valuenow={year}
                     aria-label="Scrub through the timeline"
+                    data-cursor="drag"
                     onKeyDown={onKey}
                     {...drag(trackRef)}
                 >
