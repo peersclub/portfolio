@@ -30,18 +30,17 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
           >
             <p className="lead">
-              I'm driven by a simple mission: build high-quality,
-              scalable products that people genuinely love to use.
+              I build 0-to-1 products and the teams behind them, and run the
+              business on unit economics and data.
             </p>
             <p>
-              From scaling India's largest crypto exchange to pioneering
-              AI-powered financial tools, I specialize in turning complex
-              ideas into intuitive experiences that serve millions.
+              I led product at CoinDCX across four trading products, built
+              Captain Fresh&apos;s product and product team from scratch, and
+              co-founded AssetWorks AI, an AI-powered financial analytics platform.
             </p>
             <p>
-              Currently co-founding AssetWorks AI, where we're making
-              sophisticated financial analysis accessible through
-              natural language.
+              Today I own product and technology strategy at KoinBX, where we
+              took crypto futures from strategy to market in August 2026.
             </p>
           </motion.div>
 
@@ -58,11 +57,11 @@ export default function About() {
             </div>
             <div className="detail-item">
               <span className="detail-label">Education</span>
-              <span className="detail-value">B.Tech, NIT Karnataka</span>
+              <span className="detail-value">B.Tech, Chemical Engineering, NITK Surathkal</span>
             </div>
             <div className="detail-item">
               <span className="detail-label">Focus</span>
-              <span className="detail-value">Product Strategy, AI, and Fintech</span>
+              <span className="detail-value">Product strategy, fintech and crypto</span>
             </div>
           </motion.div>
         </div>

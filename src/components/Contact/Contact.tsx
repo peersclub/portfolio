@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Phone, Mail, MessageCircle } from 'lucide-react';
+import ResumeGate from '@/components/ResumeGate/ResumeGate';
 
 const BRAND_COLORS = {
   whatsapp: '#25D366',
@@ -64,6 +65,10 @@ export default function Contact() {
               <span>Email</span>
             </a>
           </div>
+
+          <div className="resume-row">
+            <ResumeGate tone="ghost" />
+          </div>
         </div>
       </div>
 
@@ -81,6 +86,13 @@ export default function Contact() {
           opacity: 0;
           transform: translateY(30px);
           transition: all 0.8s var(--ease-out-expo);
+        }
+
+        .resume-row {
+          margin-top: var(--space-lg);
+          display: flex;
+          justify-content: center;
+          color: var(--text-secondary);
         }
 
         .contact-content.visible {

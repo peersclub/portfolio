@@ -38,7 +38,13 @@ const nextConfig = {
             { source: '/design', destination: '/', permanent: false },
             { source: '/projects/captain-fresh-old', destination: '/projects/captain-fresh', permanent: true },
             { source: '/projects/captain-fresh-2', destination: '/projects/captain-fresh', permanent: true },
+            // the PDF is now email-gated (POST /api/resume); old links land on the web resume
+            { source: '/resume.pdf', destination: '/resume', permanent: false },
         ];
+    },
+    // The gated resume PDF lives outside /public; ship it with the API route.
+    outputFileTracingIncludes: {
+        '/api/resume': ['./private/**/*'],
     },
     reactStrictMode: true,
     images: {

@@ -7,8 +7,8 @@ import '../v3.css';
 
 const STATS: [string, string][] = [
     ['10+', 'years building products'],
-    ['1M+', 'users on one exchange'],
-    ['6', 'companies shaped'],
+    ['4', 'trading products led at CoinDCX'],
+    ['8', 'roles since 2015'],
     ['2', 'founder chapters'],
 ];
 
@@ -20,9 +20,9 @@ const PRINCIPLES: [string, string][] = [
 
 const DETAILS: [string, string][] = [
     ['Based in', 'Bangalore, India'],
-    ['Education', 'B.Tech, NIT Karnataka'],
-    ['Focus', 'Product Strategy, AI, and Fintech'],
-    ['Now', 'Co-Founder & CPO, AssetWorks AI'],
+    ['Education', 'B.Tech, Chemical Engineering, NITK Surathkal'],
+    ['Focus', 'Product strategy, fintech and crypto'],
+    ['Now', 'Product & technology at KoinBX; co-founder, AssetWorks AI'],
 ];
 
 export default function V3AboutPage() {
@@ -38,12 +38,12 @@ export default function V3AboutPage() {
                     <Lines
                         as="p"
                         className="v3-story-lead"
-                        text="I'm driven by a simple mission: build high-quality, scalable products that people genuinely love to use."
+                        text="I build 0-to-1 products and the teams behind them, and run the business on unit economics and data."
                     />
                     <Lines
                         as="p"
                         className="v3-story-body"
-                        text="From scaling India's largest crypto exchange to pioneering AI-powered financial tools, I turn complex ideas into intuitive experiences that serve millions. Currently co-founding AssetWorks AI — sophisticated financial analysis, in plain language."
+                        text="I led product at CoinDCX across four trading products, built Captain Fresh's product and team from scratch, and co-founded AssetWorks AI. Today I own product and technology strategy at KoinBX, where crypto futures launched in August 2026."
                     />
                 </div>
                 <div className="v3-stats">

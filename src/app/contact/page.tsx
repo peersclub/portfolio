@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Phone, Mail, MessageCircle, MapPin, Linkedin, ArrowUpRight } from 'lucide-react';
 import Footer from '@/components/Footer/Footer';
+import ResumeGate from '@/components/ResumeGate/ResumeGate';
 
 const PHONE = '9535710101';
 const EMAIL = 'sureshthejosephite@gmail.com';
@@ -76,8 +77,8 @@ export default function ContactPage() {
                             Tell me what you&apos;re <span className="text-[var(--accent)]">building</span>.
                         </h1>
                         <p className="mx-auto mt-5 max-w-xl text-lg sm:text-xl leading-relaxed text-[var(--text-secondary)]">
-                            Thirteen years of shipping products that scale — and the most interesting
-                            ones all started with a message like the one you&apos;re about to send.
+                            10+ years of building 0-to-1 products and teams, and the most interesting
+                            ones started with a message like the one you&apos;re about to send.
                         </p>
                     </motion.div>
 
@@ -111,6 +112,12 @@ export default function ContactPage() {
                                 <span className="mt-auto break-all font-mono text-xs text-[var(--text-muted)]">{ch.cta}</span>
                             </a>
                         ))}
+                    </motion.div>
+
+                    {/* Resume, right next to the reach-out channels */}
+                    <motion.div {...stagger(3)} className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 text-sm text-[var(--text-secondary)]">
+                        <span>Need my resume first?</span>
+                        <ResumeGate tone="ghost" />
                     </motion.div>
 
                     {/* Worth reaching out about */}

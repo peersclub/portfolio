@@ -1,113 +1,38 @@
 "use client";
 
-import { StickySubNav } from "@/components/StickySubNav";
-import { ExperienceCard } from "@/components/Resume/ExperienceCard";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { StickySubNav } from "@/components/StickySubNav";
 import Footer from "@/components/Footer/Footer";
+import ResumeGate from "@/components/ResumeGate/ResumeGate";
+import {
+    PROFILE,
+    ROLES,
+    EARLIER,
+    SKILLS,
+    EDUCATION,
+    CERTIFICATIONS,
+    ACTIVITIES,
+    LANGUAGES,
+    formatPeriod,
+} from "@/data/career";
+
+// The web version of the resume. Everything renders from data/career.ts,
+// which mirrors the PDF line for line — edit there, not here.
 
 const SECTIONS = [
-    { id: "summary", label: "About Me" },
+    { id: "summary", label: "Summary" },
     { id: "experience", label: "Experience" },
-    { id: "roles", label: "Roles" },
     { id: "skills", label: "Skills" },
     { id: "education", label: "Education" },
 ];
 
-interface ExperienceEntry {
-    company: string;
-    logoUrl?: string;
-    url?: string;
-    description?: string;
-    roles: { title: string; period: string; details: string[] }[];
-}
-
-const EXPERIENCE_DATA: ExperienceEntry[] = [
-    {
-        company: "AssetWorks AI",
-        logoUrl: "/projects/assetworks-ai/logo.svg",
-        description: "AI-native financial analytics platform making sophisticated financial analysis accessible through natural language, built for investment professionals.",
-        roles: [
-            {
-                title: "Co-Founder & CPO",
-                period: "2025 - Present",
-                details: [
-                    "Building the first AI-native financial analytics platform.",
-                    "Making sophisticated financial analysis accessible through natural language interfaces.",
-                    "Leading product strategy, design, and engineering.",
-                ],
-            },
-        ],
-    },
-    {
-        company: "Cox & Kings",
-        url: "https://www.coxandkings.com",
-        logoUrl: "/projects/cox-and-kings/logo.svg",
-        description: "One of the world's oldest travel brands, rebuilding as a modern personalized travel platform.",
-        roles: [
-            {
-                title: "SVP Product & Tech",
-                period: "2024 - Present",
-                details: [
-                    "Building the first personalized experience in travel tech.",
-                    "Put together a team of senior executives; owning budget and the product plan.",
-                ],
-            },
-        ],
-    },
-    {
-        company: "CaptainFresh",
-        url: "https://captainfresh.in",
-
-        description: "India's first tech-enabled B2B seafood supply chain platform, connecting fishermen directly with restaurants and retailers for freshness and traceability.",
-        roles: [
-            {
-                title: "Product Lead",
-                period: "2021 - 2024",
-                details: [
-                    "Led the overall product, building the product and product team from scratch.",
-                    "Shipped first-in-industry products for a century-old industry.",
-                    "Played an active part in the long-term roadmap for global scale.",
-                ],
-            },
-        ],
-    },
-    {
-        company: "CoinDCX",
-        url: "https://coindcx.com",
-        logoUrl: "/projects/coindcx/logo.svg",
-        description: "India's largest and most trusted crypto exchange, providing access to 500+ cryptocurrencies with a regulated, investor-backed platform.",
-        roles: [
-            {
-                title: "Product Lead",
-                period: "2019 - 2021",
-                details: [
-                    "Scaled India's largest crypto exchange to 1M+ users.",
-                    "Led product across DCXInsta, DCXTrade, DCXMargin, and DCXFutures.",
-                    "Built a team of 3 product managers; closely involved in leadership and company-level decisions.",
-                ],
-            },
-        ],
-    },
-];
-
-const SKILLS = [
-    "Product Strategy",
-    "AI & LLMs",
-    "Web3 & Fintech",
-    "System Architecture",
-    "Team Leadership",
-    "Growth & Retention",
-    "Go-to-Market",
-    "UI/UX Design",
-];
-
-function SectionNumber({ n }: { n: string }) {
+function SectionTitle({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-10">
-            <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--accent)] opacity-30">{n}</span>
-            <div className="h-px flex-1 bg-gradient-to-r from-[var(--accent)] to-transparent opacity-30" />
-        </div>
+        <h2 className="mb-8 border-b border-[var(--glass-border)] pb-4 text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] normal-case">
+            {children}
+        </h2>
     );
 }
 
@@ -115,7 +40,6 @@ export default function ResumePage() {
     return (
         <>
             <div className="min-h-screen bg-[var(--bg-primary)]">
-                {/* Hero Section */}
                 <section className="relative flex min-h-[40vh] flex-col justify-end px-4 sm:px-6 pb-8 sm:pb-12 pt-24 sm:pt-32">
                     <div className="container mx-auto">
                         <motion.h1
@@ -131,156 +55,121 @@ export default function ResumePage() {
                             transition={{ delay: 0.1 }}
                             className="mt-4 sm:mt-6 max-w-2xl text-lg sm:text-xl text-[var(--text-secondary)]"
                         >
-                            Product Architect building systems that scale.
+                            {PROFILE.headline}. {PROFILE.focus.replace(" · ", ", ")}. {PROFILE.location}.
                         </motion.p>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            className="mt-6"
+                        >
+                            <ResumeGate tone="solid" label="Download PDF resume" />
+                        </motion.div>
                     </div>
                 </section>
 
-                <StickySubNav
-                    sections={SECTIONS}
-                    rightElement={
-                        <a
-                            href="/resume.pdf"
-                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--accent)] transition-opacity hover:opacity-80"
-                            download
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-                            Get Resume
-                        </a>
-                    }
-                />
+                <StickySubNav sections={SECTIONS} rightElement={<ResumeGate tone="ghost" label="PDF" />} />
 
-                <div className="container mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-20">
-                    {/* Summary Section */}
-                    <section id="summary" className="mb-32 scroll-mt-48 pt-12">
-                        <SectionNumber n="01" />
-                        <p className="max-w-3xl text-3xl font-light leading-relaxed text-[var(--text-primary)]">
-                            I sit at the intersection of <span className="text-[var(--accent)]">Design</span>, <span className="text-[var(--accent)]">Technology</span>, and <span className="text-[var(--accent)]">Business</span>. With over a decade of experience, I don't just manage products; I architect ecosystems that solve complex human problems.
+                <div className="container mx-auto max-w-4xl px-4 sm:px-6 py-12 sm:py-20">
+                    <section id="summary" className="mb-24 scroll-mt-48 pt-8">
+                        <SectionTitle>Summary</SectionTitle>
+                        <p className="max-w-none text-xl sm:text-2xl font-light leading-relaxed text-[var(--text-primary)]">
+                            {PROFILE.summary}
                         </p>
                     </section>
 
-                    {/* Experience Section */}
-                    <section id="experience" className="mb-32 scroll-mt-32">
-                        <SectionNumber n="02" />
-                        <div className="flex flex-col gap-6">
-                            {EXPERIENCE_DATA.map((exp, idx) => (
-                                <ExperienceCard
-                                    key={idx}
-                                    company={exp.company}
-                                    logo={exp.logoUrl}
-                                    url={exp.url}
-                                    description={exp.description}
-                                    roles={exp.roles}
-                                />
+                    <section id="experience" className="mb-24 scroll-mt-32">
+                        <SectionTitle>Experience</SectionTitle>
+                        <ol className="flex flex-col">
+                            {ROLES.map((r) => (
+                                <li key={r.company} className="grid gap-x-8 gap-y-3 border-b border-[var(--glass-border)] py-8 sm:grid-cols-[12rem_1fr]">
+                                    <div className="text-sm text-[var(--text-muted)] tabular-nums">
+                                        <div>{formatPeriod(r)}</div>
+                                        <div>{r.location}</div>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-bold normal-case text-[var(--text-primary)]">
+                                            {r.slug ? (
+                                                <Link href={`/projects/${r.slug}`} className="group inline-flex items-center gap-1.5 hover:text-[var(--accent)]">
+                                                    {r.company}
+                                                    <ArrowUpRight size={18} className="opacity-50 transition-opacity group-hover:opacity-100" aria-label="Case study" />
+                                                </Link>
+                                            ) : (
+                                                r.company
+                                            )}
+                                        </h3>
+                                        <p className="mt-1 max-w-none font-medium text-[var(--text-secondary)]">{r.title}</p>
+                                        {r.context && r.context.length > 80 && (
+                                            <p className="mt-3 max-w-none text-sm leading-relaxed text-[var(--text-muted)]">{r.context}</p>
+                                        )}
+                                        <ul className="mt-4 flex list-disc flex-col gap-2 pl-5 marker:text-[var(--accent)]">
+                                            {r.bullets.map((b) => (
+                                                <li key={b} className="leading-relaxed text-[var(--text-secondary)]">
+                                                    {b}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </li>
                             ))}
-                        </div>
+                        </ol>
+                        <p className="mt-6 max-w-none text-sm leading-relaxed text-[var(--text-muted)]">
+                            <span className="font-semibold text-[var(--text-secondary)]">Earlier: </span>
+                            {EARLIER}
+                        </p>
                     </section>
 
-                    {/* Roles Section */}
-                    <section id="roles" className="mb-32 scroll-mt-32">
-                        <SectionNumber n="03" />
-                        <div className="flex flex-col gap-6">
-                            <ExperienceCard
-                                company="Hopscotch"
-                                url="https://www.hopscotch.in"
-                                description="India's leading online fashion brand for kids, serving millions of parents across the country."
-                                roles={[
-                                    {
-                                        title: "Product Manager",
-                                        period: "2018 - 2019",
-                                        details: [
-                                            "Owned both demand- and supply-side products for the e-commerce platform.",
-                                            "Drove the long-term product roadmap, internal ops tools, and user-facing products.",
-                                        ],
-                                    },
-                                ]}
-                            />
-                            <ExperienceCard
-                                company="BabyChakra"
-                                logo="/projects/babychakra/logo.svg"
-                                url="https://www.babychakra.com"
-                                description="India's leading parenting platform, connecting millions of parents with pediatricians, child care experts, and trusted products from pregnancy through early childhood."
-                                roles={[
-                                    {
-                                        title: "Senior Product Manager",
-                                        period: "2017 - 2018",
-                                        details: [
-                                            "Increased retention by 42% and stickiness by 21% in 8 months.",
-                                            "Completely revamped the web platform and built the product marketplace across web and app.",
-                                        ],
-                                    },
-                                ]}
-                            />
-                            <ExperienceCard
-                                company="KleverKid"
-                                roles={[
-                                    {
-                                        title: "Product Manager",
-                                        period: "2015 - 2016",
-                                        details: [
-                                            "First PM role — owned feature requirements, timeline, and the development team.",
-                                            "Shipped the KleverKid Android and iOS apps through the full product life cycle.",
-                                            "Hands-on wireframing, product flows, and UI/UX across web and mobile.",
-                                        ],
-                                    },
-                                ]}
-                            />
-                            <ExperienceCard
-                                company="Early Ventures"
-                                roles={[
-                                    {
-                                        title: "Product & Engineering (Contract)",
-                                        period: "2013 - 2015",
-                                        details: [
-                                            "Manager Administration at Rhythms Academy — designed CMIS, a custom webapp for school admissions, attendance, and fees.",
-                                            "Contract product work with Docpulse Technologies and Finomena; founded Smatrx Infosoft (webapp for schools).",
-                                        ],
-                                    },
-                                ]}
-                            />
-                        </div>
-                    </section>
-
-                    {/* Skills Section */}
-                    <section id="skills" className="mb-32 scroll-mt-32">
-                        <SectionNumber n="04" />
-                        <div className="flex flex-wrap gap-3">
-                            {SKILLS.map((skill, idx) => (
-                                <span
-                                    key={idx}
-                                    className="rounded-full border border-[var(--glass-border)] bg-[var(--bg-tertiary)] px-4 py-2 text-sm text-[var(--text-primary)] transition-colors hover:border-[var(--accent)]"
-                                >
-                                    {skill}
-                                </span>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Education Section */}
-                    <section id="education" className="mb-32 scroll-mt-32">
-                        <SectionNumber n="05" />
-                        <div className="border-l-2 border-[var(--glass-border)] pl-6">
-                            <div className="mb-8">
-                                <div className="flex items-center gap-3 mb-2">
-                                    <h3 className="text-xl font-bold text-[var(--text-primary)]">
-                                        National Institute of Technology Karnataka
-                                    </h3>
+                    <section id="skills" className="mb-24 scroll-mt-32">
+                        <SectionTitle>Skills</SectionTitle>
+                        <dl className="flex flex-col gap-6">
+                            {SKILLS.map((g) => (
+                                <div key={g.group} className="grid gap-2 sm:grid-cols-[12rem_1fr]">
+                                    <dt className="font-semibold text-[var(--text-primary)]">{g.group}</dt>
+                                    <dd className="leading-relaxed text-[var(--text-secondary)]">{g.items.join(", ")}</dd>
                                 </div>
-                                <p className="text-[var(--text-secondary)]">B.Tech in Chemical Engineering</p>
-                                <p className="text-sm text-[var(--text-muted)]">2009 - 2013</p>
-                                <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
-                                    NITK Surathkal is one of India's premier engineering institutes, consistently ranked among the top National Institutes of Technology. Known for its rigorous curriculum, strong industry connections, and alumni network spanning global tech and product leadership roles.
-                                </p>
-                                <a
-                                    href="https://www.nitk.ac.in"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="mt-3 inline-flex items-center gap-1.5 text-sm text-[var(--accent)] hover:opacity-80 transition-opacity"
-                                >
-                                    Visit Website
-                                    <ExternalLink size={12} />
-                                </a>
+                            ))}
+                        </dl>
+                    </section>
+
+                    <section id="education" className="mb-24 scroll-mt-32">
+                        <SectionTitle>Education</SectionTitle>
+                        <div className="grid gap-2 sm:grid-cols-[12rem_1fr]">
+                            <div className="text-sm text-[var(--text-muted)] tabular-nums">{EDUCATION.period}</div>
+                            <div>
+                                <h3 className="text-xl font-bold normal-case text-[var(--text-primary)]">{EDUCATION.degree}</h3>
+                                <p className="mt-1 max-w-none text-[var(--text-secondary)]">{EDUCATION.school}</p>
                             </div>
+                        </div>
+
+                        <h3 className="mt-14 mb-4 text-lg font-bold normal-case text-[var(--text-primary)]">Certifications</h3>
+                        <ul className="flex list-disc flex-col gap-2 pl-5 marker:text-[var(--accent)]">
+                            {CERTIFICATIONS.map((c) => (
+                                <li key={c} className="leading-relaxed text-[var(--text-secondary)]">{c}</li>
+                            ))}
+                        </ul>
+
+                        <h3 className="mt-14 mb-4 text-lg font-bold normal-case text-[var(--text-primary)]">Leadership and activities</h3>
+                        <ul className="flex list-disc flex-col gap-2 pl-5 marker:text-[var(--accent)]">
+                            {ACTIVITIES.map((a) => (
+                                <li key={a} className="leading-relaxed text-[var(--text-secondary)]">{a}</li>
+                            ))}
+                        </ul>
+
+                        <h3 className="mt-14 mb-4 text-lg font-bold normal-case text-[var(--text-primary)]">Languages</h3>
+                        <p className="max-w-none text-[var(--text-secondary)]">{LANGUAGES.join(", ")}</p>
+                    </section>
+
+                    <section className="rounded-2xl border border-[var(--glass-border)] bg-[var(--bg-secondary)] p-8 sm:p-12 text-center">
+                        <h2 className="text-2xl sm:text-3xl font-bold normal-case text-[var(--text-primary)]">Want it as a PDF?</h2>
+                        <p className="mx-auto mt-3 text-[var(--text-secondary)]">Enter your email and it downloads right away.</p>
+                        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+                            <ResumeGate tone="solid" label="Download PDF resume" />
+                            <Link
+                                href="/contact"
+                                className="inline-flex min-h-[44px] items-center rounded-full border border-[var(--glass-border)] px-5 text-sm font-semibold text-[var(--text-primary)] hover:border-[var(--text-primary)]"
+                            >
+                                Get in touch
+                            </Link>
                         </div>
                     </section>
                 </div>

@@ -33,7 +33,7 @@ export default function V3Page() {
             </HeroScrub>
 
             <Marquee className="v3-marquee-hero">
-                AssetWorks AI · Cox &amp; Kings · CaptainFresh · CoinDCX · BabyChakra · KleverKid ·&nbsp;
+                KoinBX · AssetWorks AI · Cox &amp; Kings · Captain Fresh · CoinDCX · Hopscotch · BabyChakra · KleverKid ·&nbsp;
             </Marquee>
 
             {/* ————— BRIEF TEASER ————— */}
@@ -50,7 +50,7 @@ export default function V3Page() {
                         <Lines
                             as="p"
                             className="v3-story-body"
-                            text="Ten years, six companies, two founder chapters — and one repeating pattern: find the knot, pull gently, ship."
+                            text="Ten years, eight companies, two founder chapters — and one repeating pattern: find the knot, pull gently, ship."
                         />
                         <Link href="/v3/about" className="v3-cta">
                             Read the full brief →
@@ -89,7 +89,7 @@ export default function V3Page() {
                 </div>
                 <div className="v3-index-more">
                     <Link href="/v3/work" className="v3-cta">
-                        All six chapters →
+                        All eight chapters →
                     </Link>
                     <Link href="/v3/timeline" className="v3-cta v3-cta--dim">
                         Or scrub the timeline

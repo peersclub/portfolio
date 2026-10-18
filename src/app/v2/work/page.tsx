@@ -29,7 +29,7 @@ export default function V2WorkPage() {
                         Selected Work
                     </motion.span>
                     <motion.h1 className="v2-page-title" variants={rise}>
-                        Six companies, one <em>thread.</em>
+                        Eight companies, one <em>thread.</em>
                     </motion.h1>
                     <motion.p className="v2-lede" variants={rise}>
                         Fintech, consumer, supply chain, travel, AI — every chapter pulled
@@ -61,8 +61,12 @@ export default function V2WorkPage() {
                                     {p.category}
                                 </span>
                                 <span className="v2-index-metric">
-                                    <span className="v2-index-value">{p.metrics[0].value}</span>
-                                    <span className="v2-metric-label">{p.metrics[0].label}</span>
+                                    {p.metrics[0] && (
+                                        <>
+                                            <span className="v2-index-value">{p.metrics[0].value}</span>
+                                            <span className="v2-metric-label">{p.metrics[0].label}</span>
+                                        </>
+                                    )}
                                 </span>
                                 <span className="v2-index-arrow" aria-hidden="true">→</span>
                             </Link>

@@ -76,10 +76,10 @@ export const acts: Act[] = [
         intro:
             'The hobby became a job title. Four companies, one repeating pattern: find the knot, pull gently, ship.',
         moments: [
-            { year: '2015', label: 'KleverKid', story: 'First PM role. Users can’t read your mind — you draw it out loud for them.', note: 'talk to users', icon: Rocket },
+            { year: '2015', label: 'KleverKid', story: 'Product Manager across web, Android and iOS. Users can’t read your mind — you draw it out loud for them.', note: 'talk to users', icon: Rocket },
             { year: '2017', label: 'BabyChakra', story: 'Retention up 42% in eight months — by drawing the loop parents wanted to re-enter.', note: 'loops beat funnels', icon: Zap },
-            { year: '2019', label: 'CoinDCX', story: 'A million traders on India’s largest crypto exchange. At that scale, every pixel is a promise.', note: 'scale = trust', icon: Briefcase },
-            { year: '2021', label: 'CaptainFresh', story: 'Software for a century-old seafood trade — first in the industry, mud on my boots.', note: 'go to the harbor', icon: Trophy },
+            { year: '2019', label: 'CoinDCX', story: 'Product Lead for India’s leading crypto exchange, across four trading products. Every pixel is a promise.', note: 'scale = trust', icon: Briefcase },
+            { year: '2021', label: 'Captain Fresh', story: 'Industry-first digital products for a century-old seafood trade, built with mud on my boots.', note: 'go to the harbor', icon: Trophy },
         ],
         quote: 'Every user story started as a drawn one.',
     },
@@ -94,8 +94,8 @@ export const acts: Act[] = [
             'Now the pen writes back. I’m building AI products — where taste matters more than ever.',
         moments: [
             { year: '2024', label: 'Cox & Kings', story: 'Teaching one of travel’s oldest brands to feel personal, as SVP of Product & Tech.', note: 'old brand, new line', icon: Briefcase },
-            { year: '2025', label: 'AssetWorks AI', story: 'Co-founder & CPO. Plain language in, investment insight out.', note: 'the brush thinks', icon: Sparkles },
-            { year: 'Now', label: 'What’s next', story: 'Still drawing. The medium changes; the line doesn’t.', note: 'keep drawing', icon: Pencil },
+            { year: '2025', label: 'AssetWorks AI', story: 'Co-founder. Plain language in, investment widgets out.', note: 'the brush thinks', icon: Sparkles },
+            { year: 'Now', label: 'KoinBX', story: 'Product and technology strategy for a crypto exchange; futures from strategy to market in August 2026. Still drawing.', note: 'keep drawing', icon: Pencil },
         ],
         quote: 'The canvas was always infinite. Now the brush thinks.',
     },
@@ -109,4 +109,4 @@ export const metrics = [
 ];
 
 export const philosophy =
-    'Life is a sequence of moments. Building products taught me to make each one count. From drawing lines as a child to architecting systems that serve millions — it has always been the same story told in different mediums.';
+    'Life is a sequence of moments. Building products taught me to make each one count. From drawing lines as a child to building products and the teams behind them — it has always been the same story told in different mediums.';

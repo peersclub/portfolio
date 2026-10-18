@@ -21,11 +21,11 @@ export default function Home() {
     <main className="home-main">
       <MinimalistHero
         logoText="suresh."
-        mainText="Product Architect. Co-Founder & CPO at AssetWorks AI. 13 years shipping products used by millions — across AI, fintech, and supply chain."
+        mainText="Product and technology leader. 10+ years building 0-to-1 products and teams across crypto, fintech, B2B SaaS, supply chain and travel tech. Now leading product and technology at KoinBX."
         ctaText="Let's talk"
         ctaHref="/contact"
         imageSrc="/images/victor-hero.png"
-        imageAlt="Suresh Victor — Product Architect"
+        imageAlt="Suresh Victor"
         overlayText={{
           part1: 'build',
           part2: 'ship.',

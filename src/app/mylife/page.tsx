@@ -85,12 +85,12 @@ const chapters: Chapter[] = [
     years: '2015 — 2024',
     color: '#FFB800',
     description:
-      'The craft becoming a career. From first PM role to leading products at CoinDCX and CaptainFresh — building teams and products that scaled to millions.',
+      'The craft becoming a career. From KleverKid to leading product at CoinDCX and Captain Fresh: building products and the teams behind them.',
     moments: [
-      { year: '2015', label: 'Product Strategy', detail: 'KleverKid — first PM role, user research', icon: Rocket },
+      { year: '2015', label: 'Product Strategy', detail: 'KleverKid: full product lifecycle across web, Android and iOS', icon: Rocket },
       { year: '2017', label: 'Growth Engine', detail: 'BabyChakra — 42% retention increase in 8 months', icon: Zap },
-      { year: '2019', label: 'Scale & Impact', detail: "CoinDCX — India's largest crypto exchange, 1M+ users", icon: Briefcase },
-      { year: '2021', label: 'Industry First', detail: 'CaptainFresh — supply chain platform from scratch', icon: Trophy },
+      { year: '2019', label: 'Scale & Impact', detail: "CoinDCX: led product across four trading products, with a team of 3 PMs", icon: Briefcase },
+      { year: '2021', label: 'Industry First', detail: 'Captain Fresh: product and product team built from scratch', icon: Trophy },
     ],
     quote: 'Every user story started as a drawn one.',
     decoration: 'chart',
@@ -102,11 +102,11 @@ const chapters: Chapter[] = [
     years: '2024 — Present',
     color: '#FF0080',
     description:
-      'All roads converge here. Co-founding AssetWorks AI, building with frontier LLMs, leading product & tech at the highest level.',
+      'All roads converge here. Co-founded AssetWorks AI, building with Claude and GPT, and now own product and technology strategy at KoinBX.',
     moments: [
       { year: '2024', label: 'SVP Product & Tech', detail: 'Cox & Kings — personalized travel experience', icon: Briefcase },
       { year: '2025', label: 'Co-Founder', detail: 'AssetWorks AI — AI-powered financial analytics', icon: Sparkles },
-      { year: 'Now', label: 'Future Systems', detail: 'LLM integration, AI strategy, what comes next', icon: Sparkles },
+      { year: 'Now', label: 'KoinBX', detail: 'Product & technology strategy; crypto futures launched Aug 2026', icon: Sparkles },
     ],
     quote: 'The canvas was always infinite. Now the brush thinks.',
     decoration: 'neural',
@@ -122,7 +122,7 @@ const metricsData = [
 ];
 
 const philosophyText =
-  'Life is a sequence of moments. Building products taught me to make each one count. From drawing lines as a child to architecting systems that serve millions — it has always been the same story told in different mediums.';
+  'Life is a sequence of moments. Building products taught me to make each one count. From drawing lines as a child to building products and the teams behind them — it has always been the same story told in different mediums.';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DECORATIVE SVG COMPONENTS

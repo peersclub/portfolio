@@ -9,9 +9,9 @@ import '../v2.css';
 
 const DETAILS: [string, string][] = [
     ['Based in', 'Bangalore, India'],
-    ['Education', 'B.Tech, NIT Karnataka'],
-    ['Focus', 'Product Strategy, AI, and Fintech'],
-    ['Now', 'Co-Founder & CPO, AssetWorks AI'],
+    ['Education', 'B.Tech, Chemical Engineering, NITK Surathkal'],
+    ['Focus', 'Product strategy, fintech and crypto'],
+    ['Now', 'Product & technology at KoinBX; co-founder, AssetWorks AI'],
 ];
 
 const MORE: [string, string][] = [
@@ -40,18 +40,17 @@ export default function V2AboutPage() {
                             About
                         </motion.span>
                         <motion.h1 className="v2-page-title" variants={rise}>
-                            Ten years of building <em>what matters.</em>
+                            10+ years of building <em>what matters.</em>
                         </motion.h1>
                         <motion.p className="v2-lede" variants={rise}>
-                            I&apos;m driven by a simple mission: build high-quality, scalable
-                            products that people genuinely love to use.
+                            I build 0-to-1 products and the teams behind them, and run the
+                            business on unit economics and data.
                         </motion.p>
                         <motion.p className="v2-body" variants={rise}>
-                            From scaling India&apos;s largest crypto exchange to pioneering
-                            AI-powered financial tools, I specialize in turning complex ideas
-                            into intuitive experiences that serve millions. Currently
-                            co-founding AssetWorks AI, where we&apos;re making sophisticated
-                            financial analysis accessible through natural language.
+                            I led product at CoinDCX across four trading products, built Captain
+                            Fresh&apos;s product and product team from scratch, and co-founded
+                            AssetWorks AI. Today I own product and technology strategy at KoinBX,
+                            where crypto futures went from strategy to market in August 2026.
                         </motion.p>
                         <motion.p className="v2-body" variants={rise}>
                             I work in written docs over meetings, measure outcomes over

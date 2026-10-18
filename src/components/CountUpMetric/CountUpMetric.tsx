@@ -10,8 +10,9 @@ interface CountUpMetricProps {
 
 // Parse metric string to get number and suffix
 function parseMetric(metric: string): { number: number; suffix: string; prefix: string; isText: boolean } {
-    // Handle text-only metrics like "First" or "AI-Native"
-    if (!/\d/.test(metric)) {
+    // Text-only metrics ("First") and dates ("Aug 2026") render as-is:
+    // counting a year up from 0 would print "Aug 2,026".
+    if (!/\d/.test(metric) || /\b(19|20)\d{2}\b/.test(metric)) {
         return { number: 0, suffix: metric, prefix: '', isText: true };
     }
 

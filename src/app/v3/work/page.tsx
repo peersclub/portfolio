@@ -20,7 +20,7 @@ export default function V3WorkPage() {
                 <Lines
                     as="p"
                     className="v3-story-body v3-play-note"
-                    text="Six companies across fintech, consumer, supply chain, travel, and AI — every chapter pulled a different knot."
+                    text="Eight companies across crypto, fintech, consumer, e-commerce, supply chain, travel and AI — every chapter pulled a different knot."
                 />
                 <div className="v3-index">
                     {projects.map((p, i) => (
@@ -43,7 +43,7 @@ export default function V3WorkPage() {
             </section>
 
             <Marquee className="v3-marquee-foot">
-                AssetWorks AI · Cox &amp; Kings · CaptainFresh · CoinDCX · BabyChakra · KleverKid ·&nbsp;
+                KoinBX · AssetWorks AI · Cox &amp; Kings · Captain Fresh · CoinDCX · Hopscotch · BabyChakra · KleverKid ·&nbsp;
             </Marquee>
 
             <section className="v3-strip">

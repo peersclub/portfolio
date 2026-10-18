@@ -9,177 +9,67 @@ import {
   TrendingUp, Rocket, Target, Bot,
 } from 'lucide-react';
 
-// Brand-accurate accents: CoinDCX orange, BabyChakra pink, CaptainFresh
-// fish red, AssetWorks gold — matched to src/data/projects.ts.
+// Brand-accurate accents (KoinBX blue, BabyChakra cyan, CoinDCX orange),
+// matched to src/data/projects.ts.
 const IMPACT_CARD_PALETTE = [
-  { accent: '#FA4A2A', gradientFrom: 'rgba(250, 74, 42, 0.2)',   gradientTo: 'rgba(250, 74, 42, 0.05)'   },
+  { accent: '#006AFE', gradientFrom: 'rgba(0, 106, 254, 0.2)',   gradientTo: 'rgba(0, 106, 254, 0.05)'   },
   { accent: '#89EBF5', gradientFrom: 'rgba(137, 235, 245, 0.2)', gradientTo: 'rgba(137, 235, 245, 0.05)' },
-  { accent: '#C4352B', gradientFrom: 'rgba(196, 53, 43, 0.2)',   gradientTo: 'rgba(196, 53, 43, 0.05)'   },
-  { accent: '#FFFFFF', gradientFrom: 'rgba(255, 255, 255, 0.16)', gradientTo: 'rgba(255, 255, 255, 0.04)' },
+  { accent: '#FA4A2A', gradientFrom: 'rgba(250, 74, 42, 0.2)',   gradientTo: 'rgba(250, 74, 42, 0.05)'   },
+  { accent: '#006AFE', gradientFrom: 'rgba(0, 106, 254, 0.16)', gradientTo: 'rgba(0, 106, 254, 0.04)' },
 ] as const;
 
+// Every metric here is stated in the resume (data/career.ts). No decorative
+// growth curves: a chart without data under a real number reads as data.
 const impacts = [
   {
     number: '01',
-    metric: '1M+',
-    description: 'users on India\'s largest crypto exchange',
-    context: 'Led product for DCXInsta, DCXTrade, DCXMargin, and DCXFutures platforms',
-    company: 'CoinDCX',
+    metric: 'Aug 2026',
+    description: 'crypto futures taken from strategy to market',
+    context: 'A new derivatives business line at KoinBX, with subscription-based membership pricing',
+    company: 'KoinBX',
     icon: TrendingUp,
     size: 'large',
     accentColor: IMPACT_CARD_PALETTE[0].accent,
     gradientFrom: IMPACT_CARD_PALETTE[0].gradientFrom,
     gradientTo: IMPACT_CARD_PALETTE[0].gradientTo,
-    chartType: 'area', // Hockey Stick
   },
   {
     number: '02',
-    metric: '42%',
-    description: 'retention increase in 8 months',
-    context: 'Complete platform revamp with improved UX and engagement features',
+    metric: '+42%',
+    description: 'app user retention within 8 months',
+    context: 'Stickiness rose 21% over the same period',
     company: 'BabyChakra',
     icon: Rocket,
     size: 'medium',
     accentColor: IMPACT_CARD_PALETTE[1].accent,
     gradientFrom: IMPACT_CARD_PALETTE[1].gradientFrom,
     gradientTo: IMPACT_CARD_PALETTE[1].gradientTo,
-    chartType: 'retention', // Step Up
   },
   {
     number: '03',
-    metric: 'First',
-    description: 'in-industry supply chain platform',
-    context: 'Built B2B platform and ops team from scratch for seafood logistics',
-    company: 'CaptainFresh',
+    metric: '4',
+    description: 'trading products led as Product Lead',
+    context: 'DCX Insta, DCX Trade, DCX Margin and DCX Futures, on mobile app and desktop web',
+    company: 'CoinDCX',
     icon: Target,
     size: 'medium',
     accentColor: IMPACT_CARD_PALETTE[2].accent,
     gradientFrom: IMPACT_CARD_PALETTE[2].gradientFrom,
     gradientTo: IMPACT_CARD_PALETTE[2].gradientTo,
-    chartType: 'bar', // Growth Bars
   },
   {
     number: '04',
-    metric: 'AI-native',
-    description: 'financial analytics with natural language',
-    context: 'Co-founded platform integrating frontier LLMs for investment insights',
-    company: 'AssetWorks AI',
+    metric: '~9×',
+    description: 'delivery throughput in four months',
+    context: 'After restructuring product and engineering at KoinBX and adopting AI-assisted engineering',
+    company: 'KoinBX',
     icon: Bot,
     accentColor: IMPACT_CARD_PALETTE[3].accent,
     gradientFrom: IMPACT_CARD_PALETTE[3].gradientFrom,
     gradientTo: IMPACT_CARD_PALETTE[3].gradientTo,
-    chartType: 'line',
   },
 ];
 
-const MicroChart = ({ type, color }: { type: string; color: string }) => {
-  switch (type) {
-    case 'area': // CoinDCX - Hockey Stick Growth
-      return (
-        <svg viewBox="0 0 100 40" className="micro-chart">
-          <defs>
-            <linearGradient id={`grad-${color}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={color} stopOpacity={0.5} />
-              <stop offset="100%" stopColor={color} stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <motion.path
-            d="M0 40 L 40 40 Q 75 40 100 2 L 100 40 Z" // Hockey stick shape
-            fill={`url(#grad-${color})`}
-            initial={{ d: "M0 40 L 40 40 Q 75 40 100 40 L 100 40 Z" }}
-            whileInView={{ d: "M0 40 L 40 40 Q 75 40 100 2 L 100 40 Z" }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-          />
-          <motion.path
-            d="M0 40 L 40 40 Q 75 40 100 2"
-            fill="none"
-            stroke={color}
-            strokeWidth="2.5"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-          />
-        </svg>
-      );
-    case 'bar': // CaptainFresh - Growth Bars (0 -> 1)
-      return (
-        <svg viewBox="0 0 100 40" className="micro-chart">
-          {[0, 1, 2, 3, 4].map((i) => {
-            const h = [5, 12, 18, 24, 30][i]; // Scaled down to prevent sharp clipping
-            const x = i * 20 + 10;
-            return (
-              <motion.line
-                key={i}
-                x1={x}
-                y1="40"
-                x2={x}
-                y2="40"
-                stroke={color}
-                strokeWidth="10"
-                strokeLinecap="round" // User wants CURVED
-                initial={{ y2: 40 }}
-                whileInView={{ y2: 40 - h }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease: "backOut" }}
-                opacity={1}
-              />
-            );
-          })}
-        </svg>
-      );
-    case 'retention': // Babychakra - Step Up (Retention)
-      return (
-        <svg viewBox="0 0 100 40" className="micro-chart">
-          <motion.path
-            d="M5 35 L 35 35 L 35 20 L 70 20 L 70 5 L 95 5"
-            fill="none"
-            stroke={color}
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            initial={{ pathLength: 0, opacity: 0 }}
-            whileInView={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-          />
-          <motion.circle cx="35" cy="35" r="3" fill={color} initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: 0.5 }} />
-          <motion.circle cx="70" cy="20" r="3" fill={color} initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: 0.8 }} />
-          <motion.circle cx="95" cy="5" r="4" fill={color} initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: 1.2 }} />
-        </svg>
-      );
-    case 'trend': // Fallback / Generic
-      return (
-        <svg viewBox="0 0 100 40" className="micro-chart">
-          <motion.path
-            d="M0 35 L 100 5"
-            fill="none"
-            stroke={color}
-            strokeWidth="2"
-            strokeDasharray="4 2"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            transition={{ duration: 1 }}
-          />
-        </svg>
-      );
-    case 'line': // Assetworks - AI Efficiency
-      return (
-        <svg viewBox="0 0 100 40" className="micro-chart">
-          <motion.polyline
-            points="0,35 20,30 40,32 60,15 80,18 100,5"
-            fill="none"
-            stroke={color}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            transition={{ duration: 1.2 }}
-          />
-        </svg>
-      );
-    default:
-      return null;
-  }
-};
 
 const container = {
   hidden: { opacity: 0 },
@@ -226,7 +116,7 @@ export default function Impact() {
             Products that <span className="golden-text">matter</span>
           </h2>
           <p className="section-subtitle">
-            Measurable outcomes across fintech, consumer tech, and AI products
+            Results I can put a number or a date to.
           </p>
         </motion.div>
 
@@ -283,9 +173,6 @@ export default function Impact() {
                   <div className="metric-container">
                     <CountUpMetric value={item.metric} className="impact-metric" />
                     <div className="metric-underline" />
-                  </div>
-                  <div className="metric-chart-wrapper">
-                    <MicroChart type={item.chartType || 'area'} color={item.accentColor} />
                   </div>
                 </div>
 

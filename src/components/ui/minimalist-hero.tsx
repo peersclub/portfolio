@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ResumeGate from '@/components/ResumeGate/ResumeGate';
 
 // Define the props interface for type safety and reusability
 interface MinimalistHeroProps {
@@ -61,9 +62,10 @@ export const MinimalistHero = ({
           className="z-20 order-2 md:order-1 text-center md:text-left"
         >
           <p className="mx-auto max-w-sm text-base leading-relaxed text-foreground/80 md:mx-0 md:text-lg">{mainText}</p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 md:justify-start">
           <a
             href={ctaHref}
-            className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
             style={{
               // --bg-primary inverts per theme, so the label stays readable on any accent color
               background: 'var(--accent)',
@@ -73,6 +75,8 @@ export const MinimalistHero = ({
           >
             {ctaText}
           </a>
+          <ResumeGate tone="ghost" />
+          </div>
         </motion.div>
 
         {/* Center Image with Circle */}

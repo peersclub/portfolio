@@ -1,142 +1,131 @@
-// Project data shared across the app — single source of truth.
-// `featured` = the three deep case studies; the rest render as compact cards.
+// Project data shared across the app — one entry per case study.
+// Facts (role, dates, numbers) come from data/career.ts, which mirrors the
+// resume; this file only adds presentation: brand color, surface, ordering.
+// `featured` = the deep case studies on the home page; the rest render as
+// compact cards.
+import { getRole, formatYears } from './career';
+
 export interface Project {
     slug: string;
     year: string;
     company: string;
     title: string;
+    /** One line, resume wording */
     tagline: string;
     description: string;
+    /** Only numbers the resume states — empty when it states none */
     metrics: { label: string; value: string }[];
     role: string;
-    tech: string[];
     color: string;
     /** readable stand-in on dark surfaces for near-black brand colors */
     colorOnDark?: string;
     category?: string;
-    /** Local photo cover (featured cards); compact cards fall back to gradient + logo */
+    /** Local photo cover (featured cards) */
     cover?: string;
-    /** Brand logo under public/ for compact cards */
-    logo?: string;
     featured?: boolean;
     /** Case-study page background family — drives the central CaseStudyBar colors */
     surface: 'light' | 'dark';
 }
 
-export const projects: Project[] = [
+type Presentation = Pick<Project, 'slug' | 'color' | 'colorOnDark' | 'category' | 'cover' | 'featured' | 'surface' | 'tagline'> & {
+    metrics?: Project['metrics'];
+};
+
+// Canonical brand colors (Victor-confirmed, 2026-07-25; KoinBX from its own
+// design tokens --kbx-brand #006AFE). Never pick decorative colors for these.
+const PRESENTATION: Presentation[] = [
+    {
+        slug: 'koinbx',
+        surface: 'dark',
+        color: '#006AFE',
+        category: 'Crypto exchange',
+        tagline: 'Product and technology strategy for a bootstrapped Indian crypto exchange, including its futures launch',
+        featured: true,
+        metrics: [
+            { value: 'Aug 2026', label: 'Futures launched' },
+            { value: '~9×', label: 'Delivery throughput' },
+        ],
+    },
     {
         slug: 'assetworks-ai',
         surface: 'dark',
-        year: '2025-Present',
-        company: 'AssetWorks AI',
-        title: 'AssetWorks AI',
-        tagline: 'AI-native financial analytics platform',
-        description: 'Co-founded and led AssetWorks, an AI-powered financial analytics platform. Built full-stack SaaS product integrating frontier LLMs with a Rust backend and Flutter mobile apps. Users can create investment widgets using simple natural language.',
-        metrics: [
-            { label: 'Role', value: 'Co-Founder & CPO' },
-            { label: 'Founded', value: '2025' },
-        ],
-        role: 'Co-Founder',
-        tech: ['AI & LLMs', 'Rust', 'Flutter', 'SaaS'],
         color: '#050304',
         colorOnDark: '#FFFFFF',
-        category: 'AI & Fintech',
-        logo: '/projects/assetworks-ai/logo.svg',
-        featured: true,
-    },
-    {
-        slug: 'coindcx',
-        surface: 'dark',
-        year: '2019-2021',
-        company: 'CoinDCX',
-        title: 'CoinDCX',
-        tagline: "India's largest crypto exchange",
-        description: "Led product development for India's largest crypto exchange with multiple products including DCXInsta, DCXTrade, DCXMargin, and DCXFutures. Built a team of 3 product managers and significantly scaled the product offerings.",
+        category: 'AI & fintech',
+        tagline: 'AI-powered financial analytics: investment widgets from natural-language queries',
         metrics: [
-            { label: 'Users', value: '1M+' },
-            { label: 'Products', value: '4' },
+            { value: 'Claude + GPT', label: 'Models integrated' },
+            { value: 'Rust + Flutter', label: 'Backend and apps' },
         ],
-        role: 'Product Lead',
-        tech: ['Product Strategy', 'Mobile', 'Web', 'Fintech'],
-        color: '#FA4A2A',
-        category: 'Crypto Exchange',
-        logo: '/projects/coindcx/logo.svg',
-        featured: true,
-    },
-    {
-        slug: 'captain-fresh',
-        surface: 'dark',
-        year: '2021-2024',
-        company: 'CaptainFresh',
-        title: 'CaptainFresh',
-        tagline: 'Revolutionizing seafood supply chain',
-        description: 'Built first-in-industry products for a century-old seafood industry. Led the overall product from scratch, building the team and playing an active part in the long-term roadmap.',
-        metrics: [
-            { label: 'Downloads', value: '50K+' },
-            { label: 'Fisher income', value: '+40%' },
-        ],
-        role: 'Product Lead',
-        tech: ['B2B', 'Operations', 'Mobile', 'Supply Chain'],
-        color: '#C4352B',
-        category: 'Supply Chain',
-        cover: '/projects/captain-fresh/IMG_3351.JPG',
-        featured: true,
     },
     {
         slug: 'cox-and-kings',
         surface: 'light',
-        year: '2024-Present',
-        company: 'Cox & Kings',
-        title: 'Cox & Kings',
-        tagline: 'Personalized travel tech experience',
-        description: 'Building the first personalized experience in travel tech as SVP of Product and Tech. Put together a senior executive team; owning strategy, budget, and the product plan.',
-        metrics: [
-            { label: 'Focus', value: 'Personalization' },
-            { label: 'Role', value: 'SVP' },
-        ],
-        role: 'SVP Product & Tech',
-        tech: ['Personalization', 'Strategy', 'Travel Tech'],
         color: '#0B5AB1',
-        category: 'Travel Tech',
-        logo: '/projects/cox-and-kings/logo.svg',
+        category: 'Travel tech',
+        tagline: "The first personalized customer experience in the company's travel-tech platform",
+    },
+    {
+        slug: 'captain-fresh',
+        surface: 'dark',
+        color: '#C4352B',
+        category: 'Supply chain',
+        cover: '/projects/captain-fresh/IMG_3351.JPG',
+        featured: true,
+        tagline: 'Industry-first digital products for a century-old seafood supply chain',
+        metrics: [
+            { value: 'From scratch', label: 'Product and product team' },
+            { value: '3', label: 'Platforms: sourcing, operations, customer' },
+        ],
+    },
+    {
+        slug: 'coindcx',
+        surface: 'dark',
+        color: '#FA4A2A',
+        category: 'Crypto exchange',
+        tagline: "Overall product for India's leading crypto exchange, across four trading products",
+        featured: true,
+        metrics: [
+            { value: '4', label: 'Trading products' },
+            { value: '3', label: 'PMs in the team' },
+        ],
+    },
+    {
+        slug: 'hopscotch',
+        surface: 'light',
+        color: '#67218C',
+        category: 'E-commerce',
+        tagline: "Demand-side and supply-side products for a kids' fashion e-commerce platform",
     },
     {
         slug: 'babychakra',
         surface: 'light',
-        year: '2017-2018',
-        company: 'BabyChakra',
-        title: 'BabyChakra',
-        tagline: 'India\'s leading parenting platform',
-        description: 'Increased retention by 42% and stickiness by 21% in 8 months. Built the product marketplace and completely revamped the web platform for better user experience.',
-        metrics: [
-            { label: 'Retention', value: '+42%' },
-            { label: 'Stickiness', value: '+21%' },
-        ],
-        role: 'Senior Product Manager',
-        tech: ['Growth', 'Marketplace', 'UX', 'Consumer'],
         color: '#89EBF5',
         category: 'Consumer',
-        logo: '/projects/babychakra/logo.svg',
+        tagline: 'App retention up 42% and stickiness up 21% within 8 months',
     },
     {
         slug: 'kleverkid',
         surface: 'light',
-        year: '2015-2016',
-        company: 'KleverKid',
-        title: 'KleverKid',
-        tagline: 'Afterschool activities marketplace',
-        description: 'Managed product requirements and development for KleverKid Android and iOS apps. Involved in full product life cycle, scalability, and performance.',
-        metrics: [
-            { label: 'Platforms', value: 'iOS/Android' },
-            { label: 'Scope', value: 'First PM role' },
-        ],
-        role: 'Product Manager',
-        tech: ['EdTech', 'Marketplace', 'Mobile', 'Product Mgmt'],
         color: '#156585',
-        category: 'EdTech',
-        logo: '/projects/kleverkid/logo.svg',
+        category: 'Marketplace',
+        tagline: 'Full product lifecycle across web, Android and iOS',
     },
 ];
+
+export const projects: Project[] = PRESENTATION.map(p => {
+    const role = getRole(p.slug);
+    if (!role) throw new Error(`projects.ts: no career role for slug "${p.slug}"`);
+    return {
+        ...p,
+        year: formatYears(role),
+        company: role.company,
+        title: role.company,
+        role: role.title,
+        description: role.context ?? role.bullets[0],
+        metrics: p.metrics ?? role.evidence?.map(e => ({ value: e.value, label: e.label.split(',')[0] })) ?? [],
+    };
+});
 
 export const featuredProjects = projects.filter(p => p.featured);
 export const moreProjects = projects.filter(p => !p.featured);

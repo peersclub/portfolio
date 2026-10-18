@@ -33,20 +33,20 @@ export const metadata: Metadata = {
         process.env.NEXT_PUBLIC_SITE_URL
             || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sureshvictor.com')
     ),
-    title: "Suresh Victor | Product Architect",
-    description: "Product Leader & Co-Founder. 10+ years building products that scale to millions.",
-    keywords: ["product leader", "co-founder", "fintech", "crypto", "AI", "assetworks"],
+    title: "Suresh Victor | Product & Technology Leader",
+    description: "Product and technology leader. 10+ years building 0-to-1 products and teams across crypto, fintech, B2B SaaS, supply chain and travel tech.",
+    keywords: ["product leader", "head of product", "fintech", "crypto", "KoinBX", "CoinDCX", "AssetWorks AI"],
     authors: [{ name: "Suresh Victor" }],
     openGraph: {
-        title: "Suresh Victor | Product Architect",
-        description: "Building products that scale to millions",
+        title: "Suresh Victor | Product & Technology Leader",
+        description: "Product and technology leader. 10+ years building 0-to-1 products and teams.",
         type: "website",
         images: [{ url: "/og-image.png", width: 1200, height: 630 }],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Suresh Victor | Product Architect",
-        description: "Building products that scale to millions",
+        title: "Suresh Victor | Product & Technology Leader",
+        description: "Product and technology leader. 10+ years building 0-to-1 products and teams.",
         images: ["/og-image.png"],
     },
 };

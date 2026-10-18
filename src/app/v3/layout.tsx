@@ -13,7 +13,7 @@ const bricolage = Bricolage_Grotesque({
 export const metadata: Metadata = {
     title: 'Suresh Victor — Third Edition',
     description:
-        'A kinetic type specimen of a product career. Ten years, six companies, one voice — set in motion.',
+        'A kinetic type specimen of a product career. Ten years, eight companies, one voice — set in motion.',
     openGraph: {
         title: 'Suresh Victor — Third Edition',
         description: 'A kinetic type specimen of a product career.',

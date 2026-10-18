@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 import { StickySubNav } from '@/components/StickySubNav';
 import Footer from '@/components/Footer/Footer';
+import ResumeGate from '@/components/ResumeGate/ResumeGate';
 
 const SECTIONS = [
     { id: 'who', label: 'Who I Am' },
@@ -64,10 +65,12 @@ const RED_FLAGS = [
 
 // Condensed from /mylife (the full chronicle lives on as an easter egg)
 const JOURNEY = [
-    { years: '2009 – 2013', label: 'NITK Surathkal', detail: 'B.Tech, Chemical Engineering — and the ENGINEER fest that taught orchestration' },
-    { years: '2015 – 2019', label: 'The PM years', detail: 'KleverKid → BabyChakra (+42% retention) → Hopscotch' },
-    { years: '2019 – 2024', label: 'Scale', detail: "CoinDCX to 1M+ users; CaptainFresh's first-in-industry supply chain products" },
-    { years: '2024 – Present', label: 'Building', detail: 'SVP at Cox & Kings; co-founded AssetWorks AI' },
+    { years: '2009 – 2013', label: 'NITK Surathkal', detail: 'B.Tech, Chemical Engineering; Joint Secretary of Engineer 2012, the NITK technical festival' },
+    { years: '2013 – 2015', label: 'First builds', detail: 'Designed CMIS, a web app for admissions, attendance and fees, at Rhythms Academy' },
+    { years: '2015 – 2019', label: 'The PM years', detail: 'KleverKid, then BabyChakra (+42% app retention in 8 months), then Hopscotch' },
+    { years: '2019 – 2024', label: 'Leading product', detail: 'CoinDCX across four trading products with a team of 3 PMs; Captain Fresh product and product team built from scratch' },
+    { years: '2024 – 2025', label: 'Cox & Kings', detail: "SVP, Product & Technology; led the first personalized customer experience in the company's travel-tech platform" },
+    { years: '2025 – Present', label: 'Building', detail: 'Co-founded AssetWorks AI; own product and technology strategy at KoinBX, where crypto futures launched in August 2026' },
 ];
 
 export default function AboutPage() {
@@ -101,11 +104,10 @@ export default function AboutPage() {
                     {/* Who I Am */}
                     <section id="who" className="mb-32 scroll-mt-48 pt-12">
                         <p className="max-w-3xl text-2xl sm:text-3xl font-light leading-relaxed text-[var(--text-primary)]">
-                            I&apos;m driven by a simple mission: build high-quality, scalable products that people
-                            genuinely love to use. From scaling India&apos;s largest crypto exchange to putting
-                            border-safety alerts in fishermen&apos;s hands, I turn complex problems into products
-                            that serve millions. Currently co-founding{' '}
-                            <span className="text-[var(--accent)]">AssetWorks AI</span>.
+                            I build 0-to-1 products and the teams behind them. I led product at CoinDCX, built
+                            Captain Fresh&apos;s product and product team from scratch, co-founded AssetWorks AI,
+                            and today own product and technology strategy at{' '}
+                            <span className="text-[var(--accent)]">KoinBX</span>.
                         </p>
                         <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl">
                             {VALUES.map((v) => (
@@ -204,13 +206,16 @@ export default function AboutPage() {
                     <section className="mb-12 rounded-2xl border border-[var(--glass-border)] bg-[var(--bg-secondary)] p-8 sm:p-12 text-center">
                         <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">Sound like a fit?</h2>
                         <p className="mt-3 text-[var(--text-secondary)]">I answer fast on WhatsApp and email.</p>
+                        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                         <Link
                             href="/contact"
-                            className="mt-6 inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+                            className="inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
                             style={{ background: 'var(--accent)', color: 'var(--accent-contrast)' }}
                         >
                             Let&apos;s talk
                         </Link>
+                        <ResumeGate tone="ghost" />
+                        </div>
                     </section>
                 </div>
             </div>

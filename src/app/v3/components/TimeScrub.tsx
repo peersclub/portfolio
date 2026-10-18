@@ -29,13 +29,13 @@ const MILESTONES: Milestone[] = [
     { year: 1992, icon: Pencil, title: 'A pencil', detail: 'Drawing shapes until the hand knows them by heart — the first product spec.', stats: [{ value: 'Day 1', label: 'curiosity compounds' }] },
     { year: 2004, icon: Wind, title: 'Kites over Bangalore', detail: 'Crosswind flying: read the pull, give slack, never let go.', stats: [{ value: '∞', label: 'iterations to liftoff' }] },
     { year: 2013, icon: GraduationCap, title: 'NITK Surathkal', detail: 'Engineering gives the curves a grammar — systems, constraints, trade-offs.', stats: [{ value: 'B.Tech', label: 'NIT Karnataka' }] },
-    { year: 2015, icon: Rocket, title: 'KleverKid', detail: 'First PM role — owning an afterschool marketplace end to end.', stats: [{ value: '2', label: 'apps shipped · iOS + Android' }, { value: '1st', label: 'product role' }] },
+    { year: 2015, icon: Rocket, title: 'KleverKid', detail: 'Product Manager — the full product lifecycle, from requirements to performance.', stats: [{ value: '3', label: 'platforms · web, Android, iOS' }] },
     { year: 2017, icon: Zap, title: 'BabyChakra', detail: 'Rebuilt the loop parents wanted to re-enter, then the platform around it.', stats: [{ value: '+42%', label: 'retention · 8 months' }, { value: '+21%', label: 'stickiness' }] },
-    { year: 2019, icon: Briefcase, title: 'CoinDCX', detail: 'Product lead through India’s fastest crypto growth years.', stats: [{ value: '1M+', label: 'traders served' }, { value: '4', label: 'products launched' }, { value: '3', label: 'PMs hired & led' }] },
-    { year: 2021, icon: Trophy, title: 'CaptainFresh', detail: 'First-in-industry supply chain platform for a century-old seafood trade.', stats: [{ value: '50K+', label: 'downloads' }, { value: '+40%', label: 'fisher income' }, { value: '#1', label: 'industry first' }] },
-    { year: 2024, icon: Plane, title: 'Cox & Kings', detail: 'SVP, Product & Tech — teaching one of travel’s oldest brands to feel personal.', stats: [{ value: '267 yrs', label: 'of brand, made personal' }, { value: 'SVP', label: 'product & tech' }] },
-    { year: 2025, icon: Sparkles, title: 'AssetWorks AI', detail: 'Co-founder & CPO. Plain language in, investment insight out.', stats: [{ value: 'CPO', label: 'co-founder' }, { value: 'AI-native', label: 'frontier LLMs in prod' }] },
-    { year: 2026, icon: InfinityIcon, title: 'Still drawing', detail: 'The medium keeps changing. The line doesn’t.', stats: [{ value: '10+', label: 'years' }, { value: '6', label: 'companies' }, { value: '1M+', label: 'users impacted' }] },
+    { year: 2019, icon: Briefcase, title: 'CoinDCX', detail: 'Product Lead for India’s leading crypto exchange, on mobile app and desktop web.', stats: [{ value: '4', label: 'trading products led' }, { value: '3', label: 'PMs in the team I built' }] },
+    { year: 2021, icon: Trophy, title: 'Captain Fresh', detail: 'Industry-first digital products for a century-old seafood supply chain.', stats: [{ value: '0 → 1', label: 'product and product team' }, { value: '3', label: 'sourcing · operations · customers' }] },
+    { year: 2024, icon: Plane, title: 'Cox & Kings', detail: 'SVP, Product & Technology — the first personalized customer experience on the travel-tech platform.', stats: [{ value: 'SVP', label: 'product & technology' }] },
+    { year: 2025, icon: Sparkles, title: 'AssetWorks AI', detail: 'Co-founder. Plain language in, investment widgets out.', stats: [{ value: 'Claude + GPT', label: 'Rust backend · Flutter apps' }] },
+    { year: 2026, icon: InfinityIcon, title: 'KoinBX, now', detail: 'Since Nov 2025: product and technology strategy, CPO scope. Crypto futures from strategy to market.', stats: [{ value: 'Aug 2026', label: 'futures launched' }, { value: '~9×', label: 'delivery throughput · 4 months' }, { value: '10+', label: 'years' }] },
 ];
 
 const MIN = MILESTONES[0].year;

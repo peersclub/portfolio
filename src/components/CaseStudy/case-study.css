@@ -1,0 +1,478 @@
+/* Case study — one template for every project, painted in the brand's color.
+   The hero is the one loud moment (brand field + full-width wordmark);
+   everything below is a quiet, ruled brief. Plain CSS, `cs-` prefix only. */
+
+.cs {
+    --cs-display: var(--font-cs-display), var(--font-inter), system-ui, sans-serif;
+    --cs-gutter: clamp(1rem, 4vw, 3.5rem);
+    background: var(--cs-bg);
+    color: var(--cs-ink);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    position: relative;
+    z-index: 1;
+}
+
+/* Neutralise the site's global type rules (uppercase h1, grey p, 55ch cap). */
+.cs :where(h1, h2, h3, p) {
+    color: inherit;
+    max-width: none;
+    text-transform: none;
+    font-family: inherit;
+}
+
+/* Brand worlds: drop the site's fixed glow / grid / noise overlays. */
+body:has(.cs) .atmospheric-glow,
+body:has(.cs) .blueprint-grid,
+body:has(.cs) .noise-overlay {
+    display: none;
+}
+
+.cs-dark {
+    --cs-bg: color-mix(in srgb, var(--brand) 6%, #050505);
+    --cs-ink: #f3f2ef;
+    --cs-muted: rgba(243, 242, 239, 0.62);
+    --cs-line: rgba(255, 255, 255, 0.12);
+    --cs-line-strong: rgba(255, 255, 255, 0.24);
+}
+
+.cs-light {
+    --cs-bg: color-mix(in srgb, var(--brand) 4%, #ffffff);
+    --cs-ink: #121212;
+    --cs-muted: rgba(18, 18, 18, 0.64);
+    --cs-line: rgba(0, 0, 0, 0.1);
+    --cs-line-strong: rgba(0, 0, 0, 0.22);
+}
+
+/* ---------- Hero: brand field, full-width wordmark ---------- */
+
+.cs-hero {
+    position: relative;
+    min-height: 92svh;
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 34rem);
+    grid-template-rows: auto 1fr auto;
+    gap: 2rem var(--cs-gutter);
+    padding: calc(52px + clamp(2.5rem, 6vw, 5rem)) var(--cs-gutter) 0;
+    background: var(--brand);
+    color: var(--brand-ink);
+    overflow: hidden;
+}
+
+.cs-hero-meta {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.cs-hero-role {
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+}
+
+.cs-hero-when {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.78;
+    font-variant-numeric: tabular-nums;
+}
+
+.cs-hero-thesis {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    line-height: 1.35;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.cs-wordmark {
+    grid-column: 1 / -1;
+    font-family: var(--cs-display);
+    grid-row: 3;
+    margin: 0 0 -0.14em;
+    font-family: var(--cs-display);
+    font-stretch: 125%;
+    font-variation-settings: 'wdth' 125;
+    font-weight: 800;
+    /* Scale the name to the viewport by its length so every brand fills
+       the width without overflowing: ~0.78em per expanded glyph. */
+    font-size: min(calc(96vw / (var(--chars, 8) * 0.78)), 19rem);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+}
+
+/* Names with descenders (BabyChakra, Captain Fresh) keep them; the rest bleed. */
+.cs-wordmark.has-desc {
+    margin-bottom: 0.02em;
+}
+
+.cs-wordmark span {
+    display: inline-block;
+    animation: cs-rise 1s cubic-bezier(0.16, 1, 0.3, 1) both 0.1s;
+}
+
+@keyframes cs-rise {
+    from {
+        transform: translateY(55%);
+        opacity: 0;
+    }
+}
+
+/* ---------- Tenure: the whole career on one axis ---------- */
+
+.cs-tenure {
+    padding: 1.75rem var(--cs-gutter) 1.25rem;
+    border-bottom: 1px solid var(--cs-line);
+}
+
+.cs-tenure-track {
+    position: relative;
+}
+
+.cs-seg {
+    position: absolute;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--cs-line-strong);
+    transition: background-color 0.2s ease;
+}
+
+a.cs-seg:hover,
+a.cs-seg:focus-visible {
+    background: var(--cs-ink);
+    outline: none;
+}
+
+.cs-seg.is-current {
+    height: 8px;
+}
+
+.cs-tenure-years {
+    position: relative;
+    height: 1.2rem;
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--cs-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.cs-tenure-years span {
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.cs-tenure-years span:first-child {
+    transform: none;
+}
+
+/* ---------- Body: the brief, ruled rows ---------- */
+
+.cs-body {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 var(--cs-gutter) clamp(3rem, 8vw, 6rem);
+}
+
+.cs-row {
+    display: grid;
+    grid-template-columns: minmax(10rem, 1fr) minmax(0, 2.4fr);
+    gap: 1.5rem clamp(2rem, 5vw, 5rem);
+    padding: clamp(2.75rem, 6vw, 4.5rem) 0;
+    border-top: 1px solid var(--cs-line);
+}
+
+.cs-row:first-child {
+    border-top: 0;
+}
+
+.cs-h {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cs-muted);
+    letter-spacing: 0;
+    align-self: start;
+    position: sticky;
+    top: 76px;
+}
+
+.cs-lead {
+    margin: 0;
+    max-width: 36em;
+    font-size: clamp(1.3rem, 2.1vw, 1.75rem);
+    line-height: 1.42;
+    letter-spacing: -0.01em;
+}
+
+.cs-did,
+.cs-surfaces {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cs-did li {
+    position: relative;
+    padding: 1.1rem 0 1.1rem 1.75rem;
+    max-width: 44em;
+    font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+    line-height: 1.6;
+    border-bottom: 1px solid var(--cs-line);
+}
+
+.cs-did li:first-child {
+    padding-top: 0.25rem;
+}
+
+.cs-did li:first-child::before {
+    top: 0.85em;
+}
+
+.cs-did li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: calc(1.1rem + 0.6em);
+    width: 8px;
+    height: 8px;
+    background: var(--cs-accent);
+}
+
+.cs-evidence {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 2.5rem clamp(2rem, 4vw, 4rem);
+}
+
+.cs-evidence div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+}
+
+.cs-evidence dd {
+    margin: 0;
+    font-family: var(--cs-display);
+    font-stretch: 75%;
+    font-variation-settings: 'wdth' 75;
+    font-weight: 800;
+    font-size: clamp(4rem, 9vw, 7.5rem);
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    color: var(--cs-accent);
+    font-variant-numeric: tabular-nums;
+}
+
+.cs-evidence dt {
+    font-size: 1rem;
+    line-height: 1.45;
+    color: var(--cs-muted);
+    max-width: 26ch;
+}
+
+.cs-surfaces {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    border-top: 1px solid var(--cs-line);
+}
+
+.cs-surfaces li {
+    padding: 1.1rem 1rem 1.1rem 0;
+    border-bottom: 1px solid var(--cs-line);
+    font-family: var(--cs-display);
+    font-stretch: 108%;
+    font-variation-settings: 'wdth' 108;
+    font-weight: 600;
+    font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+    line-height: 1.3;
+}
+
+/* ---------- Gallery: real photos and app screens ---------- */
+
+.cs-row-gallery > :not(.cs-h) {
+    grid-column: 2;
+}
+
+.cs-photos {
+    display: grid;
+    grid-template-columns: 4fr 4fr 2.25fr;
+    gap: 0.75rem;
+    align-items: start;
+}
+
+.cs-photos figure,
+.cs-screens figure {
+    margin: 0;
+}
+
+.cs-photos img,
+.cs-screens img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.cs-screens {
+    margin-top: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+}
+
+.cs-screens figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--cs-muted);
+}
+
+/* ---------- Call to action ---------- */
+
+.cs-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+}
+
+.cs-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 1.4rem;
+    border-radius: 999px;
+    background: var(--brand);
+    color: var(--brand-ink);
+    border: 1px solid var(--brand);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.cs-dark .cs-btn {
+    /* near-black brands (AssetWorks) vanish on the dark page — use the readable accent */
+    background: var(--cs-accent);
+    border-color: var(--cs-accent);
+    color: var(--cs-bg);
+}
+
+.cs-btn:hover {
+    transform: translateY(-1px);
+}
+
+.cs-btn:focus-visible,
+.cs-next:focus-visible {
+    outline: 2px solid var(--cs-ink);
+    outline-offset: 3px;
+}
+
+.cs .rg-ghost {
+    --rg-line: var(--cs-line-strong);
+    color: var(--cs-ink);
+}
+
+/* ---------- Next case study ---------- */
+
+.cs-next {
+    display: grid;
+    gap: 0.5rem;
+    padding: clamp(3.5rem, 8vw, 6rem) var(--cs-gutter);
+    background: var(--next);
+    color: var(--next-ink);
+    text-decoration: none;
+}
+
+.cs-next-kicker {
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.75;
+}
+
+.cs-next-name {
+    display: flex;
+    align-items: center;
+    gap: 0.15em;
+    font-family: var(--cs-display);
+    font-stretch: 125%;
+    font-variation-settings: 'wdth' 125;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+}
+
+.cs-next-arrow {
+    width: 0.7em;
+    height: 0.7em;
+    flex: none;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cs-next:hover .cs-next-arrow {
+    transform: translate(0.08em, -0.08em);
+}
+
+.cs-next-role {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 900px) {
+    .cs-hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+        min-height: 86svh;
+    }
+
+    .cs-hero-thesis {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .cs-wordmark {
+        grid-row: 4;
+    }
+
+    .cs-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cs-h {
+        position: static;
+    }
+
+    .cs-row-gallery > :not(.cs-h) {
+        grid-column: 1;
+    }
+
+    .cs-photos {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cs-photos figure:last-child {
+        grid-column: 1 / -1;
+        max-width: 60%;
+    }
+
+    .cs-screens {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cs-tenure-years .is-minor {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cs-wordmark span {
+        animation: none;
+    }
+}

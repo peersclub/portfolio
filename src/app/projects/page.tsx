@@ -23,8 +23,8 @@ export default function ProjectsPage() {
                             transition={{ delay: 0.1 }}
                             className="mt-4 sm:mt-6 max-w-2xl text-lg sm:text-xl text-[var(--text-secondary)]"
                         >
-                            Three case studies told in depth — problem, decisions, outcomes — and the
-                            rest of the road that led here.
+                            Eight roles, from KoinBX today back to KleverKid in 2015: what I owned and
+                            what shipped in each.
                         </motion.p>
                     </div>
                 </section>
