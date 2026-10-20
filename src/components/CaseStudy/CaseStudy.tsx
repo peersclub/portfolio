@@ -28,9 +28,32 @@ function inkOn(hex: string): string {
     return 1.05 / (L + 0.05) >= (L + 0.05) / 0.055 ? '#FFFFFF' : '#0B0B0B';
 }
 
-// Real material only. Photos and app screens Suresh supplied from the
-// Captain Fresh work; captions describe what is in the frame, nothing more.
-const GALLERY: Record<string, { photos: { src: string; alt: string; w: number; h: number }[]; screens?: { src: string; alt: string }[] }> = {
+// Real material only. Photos and app screens Suresh supplied; captions
+// describe what is in the frame, nothing more. Team photos are cropped to the
+// nearest standard ratio (4:3, 16:10, 16:9) that keeps every person in frame.
+type Gallery = {
+    title?: string;
+    photos: { src: string; alt: string; w: number; h: number }[];
+    screens?: { src: string; alt: string }[];
+};
+
+const GALLERY: Record<string, Gallery> = {
+    koinbx: {
+        title: 'The team',
+        photos: [{ src: '/projects/koinbx/team.jpg', alt: 'The KoinBX team on stage in front of the KoinBX logo', w: 2400, h: 1800 }],
+    },
+    coindcx: {
+        title: 'The team',
+        photos: [{ src: '/projects/coindcx/team.jpg', alt: 'The CoinDCX team gathered around a long table in the office', w: 2400, h: 1500 }],
+    },
+    babychakra: {
+        title: 'Moments',
+        photos: [{ src: '/projects/babychakra/team.jpg', alt: 'A group photo with conference lanyards, taken in an elevator', w: 1280, h: 960 }],
+    },
+    kleverkid: {
+        title: 'The team',
+        photos: [{ src: '/projects/kleverkid/team.jpg', alt: 'The KleverKid team around a café table with a cake', w: 1599, h: 900 }],
+    },
     'captain-fresh': {
         photos: [
             { src: '/projects/captain-fresh/IMG_3351.JPG', alt: 'On the beach with fishermen, looking at a phone together', w: 4032, h: 3024 },
@@ -180,11 +203,17 @@ export default function CaseStudy({ project, next }: { project: Project; next: P
 
                 {gallery && (
                     <section className="cs-row cs-row-gallery">
-                        <h2 className="cs-h">From the field</h2>
-                        <div className="cs-photos">
+                        <h2 className="cs-h">{gallery.title ?? 'From the field'}</h2>
+                        <div className={`cs-photos${gallery.photos.length === 1 ? ' is-single' : ''}`}>
                             {gallery.photos.map(p => (
                                 <figure key={p.src}>
-                                    <Image src={p.src} alt={p.alt} width={p.w} height={p.h} sizes="(max-width: 900px) 100vw, 40vw" />
+                                    <Image
+                                        src={p.src}
+                                        alt={p.alt}
+                                        width={p.w}
+                                        height={p.h}
+                                        sizes={gallery.photos.length === 1 ? '(max-width: 900px) 100vw, 60vw' : '(max-width: 900px) 100vw, 40vw'}
+                                    />
                                 </figure>
                             ))}
                         </div>

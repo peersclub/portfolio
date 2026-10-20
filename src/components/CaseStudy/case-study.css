@@ -304,6 +304,10 @@ a.cs-seg:focus-visible {
     align-items: start;
 }
 
+.cs-photos.is-single {
+    grid-template-columns: 1fr;
+}
+
 .cs-photos figure,
 .cs-screens figure {
     margin: 0;
@@ -460,6 +464,10 @@ a.cs-seg:focus-visible {
     .cs-photos figure:last-child {
         grid-column: 1 / -1;
         max-width: 60%;
+    }
+
+    .cs-photos.is-single figure:last-child {
+        max-width: none;
     }
 
     .cs-screens {

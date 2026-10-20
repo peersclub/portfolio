@@ -20,7 +20,7 @@ export interface Project {
     /** readable stand-in on dark surfaces for near-black brand colors */
     colorOnDark?: string;
     category?: string;
-    /** Local photo cover (featured cards) */
+    /** Local photo cover (home cards) — real team/field photos only */
     cover?: string;
     featured?: boolean;
     /** Case-study page background family — drives the central CaseStudyBar colors */
@@ -36,6 +36,7 @@ type Presentation = Pick<Project, 'slug' | 'color' | 'colorOnDark' | 'category' 
 const PRESENTATION: Presentation[] = [
     {
         slug: 'koinbx',
+        cover: '/projects/koinbx/team.jpg',
         surface: 'dark',
         color: '#006AFE',
         category: 'Crypto exchange',
@@ -80,6 +81,7 @@ const PRESENTATION: Presentation[] = [
     },
     {
         slug: 'coindcx',
+        cover: '/projects/coindcx/team.jpg',
         surface: 'dark',
         color: '#FA4A2A',
         category: 'Crypto exchange',
@@ -99,6 +101,7 @@ const PRESENTATION: Presentation[] = [
     },
     {
         slug: 'babychakra',
+        cover: '/projects/babychakra/team.jpg',
         surface: 'light',
         color: '#89EBF5',
         category: 'Consumer',
@@ -106,6 +109,7 @@ const PRESENTATION: Presentation[] = [
     },
     {
         slug: 'kleverkid',
+        cover: '/projects/kleverkid/team.jpg',
         surface: 'light',
         color: '#156585',
         category: 'Marketplace',
