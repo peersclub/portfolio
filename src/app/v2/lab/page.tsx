@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     description: 'Products built on my own time, and what the market shipped after.',
 };
 
+export const revalidate = 86400;
+
 export default function V2LabPage() {
     return (
         <div className="v2 v2-lab">
@@ -22,8 +24,8 @@ export default function V2LabPage() {
                         Early bets, with <em>receipts.</em>
                     </h1>
                     <p className="v2-lede">
-                        Four products I started outside my day job, the dated launches that came
-                        after, and what already existed, so nothing here claims to be first.
+                        Three ideas I started before Anthropic, Datadog, Atlassian and Apple
+                        shipped their own versions. A fourth that nobody has followed yet.
                     </p>
                 </header>
                 <LabIndex />

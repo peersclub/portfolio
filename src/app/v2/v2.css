@@ -902,48 +902,10 @@ body:has(.v2) .blueprint-grid {
     color: #10b981;
 }
 
-/* ————— lab re-skin (.lab-* under .v2-lab) ————— */
-.v2-lab .lab-entry {
-    background: color-mix(in srgb, var(--v2-bg) 62%, transparent);
-    border-color: color-mix(in srgb, var(--v2-ink) 8%, transparent);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    color: var(--v2-ink);
-}
-.v2-lab .lab-entry-head,
-.v2-lab .lab-status,
-.v2-lab .lab-stack li,
-.v2-lab .lab-timeline,
-.v2-lab .lab-tl-what a {
-    border-color: color-mix(in srgb, var(--v2-ink) 12%, transparent);
-}
-.v2-lab .lab-name,
-.v2-lab .lab-h,
-.v2-lab .lab-tl--start .lab-tl-what,
-.v2-lab .lab-tl-what a,
-.v2-lab .lab-before span {
-    color: var(--v2-ink);
-}
-.v2-lab .lab-line,
-.v2-lab .lab-col p,
-.v2-lab .lab-tl-what,
-.v2-lab .lab-stack li {
-    color: color-mix(in srgb, var(--v2-ink) 70%, transparent);
-}
-.v2-lab .lab-meta,
-.v2-lab .lab-tl-when,
-.v2-lab .lab-foot {
-    color: color-mix(in srgb, var(--v2-ink) 45%, transparent);
-}
-.v2-lab .lab-num,
-.v2-lab .lab-link,
-.v2-lab .lab-tl-gap {
-    color: var(--v2-accent);
-}
-.v2-lab .lab-tl::before {
-    background: color-mix(in srgb, var(--v2-ink) 40%, transparent);
-}
-.v2-lab .lab-tl--start::before {
-    background: var(--v2-accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--v2-accent) 25%, transparent);
+/* ————— lab re-skin: head-start chart only; chapters keep their brand themes ————— */
+.v2-lab .lab {
+    --hs-ink: var(--v2-ink);
+    --hs-soft: color-mix(in srgb, var(--v2-ink) 58%, transparent);
+    --hs-rule: color-mix(in srgb, var(--v2-ink) 9%, transparent);
+    --hs-dot: var(--v2-ink);
 }

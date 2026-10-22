@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     description: 'Products built on my own time, and what the market shipped after.',
 };
 
+export const revalidate = 86400;
+
 export default function V3LabPage() {
     return (
         <div className="v3 v3-lab">
@@ -20,7 +22,7 @@ export default function V3LabPage() {
                 <Lines
                     as="p"
                     className="v3-story-body v3-play-note"
-                    text="Four products I started outside my day job, the dated launches that came after, and what already existed, so nothing here claims to be first."
+                    text="Three ideas I started before Anthropic, Datadog, Atlassian and Apple shipped their own versions. A fourth that nobody has followed yet."
                 />
                 <LabIndex />
             </section>
