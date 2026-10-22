@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const staticRoutes: MetadataRoute.Sitemap = [
         { url: `${SITE_URL}/`, priority: 1 },
         { url: `${SITE_URL}/projects`, priority: 0.9 },
+        { url: `${SITE_URL}/lab`, priority: 0.8 },
         { url: `${SITE_URL}/about`, priority: 0.9 },
         { url: `${SITE_URL}/resume`, priority: 0.9 },
         { url: `${SITE_URL}/sharing`, priority: 0.8 },

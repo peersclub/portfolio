@@ -1161,3 +1161,48 @@ body:has(.v3) .switcher {
 .v3-social .sc-tiles {
     margin-top: 1rem;
 }
+
+/* ————— lab re-skin (.lab-* under .v3-lab) ————— */
+.v3-lab .lab {
+    margin-top: 3rem;
+}
+.v3-lab .lab-entry {
+    background: #fbf8f1;
+    border-color: var(--ink-faint);
+    color: var(--ink);
+}
+.v3-lab .lab-entry-head,
+.v3-lab .lab-status,
+.v3-lab .lab-stack li,
+.v3-lab .lab-timeline,
+.v3-lab .lab-tl-what a {
+    border-color: var(--ink-faint);
+}
+.v3-lab .lab-name,
+.v3-lab .lab-h,
+.v3-lab .lab-tl--start .lab-tl-what,
+.v3-lab .lab-tl-what a,
+.v3-lab .lab-before span {
+    color: var(--ink);
+}
+.v3-lab .lab-line,
+.v3-lab .lab-col p,
+.v3-lab .lab-tl-what,
+.v3-lab .lab-stack li,
+.v3-lab .lab-meta,
+.v3-lab .lab-tl-when,
+.v3-lab .lab-foot {
+    color: var(--ink-soft);
+}
+.v3-lab .lab-num,
+.v3-lab .lab-link,
+.v3-lab .lab-tl-gap {
+    color: var(--sun);
+}
+.v3-lab .lab-tl::before {
+    background: var(--ink-soft);
+}
+.v3-lab .lab-tl--start::before {
+    background: var(--sun);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--sun) 22%, transparent);
+}
