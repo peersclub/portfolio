@@ -10,8 +10,9 @@ import './lab.css';
  *     the launch of the big name that followed. The page's one bold element;
  *     it takes the edition's colors (v1 / .v2-lab / .v3-lab re-skins).
  *  2. Chapters — each product drawn in its own brand: AI Cost Guardian's
- *     purple glass, Clarity's midnight + teal + Instrument Serif, Shortcut
- *     Generator's near-black + blue, Credably's Cobalt paper + Space Grotesk.
+ *     purple glass, NoMail's monochrome ink on iOS grey, Clarity's midnight +
+ *     teal + Instrument Serif, Shortcut Generator's near-black + blue,
+ *     FlowPilot's OLED black + amber, Credably's Cobalt paper + Space Grotesk.
  *     These never re-skin per edition; they are the products' own themes.
  */
 
@@ -40,7 +41,7 @@ function HeadStart() {
     }
 
     return (
-        <figure className="hs" aria-labelledby="hs-cap">
+        <figure className="hs" aria-labelledby="hs-cap" style={{ '--hs-lanes': labProjects.length } as CSSProperties}>
             <div className="hs-scroll">
                 <div className="hs-grid">
                     <div className="hs-axis" aria-hidden>
@@ -117,6 +118,21 @@ function Visual({ p }: { p: LabProject }) {
             <figure className="ch-shot">
                 <Image src={p.shot.src} alt={p.shot.alt} width={p.shot.w} height={p.shot.h} sizes="(max-width: 900px) 100vw, 46vw" />
                 <figcaption>{p.shot.caption}</figcaption>
+            </figure>
+        );
+    }
+    // NoMail: no public build to screenshot, so its own promise, in its own ink
+    if (p.slug === 'nomail') {
+        return (
+            <figure className="ch-nm-spec" aria-label="NoMail, in its own styling">
+                <span className="ch-nm-logo">NoMail</span>
+                <ul className="ch-nm-rows" aria-label="What it pulls out of the inbox">
+                    {['Arriving', 'Due', 'Renewing', 'Subscriptions', 'Invites'].map(n => (
+                        <li key={n}>{n}</li>
+                    ))}
+                </ul>
+                <p className="ch-nm-note">Read-only. Never sends, moves, or deletes mail.</p>
+                <figcaption>Styled after the NoMail app</figcaption>
             </figure>
         );
     }

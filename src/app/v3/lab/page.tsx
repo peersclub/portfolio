@@ -22,7 +22,7 @@ export default function V3LabPage() {
                 <Lines
                     as="p"
                     className="v3-story-body v3-play-note"
-                    text="Three ideas I started before Anthropic, Datadog, Atlassian and Apple shipped their own versions. A fourth that nobody has followed yet."
+                    text="Five ideas I started before Anthropic, Datadog, Google, Atlassian, Apple and edelkrone shipped their own versions. A sixth that nobody has followed yet."
                 />
                 <LabIndex />
             </section>

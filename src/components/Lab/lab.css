@@ -54,7 +54,7 @@
     left: 50%;
     top: 1.4rem;
     width: 1px;
-    height: calc(var(--hs-lane-h) * 4);
+    height: calc(var(--hs-lane-h) * var(--hs-lanes, 4));
     background: var(--hs-rule);
 }
 
@@ -82,7 +82,7 @@
     position: absolute;
     left: 50%;
     top: 1.2rem;
-    height: calc(var(--hs-lane-h) * 4 + 1.9rem);
+    height: calc(var(--hs-lane-h) * var(--hs-lanes, 4) + 1.9rem);
     border-left: 1px dashed var(--hs-ink);
     opacity: 0.55;
 }
@@ -380,7 +380,8 @@ body:has(.lab) .atmospheric-glow {
 }
 
 .lab .ch-shot figcaption,
-.lab .ch-acg-spec figcaption {
+.lab .ch-acg-spec figcaption,
+.lab .ch-nm-spec figcaption {
     margin-top: 0.7rem;
     font-family: var(--c-label);
     font-size: 0.78rem;
@@ -532,6 +533,59 @@ body:has(.lab) .atmospheric-glow {
     font-weight: 500;
 }
 
+/* ———————————— NoMail: monochrome ink, iOS grouped grey, Apple type ———————————— */
+
+.lab .ch--nomail {
+    --c-bg: #f2f2f7;
+    --c-ink: #111111;
+    --c-soft: #6b6b70;
+    --c-rule: rgba(60, 60, 67, 0.18);
+    --c-accent: #111111;
+    --c-display: -apple-system, 'SF Pro Display', var(--font-inter), Inter, sans-serif;
+    --c-label: -apple-system, var(--font-inter), Inter, sans-serif;
+    border-radius: 28px;
+}
+
+.lab .ch--nomail .ch-lead {
+    font-weight: 700;
+}
+
+.lab .ch-nm-spec {
+    margin: 0;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.lab .ch-nm-logo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.lab .ch-nm-rows {
+    margin: 1.2rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lab .ch-nm-rows li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(60, 60, 67, 0.12);
+    font-size: 1.0625rem;
+    color: #111;
+}
+
+.lab .ch-nm-note {
+    margin: 1.1rem 0 0;
+    font-size: 0.9375rem;
+    color: #6b6b70;
+}
+
 /* ———————————— Clarity: midnight, teal, Instrument Serif ———————————— */
 
 .lab .ch--clarity {
@@ -614,6 +668,40 @@ body:has(.lab) .atmospheric-glow {
 .lab .ch--shortcut-generator .ch-shot img {
     border: 1px solid #1f2937;
     border-radius: 22px;
+}
+
+/* ———————————— FlowPilot: OLED black, amber seed ———————————— */
+
+.lab .ch--flowpilot {
+    --c-bg: #000000;
+    --c-ink: #ffffff;
+    --c-soft: rgba(255, 255, 255, 0.7);
+    --c-rule: rgba(255, 255, 255, 0.1);
+    --c-accent: #ffb300;
+    --c-display: -apple-system, 'SF Pro Display', var(--font-inter), Inter, sans-serif;
+    --c-label: -apple-system, var(--font-inter), Inter, sans-serif;
+    border-radius: 16px;
+}
+
+.lab .ch--flowpilot .ch-name::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 0.6rem;
+    border-radius: 50%;
+    background: #ff3b30;
+    vertical-align: 0.1em;
+}
+
+.lab .ch--flowpilot .ch-lead {
+    font-weight: 700;
+}
+
+.lab .ch--flowpilot .ch-shot img {
+    max-width: 420px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
 }
 
 /* ———————————— Credably: Cobalt paper, Space Grotesk, mono figures ———————————— */

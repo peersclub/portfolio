@@ -19,8 +19,8 @@ export default function LabPage() {
                 Early bets, <em>with receipts.</em>
             </h1>
             <p className="sc-lede">
-                Three ideas I started before Anthropic, Datadog, Atlassian and Apple shipped
-                their own versions. A fourth that nobody has followed yet.
+                Five ideas I started before Anthropic, Datadog, Google, Atlassian, Apple and edelkrone shipped
+                their own versions. A sixth that nobody has followed yet.
             </p>
             <LabIndex />
         </div>
